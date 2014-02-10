@@ -1,0 +1,497 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		46920BEF18A59BDD0005079A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BEE18A59BDD0005079A /* Foundation.framework */; };
+		46920BF118A59BDD0005079A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF018A59BDD0005079A /* CoreGraphics.framework */; };
+		46920BF318A59BDD0005079A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF218A59BDD0005079A /* UIKit.framework */; };
+		46920BF918A59BDD0005079A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46920BF718A59BDD0005079A /* InfoPlist.strings */; };
+		46920BFB18A59BDD0005079A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920BFA18A59BDD0005079A /* main.m */; };
+		46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920BFE18A59BDD0005079A /* CCAppDelegate.m */; };
+		46920C0118A59BDD0005079A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46920C0018A59BDD0005079A /* Images.xcassets */; };
+		46920C0818A59BDD0005079A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920C0718A59BDD0005079A /* XCTest.framework */; };
+		46920C0918A59BDD0005079A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BEE18A59BDD0005079A /* Foundation.framework */; };
+		46920C0A18A59BDD0005079A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF218A59BDD0005079A /* UIKit.framework */; };
+		46920C1218A59BDD0005079A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46920C1018A59BDD0005079A /* InfoPlist.strings */; };
+		46920C1418A59BDD0005079A /* TiledScrollViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920C1318A59BDD0005079A /* TiledScrollViewTests.m */; };
+		46920C1F18A59C050005079A /* CCTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920C1E18A59C050005079A /* CCTileView.m */; };
+		4699FE5118A6B7CA0016C19F /* test_files in Resources */ = {isa = PBXBuildFile; fileRef = 4699FE5018A6B7CA0016C19F /* test_files */; };
+		4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */; };
+		4699FE5818A6D34E0016C19F /* CCTileScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4699FE5718A6D34E0016C19F /* CCTileScrollView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		46920C0B18A59BDD0005079A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 46920BE318A59BDD0005079A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 46920BEA18A59BDD0005079A;
+			remoteInfo = TiledScrollView;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		46920BEB18A59BDD0005079A /* TiledScrollView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TiledScrollView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		46920BEE18A59BDD0005079A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		46920BF018A59BDD0005079A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		46920BF218A59BDD0005079A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		46920BF618A59BDD0005079A /* TiledScrollView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TiledScrollView-Info.plist"; sourceTree = "<group>"; };
+		46920BF818A59BDD0005079A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		46920BFA18A59BDD0005079A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		46920BFC18A59BDD0005079A /* TiledScrollView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TiledScrollView-Prefix.pch"; sourceTree = "<group>"; };
+		46920BFD18A59BDD0005079A /* CCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAppDelegate.h; sourceTree = "<group>"; };
+		46920BFE18A59BDD0005079A /* CCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCAppDelegate.m; sourceTree = "<group>"; };
+		46920C0018A59BDD0005079A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		46920C0618A59BDD0005079A /* TiledScrollViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TiledScrollViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		46920C0718A59BDD0005079A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		46920C0F18A59BDD0005079A /* TiledScrollViewTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TiledScrollViewTests-Info.plist"; sourceTree = "<group>"; };
+		46920C1118A59BDD0005079A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		46920C1318A59BDD0005079A /* TiledScrollViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TiledScrollViewTests.m; sourceTree = "<group>"; };
+		46920C1D18A59C050005079A /* CCTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTileView.h; sourceTree = "<group>"; };
+		46920C1E18A59C050005079A /* CCTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTileView.m; sourceTree = "<group>"; };
+		4699FE5018A6B7CA0016C19F /* test_files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test_files; sourceTree = "<group>"; };
+		4699FE5218A6B89C0016C19F /* CCTileScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTileScrollViewController.h; sourceTree = "<group>"; };
+		4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTileScrollViewController.m; sourceTree = "<group>"; };
+		4699FE5618A6D34E0016C19F /* CCTileScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTileScrollView.h; sourceTree = "<group>"; };
+		4699FE5718A6D34E0016C19F /* CCTileScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTileScrollView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		46920BE818A59BDD0005079A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46920BF118A59BDD0005079A /* CoreGraphics.framework in Frameworks */,
+				46920BF318A59BDD0005079A /* UIKit.framework in Frameworks */,
+				46920BEF18A59BDD0005079A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46920C0318A59BDD0005079A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46920C0818A59BDD0005079A /* XCTest.framework in Frameworks */,
+				46920C0A18A59BDD0005079A /* UIKit.framework in Frameworks */,
+				46920C0918A59BDD0005079A /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		46920BE218A59BDD0005079A = {
+			isa = PBXGroup;
+			children = (
+				46920BF418A59BDD0005079A /* TiledScrollView */,
+				46920C0D18A59BDD0005079A /* TiledScrollViewTests */,
+				46920BED18A59BDD0005079A /* Frameworks */,
+				46920BEC18A59BDD0005079A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		46920BEC18A59BDD0005079A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				46920BEB18A59BDD0005079A /* TiledScrollView.app */,
+				46920C0618A59BDD0005079A /* TiledScrollViewTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		46920BED18A59BDD0005079A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				46920BEE18A59BDD0005079A /* Foundation.framework */,
+				46920BF018A59BDD0005079A /* CoreGraphics.framework */,
+				46920BF218A59BDD0005079A /* UIKit.framework */,
+				46920C0718A59BDD0005079A /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		46920BF418A59BDD0005079A /* TiledScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				4699FE5018A6B7CA0016C19F /* test_files */,
+				46920C2018A59C0F0005079A /* CCTileScrollView */,
+				46920BFD18A59BDD0005079A /* CCAppDelegate.h */,
+				46920BFE18A59BDD0005079A /* CCAppDelegate.m */,
+				46920C0018A59BDD0005079A /* Images.xcassets */,
+				46920BF518A59BDD0005079A /* Supporting Files */,
+				4699FE5218A6B89C0016C19F /* CCTileScrollViewController.h */,
+				4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */,
+			);
+			path = TiledScrollView;
+			sourceTree = "<group>";
+		};
+		46920BF518A59BDD0005079A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				46920BF618A59BDD0005079A /* TiledScrollView-Info.plist */,
+				46920BF718A59BDD0005079A /* InfoPlist.strings */,
+				46920BFA18A59BDD0005079A /* main.m */,
+				46920BFC18A59BDD0005079A /* TiledScrollView-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		46920C0D18A59BDD0005079A /* TiledScrollViewTests */ = {
+			isa = PBXGroup;
+			children = (
+				46920C1318A59BDD0005079A /* TiledScrollViewTests.m */,
+				46920C0E18A59BDD0005079A /* Supporting Files */,
+			);
+			path = TiledScrollViewTests;
+			sourceTree = "<group>";
+		};
+		46920C0E18A59BDD0005079A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				46920C0F18A59BDD0005079A /* TiledScrollViewTests-Info.plist */,
+				46920C1018A59BDD0005079A /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		46920C2018A59C0F0005079A /* CCTileScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				46920C1D18A59C050005079A /* CCTileView.h */,
+				46920C1E18A59C050005079A /* CCTileView.m */,
+				4699FE5618A6D34E0016C19F /* CCTileScrollView.h */,
+				4699FE5718A6D34E0016C19F /* CCTileScrollView.m */,
+			);
+			name = CCTileScrollView;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		46920BEA18A59BDD0005079A /* TiledScrollView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 46920C1718A59BDD0005079A /* Build configuration list for PBXNativeTarget "TiledScrollView" */;
+			buildPhases = (
+				46920BE718A59BDD0005079A /* Sources */,
+				46920BE818A59BDD0005079A /* Frameworks */,
+				46920BE918A59BDD0005079A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TiledScrollView;
+			productName = TiledScrollView;
+			productReference = 46920BEB18A59BDD0005079A /* TiledScrollView.app */;
+			productType = "com.apple.product-type.application";
+		};
+		46920C0518A59BDD0005079A /* TiledScrollViewTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 46920C1A18A59BDD0005079A /* Build configuration list for PBXNativeTarget "TiledScrollViewTests" */;
+			buildPhases = (
+				46920C0218A59BDD0005079A /* Sources */,
+				46920C0318A59BDD0005079A /* Frameworks */,
+				46920C0418A59BDD0005079A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				46920C0C18A59BDD0005079A /* PBXTargetDependency */,
+			);
+			name = TiledScrollViewTests;
+			productName = TiledScrollViewTests;
+			productReference = 46920C0618A59BDD0005079A /* TiledScrollViewTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46920BE318A59BDD0005079A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = CC;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Clique City";
+				TargetAttributes = {
+					46920C0518A59BDD0005079A = {
+						TestTargetID = 46920BEA18A59BDD0005079A;
+					};
+				};
+			};
+			buildConfigurationList = 46920BE618A59BDD0005079A /* Build configuration list for PBXProject "TiledScrollView" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 46920BE218A59BDD0005079A;
+			productRefGroup = 46920BEC18A59BDD0005079A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				46920BEA18A59BDD0005079A /* TiledScrollView */,
+				46920C0518A59BDD0005079A /* TiledScrollViewTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		46920BE918A59BDD0005079A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46920BF918A59BDD0005079A /* InfoPlist.strings in Resources */,
+				4699FE5118A6B7CA0016C19F /* test_files in Resources */,
+				46920C0118A59BDD0005079A /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46920C0418A59BDD0005079A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46920C1218A59BDD0005079A /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		46920BE718A59BDD0005079A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4699FE5818A6D34E0016C19F /* CCTileScrollView.m in Sources */,
+				46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */,
+				4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */,
+				46920C1F18A59C050005079A /* CCTileView.m in Sources */,
+				46920BFB18A59BDD0005079A /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		46920C0218A59BDD0005079A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46920C1418A59BDD0005079A /* TiledScrollViewTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		46920C0C18A59BDD0005079A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 46920BEA18A59BDD0005079A /* TiledScrollView */;
+			targetProxy = 46920C0B18A59BDD0005079A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		46920BF718A59BDD0005079A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				46920BF818A59BDD0005079A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		46920C1018A59BDD0005079A /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				46920C1118A59BDD0005079A /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		46920C1518A59BDD0005079A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		46920C1618A59BDD0005079A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		46920C1818A59BDD0005079A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Ortega (Z962E5P9SK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Ortega (Z962E5P9SK)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TiledScrollView/TiledScrollView-Prefix.pch";
+				INFOPLIST_FILE = "TiledScrollView/TiledScrollView-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "F3E10A4E-C6AE-4D94-A1FE-4B90DBBBD38B";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		46920C1918A59BDD0005079A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Ortega (Z962E5P9SK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Ortega (Z962E5P9SK)";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TiledScrollView/TiledScrollView-Prefix.pch";
+				INFOPLIST_FILE = "TiledScrollView/TiledScrollView-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "F3E10A4E-C6AE-4D94-A1FE-4B90DBBBD38B";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		46920C1B18A59BDD0005079A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TiledScrollView.app/TiledScrollView";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TiledScrollView/TiledScrollView-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "TiledScrollViewTests/TiledScrollViewTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		46920C1C18A59BDD0005079A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TiledScrollView.app/TiledScrollView";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TiledScrollView/TiledScrollView-Prefix.pch";
+				INFOPLIST_FILE = "TiledScrollViewTests/TiledScrollViewTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		46920BE618A59BDD0005079A /* Build configuration list for PBXProject "TiledScrollView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46920C1518A59BDD0005079A /* Debug */,
+				46920C1618A59BDD0005079A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		46920C1718A59BDD0005079A /* Build configuration list for PBXNativeTarget "TiledScrollView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46920C1818A59BDD0005079A /* Debug */,
+				46920C1918A59BDD0005079A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		46920C1A18A59BDD0005079A /* Build configuration list for PBXNativeTarget "TiledScrollViewTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46920C1B18A59BDD0005079A /* Debug */,
+				46920C1C18A59BDD0005079A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46920BE318A59BDD0005079A /* Project object */;
+}
