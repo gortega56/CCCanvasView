@@ -12,8 +12,7 @@
 @interface CCTileScrollView () <UIScrollViewDelegate, CCTileViewDataSource, CCTileViewDrawingDelegate>
 
 @property (nonatomic, strong) UIImageView *zoomView;
-@property (nonatomic, strong) CCTileView *tileView;
-@property (nonatomic, strong) NSMutableArray *bezierPaths;
+@property (nonatomic, strong) CCTileView *imageTileView;
 
 @end
 
@@ -32,10 +31,10 @@
         _zoomView.userInteractionEnabled = YES;
         [self addSubview:_zoomView];
         
-        _tileView = [[CCTileView alloc] initWithFrame:_zoomView.bounds];
-        _tileView.userInteractionEnabled = NO;
-        _tileView.drawingDelegate = self;
-        [_zoomView addSubview:_tileView];
+        _imageTileView = [[CCTileView alloc] initWithFrame:_zoomView.bounds];
+        _imageTileView.userInteractionEnabled = NO;
+        _imageTileView.drawingDelegate = self;
+        [_zoomView addSubview:_imageTileView];
         
         CGSize contentSize = self.contentSize;
         CGSize boundsSize = self.bounds.size;
@@ -55,10 +54,10 @@
         if (minScale > maxScale) {
             minScale = maxScale;
         }
-            
+        
         self.minimumZoomScale = minScale;
         self.maximumZoomScale = 1.0f;
-        self.zoomScale = minScale;
+        self.zoomScale = self.minimumZoomScale;
 
     }
     return self;
@@ -118,7 +117,7 @@
 
 - (void)tileView:(CCTileView *)tileView drawTileRect:(CGRect)tileRect atRow:(NSInteger)row column:(NSInteger)column inBoundingRect:(CGRect)boundingRect context:(CGContextRef)context
 {
-    if (tileView == _tileView) {
+    if (tileView == _imageTileView) {
         CGFloat scale = CGContextGetCTM(context).a;
         UIImage *tileImage = [self.dataSource tileScrollView:self imageForRow:row column:column scale:scale];
         if (tileImage) {

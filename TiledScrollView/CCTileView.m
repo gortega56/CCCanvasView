@@ -25,9 +25,8 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.;
         
         //CGSize scaledTileSize = CGSizeApplyAffineTransform(self.tileSize, CGAffineTransformMakeScale(self.contentScaleFactor, self.contentScaleFactor));
         self.backgroundColor = [UIColor clearColor];
-        //self.tiledLayer.tileSize = scaledTileSize;
         self.tiledLayer.levelsOfDetail = 2;
-        //self.numberOfZoomLevels = 2;
+        //self.tiledLayer.drawsAsynchronously = YES;
     }
     return self;
 }
@@ -90,10 +89,3 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.;
 }
 
 @end
-
-//            UIImage *tileImage = [self.dataSource tileView:self imageForRow:row column:column scale:scale];
-//            if (tileImage) {
-//                CGRect tileRect = CGRectMake((tileSize.width * column), (tileSize.height * row), tileSize.width, tileSize.height);
-//                tileRect = CGRectIntersection(self.bounds, tileRect);
-//                [tileImage drawInRect:tileRect];
-//            }

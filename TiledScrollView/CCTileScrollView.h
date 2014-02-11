@@ -26,6 +26,7 @@
 @property (nonatomic, weak) id<CCTileScrollViewDataSource> dataSource;
 
 @property (nonatomic, weak) UIImage *zoomingImage;
+@property (nonatomic, strong, readonly) UIImageView *zoomView;
 
 - (id)initWithFrame:(CGRect)frame contentSize:(CGSize)contentSize;
 
