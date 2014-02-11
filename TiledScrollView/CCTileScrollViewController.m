@@ -10,16 +10,18 @@
 #import "CCTileScrollView.h"
 #import "CCTileView.h"
 #import "CCMarkupViewController.h"
+#import "CCMarkupView.h"
 
-@interface CCTileScrollViewController () <CCTileScrollViewDataSource, CCTileScrollViewDelegate, CCTileViewDrawingDelegate>
+
+@interface CCTileScrollViewController () <CCTileScrollViewDataSource, CCTileScrollViewDelegate, CCTileViewDrawingDelegate, CCMarkupViewDelegate>
 
 @property (nonatomic, strong) CCTileScrollView *tileScrollView;
-@property (nonatomic, strong) CCTileView *markupTileView;
+@property (nonatomic, strong) CCMarkupView *markupView;
 
 @property (nonatomic, strong) CCMarkupViewController *markupController;
 
 @property (nonatomic, strong) NSString *tilesPath;
-
+@property (nonatomic) BOOL markupEnabled;
 @end
 
 @implementation CCTileScrollViewController
@@ -31,6 +33,12 @@
     _tileScrollView = [[CCTileScrollView alloc] initWithFrame:containerView.bounds contentSize:(CGSize){9444.0f, 6805.0f}];
     _tileScrollView.dataSource = self;
     [containerView addSubview:_tileScrollView];
+    
+    _markupView = [[CCMarkupView alloc] initWithFrame:containerView.bounds];
+    _markupView.delegate = self;
+    _markupView.layer.borderColor = [UIColor greenColor].CGColor;
+    _markupView.layer.borderWidth = 2.0f;
+    [containerView addSubview:_markupView];
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     button.frame = CGRectMake(CGRectGetMidX(containerView.frame) - 30, CGRectGetMaxY(containerView.frame) - 40, 60, 40);
@@ -48,7 +56,7 @@
     
     _tilesPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"test_files/HalfAndMax"];
     _tileScrollView.zoomingImage = [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/downsample.png", self.tilesPath]];
-
+    _markupEnabled = NO;
 
 }
 
@@ -66,14 +74,18 @@
 
 }
 
+- (void)setMarkupEnabled:(BOOL)markupEnabled
+{
+    _markupEnabled = markupEnabled;
+    _markupView.userInteractionEnabled = _markupEnabled;
+    _tileScrollView.zoomView.userInteractionEnabled = !_markupEnabled;
+    _tileScrollView.scrollEnabled = !_markupEnabled;
+}
+
 - (void)toggleMarkup
 {
-    _markupController.shouldReceiveTouch = !_markupController.shouldReceiveTouch;
-    _tileScrollView.scrollEnabled = !_markupController.shouldReceiveTouch;
-    _markupTileView.userInteractionEnabled = _markupController.shouldReceiveTouch;
-    
-
-    NSLog(@"Mark up %@", (_markupController.shouldReceiveTouch) ? @"ENABLED" : @"DISABLED");
+    self.markupEnabled = !self.markupEnabled;
+    NSLog(@"Mark up %@", (_markupView.userInteractionEnabled) ? @"ENABLED" : @"DISABLED");
     NSLog(@"Scrolling %@", (_tileScrollView.scrollEnabled) ?  @"ENABLED" : @"DISABLED");
 }
 
