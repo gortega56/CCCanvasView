@@ -97,9 +97,77 @@
     return [self initWithFrame:frame contentSize:CGSizeZero];
 }
 
-#pragma mark - UIScrollView Management
+#pragma mark - UIScrollView Delegate
 
-#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidEndDeceleration:)]) {
+        [self.scrollDelegate tileScrollViewDidEndDeceleration:self];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidEndDragging:)]) {
+        [self.scrollDelegate tileScrollViewDidEndDragging:self];
+    }
+}
+
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidEndScrollingAnimation:)]) {
+        [self.scrollDelegate tileScrollViewDidEndScrollingAnimation:self];
+    }
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidEndZooming:withView:atScale:)]) {
+        [self.scrollDelegate tileScrollViewDidEndZooming:self withView:view atScale:scale];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidScroll:)]) {
+        [self.scrollDelegate tileScrollViewDidScroll:self];
+    }
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidZoom:)]) {
+        [self.scrollDelegate tileScrollViewDidZoom:self];
+    }
+}
+
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewWillBeginDeceleration:)]) {
+        [self.scrollDelegate tileScrollViewWillBeginDeceleration:self];
+    }
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewWillBeginDragging:)]) {
+        [self.scrollDelegate tileScrollViewWillBeginDragging:self];
+    }
+}
+
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewWillBeginZooming:withView:)]) {
+        [self.scrollDelegate tileScrollViewWillBeginZooming:self withView:view];
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewWillEndDragging:withVelocity:targetContentOffset:)]) {
+        [self.scrollDelegate tileScrollViewWillEndDragging:self withVelocity:velocity targetContentOffset:targetContentOffset];
+    }
+}
 
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {

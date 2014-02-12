@@ -17,13 +17,23 @@
 
 @protocol CCTileScrollViewDelegate <NSObject>
 
-
+- (void)tileScrollViewDidEndDeceleration:(CCTileScrollView *)tileScrollView;
+- (void)tileScrollViewDidEndDragging:(CCTileScrollView *)tileScrollView;
+- (void)tileScrollViewDidEndScrollingAnimation:(CCTileScrollView *)tileScrollView;
+- (void)tileScrollViewDidEndZooming:(CCTileScrollView *)tileScrollView withView:(UIView *)view atScale:(CGFloat)scale;
+- (void)tileScrollViewDidScroll:(CCTileScrollView *)tileScrollView;
+- (void)tileScrollViewDidZoom:(CCTileScrollView *)tileScrollView;
+- (void)tileScrollViewWillBeginDeceleration:(CCTileScrollView *)tileScrollView;
+- (void)tileScrollViewWillBeginDragging:(CCTileScrollView *)tileScrollView;
+- (void)tileScrollViewWillBeginZooming:(CCTileScrollView *)tileScrollView withView:(UIView *)view;
+- (void)tileScrollViewWillEndDragging:(CCTileScrollView *)tileScrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
 
 @end
 
 @interface CCTileScrollView : UIScrollView
 
 @property (nonatomic, weak) id<CCTileScrollViewDataSource> dataSource;
+@property (nonatomic, weak) id<CCTileScrollViewDelegate> scrollDelegate;
 
 @property (nonatomic, weak) UIImage *zoomingImage;
 @property (nonatomic, strong, readonly) UIImageView *zoomView;
