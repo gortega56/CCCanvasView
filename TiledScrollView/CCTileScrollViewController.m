@@ -13,7 +13,7 @@
 #import "CCMarkupView.h"
 
 
-@interface CCTileScrollViewController () <CCTileScrollViewDataSource, CCTileScrollViewDelegate, CCTileViewDrawingDelegate, CCMarkupViewDelegate>
+@interface CCTileScrollViewController () <CCTileScrollViewDataSource, CCTileScrollViewDelegate, CCMarkupViewDelegate>
 
 @property (nonatomic, strong) CCTileScrollView *tileScrollView;
 @property (nonatomic, strong) CCMarkupView *markupView;
@@ -69,10 +69,7 @@
     return tileImage;
 }
 
-- (void)tileView:(CCTileView *)tileView drawTileRect:(CGRect)tileRect atRow:(NSInteger)row column:(NSInteger)column inBoundingRect:(CGRect)boundingRect context:(CGContextRef)context
-{
-
-}
+#pragma mark - Markup
 
 - (void)setMarkupEnabled:(BOOL)markupEnabled
 {
@@ -88,5 +85,19 @@
     NSLog(@"Mark up %@", (_markupView.userInteractionEnabled) ? @"ENABLED" : @"DISABLED");
     NSLog(@"Scrolling %@", (_tileScrollView.scrollEnabled) ?  @"ENABLED" : @"DISABLED");
 }
+
+#pragma mark - CCMarkup Delegate
+
+- (void)markView:(CCMarkupView *)markupView didFinishTrackingPoints:(NSArray *)points
+{
+    
+}
+
+- (void)markView:(CCMarkupView *)markupView didFinishPath:(UIBezierPath *)path
+{
+    
+}
+
+
 
 @end

@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class CCMarkupView;
 @protocol CCMarkupViewDelegate <NSObject>
+
+- (void)markView:(CCMarkupView *)markupView didFinishPath:(UIBezierPath *)path;
+- (void)markView:(CCMarkupView *)markupView didFinishTrackingPoints:(NSArray *)points;
 
 @end
 
