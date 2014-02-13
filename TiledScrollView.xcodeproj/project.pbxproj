@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4601FFCB18A937D200DA25E3 /* CCMarkupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4601FFCA18A937D200DA25E3 /* CCMarkupViewController.m */; };
 		467B188018AA707400BDEFE3 /* CCMarkupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 467B187F18AA707400BDEFE3 /* CCMarkupView.m */; };
 		46920BEF18A59BDD0005079A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BEE18A59BDD0005079A /* Foundation.framework */; };
 		46920BF118A59BDD0005079A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF018A59BDD0005079A /* CoreGraphics.framework */; };
@@ -38,8 +37,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4601FFC918A937D200DA25E3 /* CCMarkupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMarkupViewController.h; sourceTree = "<group>"; };
-		4601FFCA18A937D200DA25E3 /* CCMarkupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMarkupViewController.m; sourceTree = "<group>"; };
 		467B187E18AA707400BDEFE3 /* CCMarkupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMarkupView.h; sourceTree = "<group>"; };
 		467B187F18AA707400BDEFE3 /* CCMarkupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMarkupView.m; sourceTree = "<group>"; };
 		46920BEB18A59BDD0005079A /* TiledScrollView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TiledScrollView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -94,8 +91,6 @@
 		4601FFC818A9378500DA25E3 /* CCMarkupViewController */ = {
 			isa = PBXGroup;
 			children = (
-				4601FFC918A937D200DA25E3 /* CCMarkupViewController.h */,
-				4601FFCA18A937D200DA25E3 /* CCMarkupViewController.m */,
 				467B187E18AA707400BDEFE3 /* CCMarkupView.h */,
 				467B187F18AA707400BDEFE3 /* CCMarkupView.m */,
 			);
@@ -288,7 +283,6 @@
 				4699FE5818A6D34E0016C19F /* CCTileScrollView.m in Sources */,
 				46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */,
 				4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */,
-				4601FFCB18A937D200DA25E3 /* CCMarkupViewController.m in Sources */,
 				46920C1F18A59C050005079A /* CCTileView.m in Sources */,
 				467B188018AA707400BDEFE3 /* CCMarkupView.m in Sources */,
 				46920BFB18A59BDD0005079A /* main.m in Sources */,

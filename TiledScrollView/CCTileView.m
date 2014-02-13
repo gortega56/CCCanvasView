@@ -26,7 +26,6 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.;
         //CGSize scaledTileSize = CGSizeApplyAffineTransform(self.tileSize, CGAffineTransformMakeScale(self.contentScaleFactor, self.contentScaleFactor));
         self.backgroundColor = [UIColor clearColor];
         self.tiledLayer.levelsOfDetail = 2;
-        //self.tiledLayer.drawsAsynchronously = YES;
     }
     return self;
 }

@@ -16,7 +16,7 @@
 @end
 
 @protocol CCTileScrollViewDelegate <NSObject>
-
+@optional
 - (void)tileScrollViewDidEndDeceleration:(CCTileScrollView *)tileScrollView;
 - (void)tileScrollViewDidEndDragging:(CCTileScrollView *)tileScrollView;
 - (void)tileScrollViewDidEndScrollingAnimation:(CCTileScrollView *)tileScrollView;
@@ -27,7 +27,6 @@
 - (void)tileScrollViewWillBeginDragging:(CCTileScrollView *)tileScrollView;
 - (void)tileScrollViewWillBeginZooming:(CCTileScrollView *)tileScrollView withView:(UIView *)view;
 - (void)tileScrollViewWillEndDragging:(CCTileScrollView *)tileScrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset;
-
 @end
 
 @interface CCTileScrollView : UIScrollView

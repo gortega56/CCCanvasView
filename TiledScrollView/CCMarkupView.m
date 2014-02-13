@@ -10,18 +10,14 @@
 
 CGFloat const kCCMarkupViewLineWidth = 10.f;
 
+#pragma mark - C Methods
+
 static CGPoint CGMidpointForPoints(CGPoint point1, CGPoint point2)
 {
     return (CGPoint){(point1.x + point2.x) * 0.5f, (point1.y + point2.y) * 0.5f};
 }
 
-static CGRect CGRectForPoints(CGPoint point1, CGPoint point2)
-{
-    CGFloat pointRectSize = kCCMarkupViewLineWidth * 2;
-    CGRect fromRect = CGRectMake(point1.x - kCCMarkupViewLineWidth, point1.y - kCCMarkupViewLineWidth, pointRectSize, pointRectSize);
-    CGRect toRect = CGRectMake(point2.x - kCCMarkupViewLineWidth, point2.y - kCCMarkupViewLineWidth, pointRectSize, pointRectSize);
-    return CGRectUnion(fromRect, toRect);
-}
+
 
 static UIBezierPath * bezierPathForPoints(NSArray *points)
 {
@@ -48,6 +44,12 @@ static UIBezierPath * bezierPathForPoints(NSArray *points)
     return path;
 }
 
+static CGRect CGRectForPoints(NSArray *points)
+{
+    UIBezierPath *path = bezierPathForPoints(points);
+    return path.bounds;
+}
+
 @interface CCMarkupView ()
 
 @property (nonatomic) BOOL touchesMoved;
@@ -59,11 +61,14 @@ static UIBezierPath * bezierPathForPoints(NSArray *points)
 @property (nonatomic, strong) NSMutableArray *points;
 @property (nonatomic, strong) NSMutableArray *completedPaths;
 @property (nonatomic, strong) UIBezierPath *currentPath;
+
 @end
 
 
 
 @implementation CCMarkupView
+
+#pragma mark - UIView Methods
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -78,6 +83,43 @@ static UIBezierPath * bezierPathForPoints(NSArray *points)
     
     return self;
 }
+
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [self configureContext:context];
+    
+    // Current path being drawn
+    NSLog(@"STROKING %lu POINTS", (unsigned long)_points.count);
+    __block CGPoint currentPoint = [_points.firstObject CGPointValue];
+    __block CGPoint previousPoint1 = currentPoint;
+    __block CGPoint previousPoint2;
+    
+    [_points enumerateObjectsUsingBlock:^(NSValue *value, NSUInteger idx, BOOL *stop) {
+        previousPoint2 = previousPoint1;
+        previousPoint1 = currentPoint;
+        currentPoint = [value CGPointValue];
+        if (CGRectContainsPoint(rect, currentPoint)) {
+            CGPoint midPoint1 = CGMidpointForPoints(previousPoint1, previousPoint2);
+            CGPoint midPoint2 = CGMidpointForPoints(currentPoint, previousPoint1);
+            CGContextMoveToPoint(context, midPoint1.x, midPoint1.y);
+            CGContextAddQuadCurveToPoint(context, previousPoint1.x, previousPoint1.y, midPoint2.x, midPoint2.y);
+            CGContextStrokePath(context);
+        }
+    }];
+}
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+}
+
+- (void)layoutSublayersOfLayer:(CALayer *)layer
+{
+    [super layoutSublayersOfLayer:layer];
+}
+
+#pragma mark - Point Tracking
 
 - (void)beginNewPath
 {
@@ -109,6 +151,9 @@ static UIBezierPath * bezierPathForPoints(NSArray *points)
     [_points removeAllObjects];
     [_completedPaths addObject:completedPath];
 }
+
+#pragma mark - Accessor Methods
+
 #pragma mark - UIResponder methods
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -127,7 +172,7 @@ static UIBezierPath * bezierPathForPoints(NSArray *points)
     [self updateTrackedPointsWithTouch:touch];
     [self addTrackedPoint:_currentPoint];
     
-    [self setNeedsDisplayInRect:self.bounds];
+    [self setNeedsDisplay];
     _touchesMoved = YES;
 }
 
@@ -138,76 +183,9 @@ static UIBezierPath * bezierPathForPoints(NSArray *points)
     [self addTrackedPoint:_currentPoint];
     [self finishTrackingPoints];
     
-    [self setNeedsDisplayInRect:self.bounds];
+    [self setNeedsDisplay];
     [self setNeedsLayout];
     _trackingTouch = NO;
-}
-
-#pragma mark - UIView methods
-
--(void)drawRect:(CGRect)rect
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    [self configureContext:context];
-    
-    // Current path being drawn
-    NSLog(@"STROKING %lu POINTS", (unsigned long)_points.count);
-    __block CGPoint currentPoint = [_points.firstObject CGPointValue];
-    __block CGPoint previousPoint1 = currentPoint;
-    __block CGPoint previousPoint2;
-    [_points enumerateObjectsUsingBlock:^(NSValue *value, NSUInteger idx, BOOL *stop) {
-        previousPoint2 = previousPoint1;
-        previousPoint1 = currentPoint;
-        currentPoint = [value CGPointValue];
-        if (CGRectContainsPoint(rect, currentPoint)) {
-            CGPoint midPoint1 = CGMidpointForPoints(previousPoint1, previousPoint2);
-            CGPoint midPoint2 = CGMidpointForPoints(currentPoint, previousPoint1);
-            CGContextMoveToPoint(context, midPoint1.x, midPoint1.y);
-            CGContextAddQuadCurveToPoint(context, previousPoint1.x, previousPoint1.y, midPoint2.x, midPoint2.y);
-            CGContextStrokePath(context);
-        }
-    }];
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-
-    [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
-    NSLog(@"ADDING %lu SUBLAYERS", (unsigned long)_completedPaths.count);
-    [_completedPaths enumerateObjectsUsingBlock:^(UIBezierPath *path, NSUInteger idx, BOOL *stop) {
-        if (CGRectIntersectsRect(self.bounds, path.bounds)) {
-            UIView *bezierView = [[UIView alloc] initWithFrame:path.bounds];
-            CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-            shapeLayer.strokeColor = [UIColor orangeColor].CGColor;
-            shapeLayer.lineWidth = kCCMarkupViewLineWidth;
-            shapeLayer.path = path.CGPath;
-            shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
-            [bezierView.layer addSublayer:shapeLayer];
-            [self addSubview:bezierView];
-        }
-    }];
-
-}
-
-- (void)layoutSublayersOfLayer:(CALayer *)layer
-{
-    [super layoutSublayersOfLayer:layer];
-    
-    layer.sublayers = nil;
-    
-    NSLog(@"ADDING %lu SUBLAYERS", (unsigned long)_completedPaths.count);
-    [_completedPaths enumerateObjectsUsingBlock:^(UIBezierPath *path, NSUInteger idx, BOOL *stop) {
-        if (CGRectIntersectsRect(self.bounds, path.bounds)) {
-            CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-            shapeLayer.strokeColor = [UIColor orangeColor].CGColor;
-            shapeLayer.lineWidth = kCCMarkupViewLineWidth;
-            shapeLayer.path = path.CGPath;
-            shapeLayer.backgroundColor = [UIColor clearColor].CGColor;
-            [layer addSublayer:shapeLayer];
-        }
-    }];
-
 }
 
 #pragma mark - Quartz Drawing

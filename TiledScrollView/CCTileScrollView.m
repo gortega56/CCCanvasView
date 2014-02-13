@@ -7,16 +7,20 @@
 //
 
 #import "CCTileScrollView.h"
+#import "CCMarkupView.h"
 #import "CCTileView.h"
 
 @interface CCTileScrollView () <UIScrollViewDelegate, CCTileViewDataSource, CCTileViewDrawingDelegate>
 
 @property (nonatomic, strong) UIImageView *zoomView;
+@property (nonatomic, strong) CCMarkupView *markupView;
 @property (nonatomic, strong) CCTileView *imageTileView;
 
 @end
 
 @implementation CCTileScrollView
+
+#pragma mark - UIView Methods
 
 - (id)initWithFrame:(CGRect)frame contentSize:(CGSize)contentSize
 {
@@ -35,7 +39,7 @@
         _imageTileView.userInteractionEnabled = NO;
         _imageTileView.drawingDelegate = self;
         [_zoomView addSubview:_imageTileView];
-        
+                
         CGSize contentSize = self.contentSize;
         CGSize boundsSize = self.bounds.size;
         CGFloat scaleWidth = CGRectGetWidth(self.frame) / contentSize.width;
@@ -86,6 +90,7 @@
     _zoomView.frame = frameToCenter;
 }
 
+#pragma mark - Setter Methods
 
 - (void)setZoomingImage:(UIImage *)image
 {
@@ -174,14 +179,14 @@
     return _zoomView;
 }
 
-#pragma mark - CCTileViewDataSource
+#pragma mark - CCTileView DataSource
 
 - (UIImage *)tileView:(CCTileView *)tileView imageForRow:(NSInteger)row column:(NSInteger)column scale:(CGFloat)scale
 {
     return [self.dataSource tileScrollView:self imageForRow:row column:column scale:scale];
 }
 
-#pragma mark - CCTileViewDrawingDelegate
+#pragma mark - CCTileViewDrawing Delegate
 
 - (void)tileView:(CCTileView *)tileView drawTileRect:(CGRect)tileRect atRow:(NSInteger)row column:(NSInteger)column inBoundingRect:(CGRect)boundingRect context:(CGContextRef)context
 {
