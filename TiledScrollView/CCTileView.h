@@ -10,31 +10,17 @@
 
 
 @class CCTileView;
-
-typedef void (^CCTileViewDrawingBlock) (CGContextRef context, CGRect rect);
-
-@protocol CCTileViewDataSource <NSObject>
-
-@required
-- (UIImage *)tileView:(CCTileView *)tileView imageForRow:(NSInteger)row column:(NSInteger)column scale:(CGFloat)scale;
-
-@end
-
-@protocol CCTileViewDrawingDelegate <NSObject>
-
+@protocol CCTileViewDelegate <NSObject>
 @required
 - (void)tileView:(CCTileView *)tileView drawTileRect:(CGRect)tileRect atRow:(NSInteger)row column:(NSInteger)column inBoundingRect:(CGRect)boundingRect context:(CGContextRef)context;
 @end
 
 @interface CCTileView : UIView
 
-@property (nonatomic, readonly) CGSize tileSize;
-@property (nonatomic, assign) size_t numberOfZoomLevels;
 @property (nonatomic, strong, readonly) CATiledLayer *tiledLayer;
+@property (nonatomic, assign) size_t numberOfZoomLevels;
+@property (nonatomic, readonly) CGSize tileSize;
 
-@property (nonatomic, weak) id <CCTileViewDataSource> dataSource;
-@property (nonatomic, weak) id <CCTileViewDrawingDelegate> drawingDelegate;
-
-@property (nonatomic, copy) CCTileViewDrawingBlock drawingBlock;
+@property (nonatomic, weak) id <CCTileViewDelegate> delegate;
 
 @end

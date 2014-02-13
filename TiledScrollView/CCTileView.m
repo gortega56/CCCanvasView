@@ -8,7 +8,7 @@
 
 #import "CCTileView.h"
 
-static const CGFloat kCCTileScrollViewDefaultTileSize = 256.;
+static const CGFloat kCCTileScrollViewDefaultTileSize = 256.f;
 
 @interface CCTileView ()
 
@@ -16,14 +16,12 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.;
 
 @implementation CCTileView
 
-#pragma mark - Initialization
+#pragma mark - UIView Methods
 
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-        //CGSize scaledTileSize = CGSizeApplyAffineTransform(self.tileSize, CGAffineTransformMakeScale(self.contentScaleFactor, self.contentScaleFactor));
         self.backgroundColor = [UIColor clearColor];
         self.tiledLayer.levelsOfDetail = 2;
     }
@@ -35,6 +33,28 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.;
     [super setContentScaleFactor:1.f];
 }
 
+- (void)drawRect:(CGRect)rect
+{
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGFloat scale = CGContextGetCTM(context).a;
+    CGSize tileSize =  self.tiledLayer.tileSize;
+    tileSize.width /= scale;
+    tileSize.height /= scale;
+    
+    NSInteger firstColumn = floorf(CGRectGetMinX(rect) / tileSize.width);
+    NSInteger lastColumn = floorf((CGRectGetMaxX(rect) - 1) / tileSize.width);
+    NSInteger firstRow = floorf(CGRectGetMinY(rect) / tileSize.height);
+    NSInteger lastRow = floorf((CGRectGetMaxY(rect) - 1) / tileSize.height);
+    
+    
+    for (NSInteger row = firstRow; row <= lastRow; row++) {
+        for (NSInteger column = firstColumn; column <= lastColumn; column++) {
+            CGRect tileRect = CGRectMake((tileSize.width * column), (tileSize.height * row), tileSize.width, tileSize.height);
+            tileRect = CGRectIntersection(self.bounds, tileRect);
+            [self.delegate tileView:self drawTileRect:tileRect atRow:row column:column inBoundingRect:rect context:context];
+        }
+    }
+}
 
 #pragma mark - CATiledLayer
 
@@ -55,36 +75,14 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.;
 
 - (size_t)numberOfZoomLevels
 {
-    return self.tiledLayer.levelsOfDetailBias;
+    return self.tiledLayer.levelsOfDetail;
 }
 
 - (void)setNumberOfZoomLevels:(size_t)levels
 {
-    self.tiledLayer.levelsOfDetailBias = levels;
+    self.tiledLayer.levelsOfDetail = levels;
 }
 
 
-- (void)drawRect:(CGRect)rect
-{
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGFloat scale = CGContextGetCTM(context).a;
-    CGSize tileSize =  self.tiledLayer.tileSize;
-    tileSize.width /= scale;
-    tileSize.height /= scale;
-    
-    NSInteger firstColumn = floorf(CGRectGetMinX(rect) / tileSize.width);
-    NSInteger lastColumn = floorf((CGRectGetMaxX(rect) - 1) / tileSize.width);
-    NSInteger firstRow = floorf(CGRectGetMinY(rect) / tileSize.height);
-    NSInteger lastRow = floorf((CGRectGetMaxY(rect) - 1) / tileSize.height);
-
-    
-    for (NSInteger row = firstRow; row <= lastRow; row++) {
-        for (NSInteger column = firstColumn; column <= lastColumn; column++) {
-            CGRect tileRect = CGRectMake((tileSize.width * column), (tileSize.height * row), tileSize.width, tileSize.height);
-            tileRect = CGRectIntersection(self.bounds, tileRect);
-            [self.drawingDelegate tileView:self drawTileRect:tileRect atRow:row column:column inBoundingRect:rect context:context];
-        }
-    }
-}
 
 @end
