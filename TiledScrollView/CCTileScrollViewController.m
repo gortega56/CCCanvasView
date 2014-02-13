@@ -33,7 +33,8 @@
 {
     UIView *containerView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    _tileScrollView = [[CCTileScrollView alloc] initWithFrame:containerView.bounds contentSize:(CGSize){9444.0f, 6805.0f}];
+    _tileScrollView = [[CCTileScrollView alloc] initWithFrame:containerView.bounds];
+    _tileScrollView.fullImageSize = (CGSize){9444.0f, 6805.0f};
     _tileScrollView.dataSource = self;
     _tileScrollView.scrollDelegate = self;
     [containerView addSubview:_tileScrollView];
@@ -53,11 +54,9 @@
     [super viewDidLoad];
     
     _tilesPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"test_files/HalfAndMax"];
-    _tileScrollView.zoomingImage = [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/downsample.png", self.tilesPath]];
-    self.markupEnabled = NO;
-    
+    _tileScrollView.placeHolderImage = [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/downsample.png", self.tilesPath]];
     _markupViews = [NSMutableArray new];
-    
+    self.markupEnabled = NO;
 }
 
 #pragma mark - CCTileScrollView DataSource
@@ -70,7 +69,6 @@
 }
 
 #pragma mark - CCTileScrollView ScrollDelegate
-
 
 #pragma mark - Markup
 
