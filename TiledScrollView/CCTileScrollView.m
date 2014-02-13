@@ -22,48 +22,15 @@
 
 #pragma mark - UIView Methods
 
-- (id)initWithFrame:(CGRect)frame contentSize:(CGSize)contentSize
+- (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.contentSize = contentSize;
-        self.bouncesZoom = YES;
         self.decelerationRate = UIScrollViewDecelerationRateFast;
+        self.bouncesZoom = YES;
         self.delegate = self;
-        
-        _zoomView = [[UIImageView alloc] initWithFrame:(CGRect){.size = contentSize}];
-        _zoomView.userInteractionEnabled = YES;
-        [self addSubview:_zoomView];
-        
-        _imageTileView = [[CCTileView alloc] initWithFrame:_zoomView.bounds];
-        _imageTileView.userInteractionEnabled = NO;
-        _imageTileView.delegate = self;
-        [_zoomView addSubview:_imageTileView];
-                
-        CGSize contentSize = self.contentSize;
-        CGSize boundsSize = self.bounds.size;
-        CGFloat scaleWidth = CGRectGetWidth(self.frame) / contentSize.width;
-        CGFloat scaleHeight = CGRectGetHeight(self.frame) / contentSize.height;
-        
-        // fill width if the image and phone are both portrait or both landscape; otherwise take smaller scale
-        BOOL imagePortrait = contentSize.height > contentSize.width;
-        BOOL phonePortrait = boundsSize.height > boundsSize.width;
-        CGFloat minScale = imagePortrait == phonePortrait ? scaleWidth : MIN(scaleWidth, scaleHeight);
-        
-        // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
-        // maximum zoom scale to 0.5.
-        CGFloat maxScale = 1.0 / [[UIScreen mainScreen] scale];
-        
-        // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.)
-        if (minScale > maxScale) {
-            minScale = maxScale;
-        }
-        
-        self.minimumZoomScale = minScale;
-        self.maximumZoomScale = 1.0f;
-        self.zoomScale = self.minimumZoomScale;
-
     }
+    
     return self;
 }
 
@@ -90,16 +57,75 @@
     _zoomView.frame = frameToCenter;
 }
 
-#pragma mark - Setter Methods
+#pragma mark - UIScrollView Methods
 
-- (void)setZoomingImage:(UIImage *)image
+
+#pragma mark - Tile/Zoom
+
+- (void)setFullImageSize:(CGSize)fullImageSize
+{
+    self.contentSize = fullImageSize;
+    _fullImageSize = fullImageSize;
+    [self initTileImageViewWithContentSize:fullImageSize];
+}
+
+- (void)initTileImageViewWithContentSize:(CGSize)contentSize
+{
+    // Clear previous image
+    [_zoomView removeFromSuperview];
+    _zoomView = nil;
+    _imageTileView = nil;
+    
+    // Reset zoom scale
+    self.zoomScale = 1.f;
+    
+    // Set up new tiling image
+    _zoomView = [[UIImageView alloc] initWithFrame:(CGRect){.size = contentSize}];
+    _zoomView.userInteractionEnabled = YES;
+    [self addSubview:_zoomView];
+    
+    _imageTileView = [[CCTileView alloc] initWithFrame:_zoomView.bounds];
+    _imageTileView.userInteractionEnabled = NO;
+    _imageTileView.delegate = self;
+    [_zoomView addSubview:_imageTileView];
+    
+    [self configureForContentSize:contentSize];
+}
+
+- (void)configureForContentSize:(CGSize)contentSize
+{
+    [self setZoomScalesForCurrentBoundsAndContentSize];
+    self.zoomScale = self.minimumZoomScale;
+}
+
+- (void)setPlaceHolderImage:(UIImage *)image
 {
     _zoomView.image = image;
 }
 
-- (id)initWithFrame:(CGRect)frame
+- (void)setZoomScalesForCurrentBoundsAndContentSize
 {
-    return [self initWithFrame:frame contentSize:CGSizeZero];
+    CGSize boundsSize = self.bounds.size;
+    CGSize contentSize = self.contentSize;
+    CGFloat scaleWidth = CGRectGetWidth(self.frame) / contentSize.width;
+    CGFloat scaleHeight = CGRectGetHeight(self.frame) / contentSize.height;
+    
+    // fill width if the image and phone are both portrait or both landscape; otherwise take smaller scale
+    BOOL imagePortrait = contentSize.height > contentSize.width;
+    BOOL phonePortrait = boundsSize.height > boundsSize.width;
+    CGFloat minScale = imagePortrait == phonePortrait ? scaleWidth : MIN(scaleWidth, scaleHeight);
+    
+    // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
+    // maximum zoom scale to 0.5.
+    CGFloat maxScale = 1.0 / [[UIScreen mainScreen] scale];
+    
+    // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.)
+    if (minScale > maxScale) {
+        minScale = maxScale;
+    }
+    
+    self.minimumZoomScale = minScale;
+    self.maximumZoomScale = maxScale;
 }
 
 #pragma mark - UIScrollView Delegate
@@ -186,7 +212,7 @@
     return [self.dataSource tileScrollView:self imageForRow:row column:column scale:scale];
 }
 
-#pragma mark - CCTileViewDrawing Delegate
+#pragma mark - CCTileView Delegate
 
 - (void)tileView:(CCTileView *)tileView drawTileRect:(CGRect)tileRect atRow:(NSInteger)row column:(NSInteger)column inBoundingRect:(CGRect)boundingRect context:(CGContextRef)context
 {
