@@ -34,6 +34,7 @@
     UIView *containerView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
     _tileScrollView = [[CCTileScrollView alloc] initWithFrame:containerView.bounds];
+    _tileScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _tileScrollView.fullImageSize = (CGSize){9444.0f, 6805.0f};
     _tileScrollView.dataSource = self;
     _tileScrollView.scrollDelegate = self;

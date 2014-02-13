@@ -11,6 +11,10 @@
 #import "CCTileView.h"
 
 @interface CCTileScrollView () <UIScrollViewDelegate, CCTileViewDelegate>
+{
+    CGPoint _pointToCenterAfterResize;
+    CGFloat _scaleToRestoreAfterResize; // Used for rotation support
+}
 
 @property (nonatomic, strong) UIImageView *zoomView;
 @property (nonatomic, strong) CCMarkupView *markupView;
@@ -32,6 +36,20 @@
     }
     
     return self;
+}
+
+- (void)setFrame:(CGRect)frame
+{
+    BOOL isResize = !CGSizeEqualToSize(frame.size, self.frame.size);
+    if (isResize) {
+        [self willResizeFrame];
+    }
+    
+    [super setFrame:frame];
+    
+    if (isResize) {
+        [self didResizeFrame];
+    }
 }
 
 - (void)layoutSubviews
@@ -60,7 +78,7 @@
 #pragma mark - UIScrollView Methods
 
 
-#pragma mark - Tile/Zoom
+#pragma mark - Tile/Zoom Methods
 
 - (void)setFullImageSize:(CGSize)fullImageSize
 {
@@ -106,12 +124,11 @@
 - (void)setZoomScalesForCurrentBoundsAndContentSize
 {
     CGSize boundsSize = self.bounds.size;
-    CGSize contentSize = self.contentSize;
-    CGFloat scaleWidth = CGRectGetWidth(self.frame) / contentSize.width;
-    CGFloat scaleHeight = CGRectGetHeight(self.frame) / contentSize.height;
+    CGFloat scaleWidth = CGRectGetWidth(self.frame) / _fullImageSize.width;
+    CGFloat scaleHeight = CGRectGetHeight(self.frame) / _fullImageSize.height;
     
     // fill width if the image and phone are both portrait or both landscape; otherwise take smaller scale
-    BOOL imagePortrait = contentSize.height > contentSize.width;
+    BOOL imagePortrait = _fullImageSize.height > _fullImageSize.width;
     BOOL phonePortrait = boundsSize.height > boundsSize.width;
     CGFloat minScale = imagePortrait == phonePortrait ? scaleWidth : MIN(scaleWidth, scaleHeight);
     
@@ -223,6 +240,62 @@
             [tileImage drawInRect:tileRect];
         }
     }
+}
+
+// Copied from Apple Docs PhotoScroller Sample Code
+#pragma mark - Rotation Support Methods
+
+- (void)willResizeFrame
+{
+    // Get center of what area is being viewed and convert it to zoomView coordinate space
+    CGPoint boundsCenter = (CGPoint){CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds)};
+    _pointToCenterAfterResize = [self convertPoint:boundsCenter toView:_zoomView];
+    
+    // Keep track of current zoom scale
+    _scaleToRestoreAfterResize = self.zoomScale;
+    
+    // If we're at the minimum zoom scale, preserve that by returning 0, which will be converted to the minimum
+    // allowable scale when the scale is restored.
+    if (_scaleToRestoreAfterResize <= self.minimumZoomScale + FLT_EPSILON)
+       _scaleToRestoreAfterResize = 0;
+}
+
+- (void)didResizeFrame
+{
+    [self setZoomScalesForCurrentBoundsAndContentSize];
+    
+    // Restore zoom scale to a value with zoom scale range
+    CGFloat maxZoomScale = MAX(self.minimumZoomScale, _scaleToRestoreAfterResize);
+    self.zoomScale = MIN(self.maximumZoomScale, maxZoomScale);
+    self.zoomScale = _scaleToRestoreAfterResize;
+    
+    // Restore center point within allowable range
+    CGPoint boundsCenter = [self convertPoint:_pointToCenterAfterResize fromView:_zoomView];
+    CGPoint offset = CGPointMake(boundsCenter.x - self.bounds.size.width / 2.0,
+                                 boundsCenter.y - self.bounds.size.height / 2.0);
+
+    CGPoint maxOffset = [self maximumContentOffset];
+    CGPoint minOffset = [self minimumContentOffset];
+    
+    CGFloat realMaxOffset = MIN(maxOffset.x, offset.x);
+    offset.x = MAX(minOffset.x, realMaxOffset);
+    
+    realMaxOffset = MIN(maxOffset.y, offset.y);
+    offset.y = MAX(minOffset.y, realMaxOffset);
+    
+    self.contentOffset = offset;
+}
+
+- (CGPoint)maximumContentOffset
+{
+    CGSize contentSize = self.contentSize;
+    CGSize boundsSize = self.bounds.size;
+    return CGPointMake(contentSize.width - boundsSize.width, contentSize.height - boundsSize.height);
+}
+
+- (CGPoint)minimumContentOffset
+{
+    return CGPointZero;
 }
 
 @end
