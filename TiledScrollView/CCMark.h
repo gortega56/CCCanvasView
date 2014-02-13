@@ -10,4 +10,14 @@
 
 @interface CCMark : NSObject
 
+@property (nonatomic, readonly) NSArray *strokes;
+
+@end
+
+@interface CCStroke : NSObject
+
+@property (nonatomic, readonly) NSArray *points;
+@property (nonatomic, readonly) UIBezierPath *path;
+@property (nonatomic, readonly) CGRect bounds;
+
 @end

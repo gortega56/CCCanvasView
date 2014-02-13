@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4672C38118AD1F63006ABD36 /* CCMark.m in Sources */ = {isa = PBXBuildFile; fileRef = 4672C38018AD1F63006ABD36 /* CCMark.m */; };
 		467B188018AA707400BDEFE3 /* CCMarkupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 467B187F18AA707400BDEFE3 /* CCMarkupView.m */; };
 		46920BEF18A59BDD0005079A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BEE18A59BDD0005079A /* Foundation.framework */; };
 		46920BF118A59BDD0005079A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF018A59BDD0005079A /* CoreGraphics.framework */; };
@@ -37,6 +38,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4672C37F18AD1F63006ABD36 /* CCMark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMark.h; sourceTree = "<group>"; };
+		4672C38018AD1F63006ABD36 /* CCMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMark.m; sourceTree = "<group>"; };
 		467B187E18AA707400BDEFE3 /* CCMarkupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMarkupView.h; sourceTree = "<group>"; };
 		467B187F18AA707400BDEFE3 /* CCMarkupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMarkupView.m; sourceTree = "<group>"; };
 		46920BEB18A59BDD0005079A /* TiledScrollView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TiledScrollView.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -93,6 +96,8 @@
 			children = (
 				467B187E18AA707400BDEFE3 /* CCMarkupView.h */,
 				467B187F18AA707400BDEFE3 /* CCMarkupView.m */,
+				4672C37F18AD1F63006ABD36 /* CCMark.h */,
+				4672C38018AD1F63006ABD36 /* CCMark.m */,
 			);
 			name = CCMarkupViewController;
 			sourceTree = "<group>";
@@ -282,6 +287,7 @@
 			files = (
 				4699FE5818A6D34E0016C19F /* CCTileScrollView.m in Sources */,
 				46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */,
+				4672C38118AD1F63006ABD36 /* CCMark.m in Sources */,
 				4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */,
 				46920C1F18A59C050005079A /* CCTileView.m in Sources */,
 				467B188018AA707400BDEFE3 /* CCMarkupView.m in Sources */,
