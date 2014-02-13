@@ -10,7 +10,7 @@
 #import "CCMarkupView.h"
 #import "CCTileView.h"
 
-@interface CCTileScrollView () <UIScrollViewDelegate, CCTileViewDataSource, CCTileViewDrawingDelegate>
+@interface CCTileScrollView () <UIScrollViewDelegate, CCTileViewDelegate>
 
 @property (nonatomic, strong) UIImageView *zoomView;
 @property (nonatomic, strong) CCMarkupView *markupView;
@@ -37,7 +37,7 @@
         
         _imageTileView = [[CCTileView alloc] initWithFrame:_zoomView.bounds];
         _imageTileView.userInteractionEnabled = NO;
-        _imageTileView.drawingDelegate = self;
+        _imageTileView.delegate = self;
         [_zoomView addSubview:_imageTileView];
                 
         CGSize contentSize = self.contentSize;
