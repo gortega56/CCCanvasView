@@ -65,29 +65,12 @@
 - (UIImage *)tileScrollView:(CCTileScrollView *)tileScrollView imageForRow:(NSInteger)row column:(NSInteger)column scale:(CGFloat)scale
 {
     NSString *path = [NSString stringWithFormat:@"%@/%i/%ld_%ld.png", self.tilesPath, (int)(scale * 1000), (long)row, (long)column];
- //   NSLog(@"Tile Path: %@", path);
     UIImage *tileImage = [UIImage imageWithContentsOfFile:path];
- //   NSLog(@"IMAGE EXISTS %@", (tileImage != Nil) ? @"YES" : @"NO");
     return tileImage;
 }
 
 #pragma mark - CCTileScrollView ScrollDelegate
 
-//- (void)tileScrollViewDidZoom:(CCTileScrollView *)tileScrollView
-//{
-//    CGFloat zoomScale = tileScrollView.zoomScale;
-//    for (UIView *subview in _markupViews) {
-//        subview.contentScaleFactor = zoomScale;
-//    }
-//}
-
-//- (void)tileScrollViewDidEndZooming:(CCTileScrollView *)tileScrollView withView:(UIView *)view atScale:(CGFloat)scale
-//{
-//    CGFloat contentScale = scale * [UIScreen mainScreen].scale;
-//    for (UIView *subview in _markupViews) {
-//        subview.contentScaleFactor = contentScale;
-//    }
-//}
 
 #pragma mark - Markup
 
@@ -101,7 +84,6 @@
             _markupView.delegate = self;
             _markupView.layer.borderColor = [UIColor greenColor].CGColor;
             _markupView.layer.borderWidth = 5.0f;
-            
         }
         _markupView.frame = CGRectIntersection(self.view.frame, _tileScrollView.zoomView.frame);
         [self.view insertSubview:_markupView belowSubview:_toggleButton];
@@ -111,46 +93,35 @@
     }
     
     _markupView.userInteractionEnabled = _markupEnabled;
-  //  _tileScrollView.zoomView.userInteractionEnabled = !_markupEnabled;
     _tileScrollView.scrollEnabled = !_markupEnabled;
 }
-
-
 
 - (void)toggleMarkup
 {
     self.markupEnabled = !self.markupEnabled;
-    NSLog(@"Mark up %@", (_markupView.userInteractionEnabled) ? @"ENABLED" : @"DISABLED");
-    NSLog(@"Scrolling %@", (_tileScrollView.scrollEnabled) ?  @"ENABLED" : @"DISABLED");
-    
-    
 }
 
 #pragma mark - CCMarkup Delegate
+- (void)markView:(CCMarkupView *)markupView didTrackPoint:(CGPoint)point
+{
+
+}
 
 - (void)markView:(CCMarkupView *)markupView didFinishTrackingPoints:(NSArray *)points
 {
+    NSMutableArray *viewPoints = [NSMutableArray new];
+    for (NSValue *value in points) {
+        CGPoint viewPoint = [_tileScrollView.zoomView convertPoint:[value CGPointValue] fromView:markupView];
+        [viewPoints addObject:[NSValue valueWithCGPoint:viewPoint]];
+    }
     
-}
-
-- (void)markView:(CCMarkupView *)markupView didFinishPath:(UIBezierPath *)path
-{
-    CGFloat scaleFactor = 1.f/(_tileScrollView.zoomScale);
-
-    
-    CGAffineTransform pathTransform = CGAffineTransformIdentity;
-    pathTransform = CGAffineTransformScale(pathTransform, scaleFactor, scaleFactor);
-    [path applyTransform:pathTransform];
-    
+    UIBezierPath *viewPath = bezierPathForPoints(viewPoints);
     CAShapeLayer *shapeLayer = [CAShapeLayer layer];
     shapeLayer.strokeColor = [UIColor orangeColor].CGColor;
-    shapeLayer.lineWidth = path.lineWidth;
+    shapeLayer.lineWidth = kCCMarkupViewLineWidth/_tileScrollView.zoomScale;
     shapeLayer.lineCap = kCALineCapRound;
     shapeLayer.lineJoin = kCALineJoinRound;
-    shapeLayer.path = path.CGPath;
-
-    
-    [_markupViews addObject:shapeLayer];
+    shapeLayer.path = viewPath.CGPath;
     [_tileScrollView.zoomView.layer addSublayer:shapeLayer];
 }
 
