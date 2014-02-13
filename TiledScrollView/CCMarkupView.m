@@ -67,16 +67,6 @@ CGFloat const kCCMarkupViewLineWidth = 10.f;
     }];
 }
 
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-}
-
-- (void)layoutSublayersOfLayer:(CALayer *)layer
-{
-    [super layoutSublayersOfLayer:layer];
-}
-
 #pragma mark - Point Tracking
 
 - (void)updateTrackedPointsWithTouch:(UITouch *)touch
@@ -84,7 +74,10 @@ CGFloat const kCCMarkupViewLineWidth = 10.f;
     _previousPoint2 =  (self.isTrackingTouch) ? _previousPoint1 : [touch previousLocationInView:self];
     _previousPoint1 = [touch previousLocationInView:self];
     _currentPoint = [touch locationInView:self];
-    [self.delegate markView:self didTrackPoint:_currentPoint];
+    
+    if ([_delegate respondsToSelector:@selector(markView:didTrackPoint:)]) {
+        [_delegate markView:self didTrackPoint:_currentPoint];
+    }
 }
 
 - (void)addTrackedPoint:(CGPoint)point
@@ -94,9 +87,15 @@ CGFloat const kCCMarkupViewLineWidth = 10.f;
 
 - (void)finishTrackingPoints
 {
-    [_delegate markView:self didFinishTrackingPoints:_points];
+    if ([_delegate respondsToSelector:@selector(markView:didFinishTrackingPoints:)]) {
+        [_delegate markView:self didFinishTrackingPoints:_points];
+    }
+    
     UIBezierPath *completedPath = bezierPathForPoints(_points);
-    [_delegate markView:self didFinishPath:completedPath];
+    
+    if ([_delegate respondsToSelector:@selector(markView:didFinishPath:)]) {
+        [_delegate markView:self didFinishPath:completedPath];
+    }
     
     [_points removeAllObjects];
     [_completedPaths addObject:completedPath];
@@ -134,7 +133,6 @@ CGFloat const kCCMarkupViewLineWidth = 10.f;
     [self finishTrackingPoints];
     
     [self setNeedsDisplay];
-    [self setNeedsLayout];
     _trackingTouch = NO;
 }
 
