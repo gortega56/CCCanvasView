@@ -9,13 +9,13 @@
 #import "CCTileScrollViewController.h"
 #import "CCTileScrollView.h"
 #import "CCTileView.h"
-#import "CCMarkupView.h"
+#import "CCCanvasView.h"
 
 
 @interface CCTileScrollViewController () <CCTileScrollViewDataSource, CCTileScrollViewDelegate, CCMarkupViewDelegate>
 
 @property (nonatomic, strong) CCTileScrollView *tileScrollView;
-@property (nonatomic, strong) CCMarkupView *markupView;
+@property (nonatomic, strong) CCCanvasView *markupView;
 
 
 @property (nonatomic, strong) NSString *tilesPath;
@@ -60,6 +60,22 @@
     self.markupEnabled = NO;
 }
 
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+   // _markupView.frame = CGRectIntersection(self.view.frame, _tileScrollView.zoomView.frame);
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+    _markupView.frame = CGRectIntersection(self.view.frame, _tileScrollView.zoomView.frame);
+    _toggleButton.frame = CGRectMake(CGRectGetMidX(self.view.bounds) - 30, CGRectGetMaxY(self.view.bounds) - 40, 60, 40);
+}
+
 #pragma mark - CCTileScrollView DataSource
 
 - (UIImage *)tileScrollView:(CCTileScrollView *)tileScrollView imageForRow:(NSInteger)row column:(NSInteger)column scale:(CGFloat)scale
@@ -79,7 +95,7 @@
     
     if (_markupEnabled == YES) {
         if (_markupView == nil) {
-            _markupView = [[CCMarkupView alloc] initWithFrame:CGRectZero];
+            _markupView = [[CCCanvasView alloc] initWithFrame:CGRectZero];
             _markupView.delegate = self;
             _markupView.layer.borderColor = [UIColor greenColor].CGColor;
             _markupView.layer.borderWidth = 5.0f;
@@ -101,12 +117,12 @@
 }
 
 #pragma mark - CCMarkup Delegate
-- (void)markView:(CCMarkupView *)markupView didTrackPoint:(CGPoint)point
+- (void)markView:(CCCanvasView *)markupView didTrackPoint:(CGPoint)point
 {
 
 }
 
-- (void)markView:(CCMarkupView *)markupView didFinishTrackingPoints:(NSArray *)points
+- (void)markView:(CCCanvasView *)markupView didFinishTrackingPoints:(NSArray *)points
 {
     NSMutableArray *viewPoints = [NSMutableArray new];
     for (NSValue *value in points) {

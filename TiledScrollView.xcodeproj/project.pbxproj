@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4672C38118AD1F63006ABD36 /* CCMark.m in Sources */ = {isa = PBXBuildFile; fileRef = 4672C38018AD1F63006ABD36 /* CCMark.m */; };
-		467B188018AA707400BDEFE3 /* CCMarkupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 467B187F18AA707400BDEFE3 /* CCMarkupView.m */; };
+		467B188018AA707400BDEFE3 /* CCCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 467B187F18AA707400BDEFE3 /* CCCanvasView.m */; };
 		46920BEF18A59BDD0005079A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BEE18A59BDD0005079A /* Foundation.framework */; };
 		46920BF118A59BDD0005079A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF018A59BDD0005079A /* CoreGraphics.framework */; };
 		46920BF318A59BDD0005079A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF218A59BDD0005079A /* UIKit.framework */; };
@@ -40,8 +40,8 @@
 /* Begin PBXFileReference section */
 		4672C37F18AD1F63006ABD36 /* CCMark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMark.h; sourceTree = "<group>"; };
 		4672C38018AD1F63006ABD36 /* CCMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMark.m; sourceTree = "<group>"; };
-		467B187E18AA707400BDEFE3 /* CCMarkupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMarkupView.h; sourceTree = "<group>"; };
-		467B187F18AA707400BDEFE3 /* CCMarkupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMarkupView.m; sourceTree = "<group>"; };
+		467B187E18AA707400BDEFE3 /* CCCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCanvasView.h; sourceTree = "<group>"; };
+		467B187F18AA707400BDEFE3 /* CCCanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCanvasView.m; sourceTree = "<group>"; };
 		46920BEB18A59BDD0005079A /* TiledScrollView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TiledScrollView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46920BEE18A59BDD0005079A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		46920BF018A59BDD0005079A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -94,8 +94,8 @@
 		4601FFC818A9378500DA25E3 /* CCMarkupViewController */ = {
 			isa = PBXGroup;
 			children = (
-				467B187E18AA707400BDEFE3 /* CCMarkupView.h */,
-				467B187F18AA707400BDEFE3 /* CCMarkupView.m */,
+				467B187E18AA707400BDEFE3 /* CCCanvasView.h */,
+				467B187F18AA707400BDEFE3 /* CCCanvasView.m */,
 				4672C37F18AD1F63006ABD36 /* CCMark.h */,
 				4672C38018AD1F63006ABD36 /* CCMark.m */,
 			);
@@ -290,7 +290,7 @@
 				4672C38118AD1F63006ABD36 /* CCMark.m in Sources */,
 				4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */,
 				46920C1F18A59C050005079A /* CCTileView.m in Sources */,
-				467B188018AA707400BDEFE3 /* CCMarkupView.m in Sources */,
+				467B188018AA707400BDEFE3 /* CCCanvasView.m in Sources */,
 				46920BFB18A59BDD0005079A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

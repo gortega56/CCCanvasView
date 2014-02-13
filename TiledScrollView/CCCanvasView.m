@@ -6,11 +6,11 @@
 //  Copyright (c) 2014 Clique City. All rights reserved.
 //
 
-#import "CCMarkupView.h"
+#import "CCCanvasView.h"
 
 CGFloat const kCCMarkupViewLineWidth = 10.f;
 
-@interface CCMarkupView ()
+@interface CCCanvasView ()
 
 @property (nonatomic) BOOL touchesMoved;
 @property (nonatomic, getter = isTrackingTouch) BOOL trackingTouch;
@@ -23,7 +23,7 @@ CGFloat const kCCMarkupViewLineWidth = 10.f;
 
 @end
 
-@implementation CCMarkupView
+@implementation CCCanvasView
 
 #pragma mark - UIView Methods
 

@@ -7,7 +7,7 @@
 //
 
 #import "CCTileScrollView.h"
-#import "CCMarkupView.h"
+#import "CCCanvasView.h"
 #import "CCTileView.h"
 
 @interface CCTileScrollView () <UIScrollViewDelegate, CCTileViewDelegate>
@@ -17,7 +17,7 @@
 }
 
 @property (nonatomic, strong) UIImageView *zoomView;
-@property (nonatomic, strong) CCMarkupView *markupView;
+@property (nonatomic, strong) CCCanvasView *markupView;
 @property (nonatomic, strong) CCTileView *imageTileView;
 
 @end

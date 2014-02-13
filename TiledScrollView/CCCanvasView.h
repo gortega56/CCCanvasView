@@ -10,17 +10,17 @@
 
 extern CGFloat const kCCMarkupViewLineWidth;
 
-@class CCMarkupView;
+@class CCCanvasView;
 @protocol CCMarkupViewDelegate <NSObject>
 
 @optional
-- (void)markView:(CCMarkupView *)markupView didTrackPoint:(CGPoint)point;
-- (void)markView:(CCMarkupView *)markupView didFinishTrackingPoints:(NSArray *)points;
-- (void)markView:(CCMarkupView *)markupView didFinishPath:(UIBezierPath *)path;
+- (void)markView:(CCCanvasView *)markupView didTrackPoint:(CGPoint)point;
+- (void)markView:(CCCanvasView *)markupView didFinishTrackingPoints:(NSArray *)points;
+- (void)markView:(CCCanvasView *)markupView didFinishPath:(UIBezierPath *)path;
 
 @end
 
-@interface CCMarkupView : UIView
+@interface CCCanvasView : UIView
 
 @property (nonatomic) CGFloat strokeWidth;
 @property (nonatomic, strong) UIColor *strokeColor;
