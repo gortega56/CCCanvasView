@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:TiledScrollView.xcodeproj">
+      location = "self:CCCanvasSample.xcodeproj">
    </FileRef>
 </Workspace>

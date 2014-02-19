@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface CCMark : NSObject
+@interface CCMarkLayer : CAShapeLayer
 
-@property (nonatomic, readonly) NSArray *strokes;
+@property (nonatomic, strong) NSArray *strokes;
+@property (nonatomic, strong) UIBezierPath *strokePath;
+@property (nonatomic) CGFloat scale;
 
 @end
 
@@ -19,5 +21,7 @@
 @property (nonatomic, readonly) NSArray *points;
 @property (nonatomic, readonly) UIBezierPath *path;
 @property (nonatomic, readonly) CGRect bounds;
+
++ (instancetype)strokeWithPoints:(NSArray *)points;
 
 @end

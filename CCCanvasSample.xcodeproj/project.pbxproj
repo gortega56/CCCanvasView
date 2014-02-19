@@ -7,7 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4672C38118AD1F63006ABD36 /* CCMark.m in Sources */ = {isa = PBXBuildFile; fileRef = 4672C38018AD1F63006ABD36 /* CCMark.m */; };
+		4626973B18B3F698009A2868 /* CCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4626973A18B3F698009A2868 /* CCWebViewController.m */; };
+		4626974118B41F7D009A2868 /* doc (1) in Resources */ = {isa = PBXBuildFile; fileRef = 4626974018B41F7D009A2868 /* doc (1) */; };
+		4672C38118AD1F63006ABD36 /* CCMarkLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4672C38018AD1F63006ABD36 /* CCMarkLayer.m */; };
 		467B188018AA707400BDEFE3 /* CCCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 467B187F18AA707400BDEFE3 /* CCCanvasView.m */; };
 		46920BEF18A59BDD0005079A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BEE18A59BDD0005079A /* Foundation.framework */; };
 		46920BF118A59BDD0005079A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF018A59BDD0005079A /* CoreGraphics.framework */; };
@@ -38,24 +40,27 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4672C37F18AD1F63006ABD36 /* CCMark.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMark.h; sourceTree = "<group>"; };
-		4672C38018AD1F63006ABD36 /* CCMark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMark.m; sourceTree = "<group>"; };
+		4626973918B3F698009A2868 /* CCWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCWebViewController.h; sourceTree = "<group>"; };
+		4626973A18B3F698009A2868 /* CCWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCWebViewController.m; sourceTree = "<group>"; };
+		4626974018B41F7D009A2868 /* doc (1) */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "doc (1)"; sourceTree = "<group>"; };
+		4672C37F18AD1F63006ABD36 /* CCMarkLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMarkLayer.h; sourceTree = "<group>"; };
+		4672C38018AD1F63006ABD36 /* CCMarkLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMarkLayer.m; sourceTree = "<group>"; };
 		467B187E18AA707400BDEFE3 /* CCCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCanvasView.h; sourceTree = "<group>"; };
 		467B187F18AA707400BDEFE3 /* CCCanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCanvasView.m; sourceTree = "<group>"; };
-		46920BEB18A59BDD0005079A /* TiledScrollView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TiledScrollView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		46920BEB18A59BDD0005079A /* CCCanvasSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCCanvasSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		46920BEE18A59BDD0005079A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		46920BF018A59BDD0005079A /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		46920BF218A59BDD0005079A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		46920BF618A59BDD0005079A /* TiledScrollView-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TiledScrollView-Info.plist"; sourceTree = "<group>"; };
+		46920BF618A59BDD0005079A /* CCCanvasSample-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCCanvasSample-Info.plist"; sourceTree = "<group>"; };
 		46920BF818A59BDD0005079A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46920BFA18A59BDD0005079A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		46920BFC18A59BDD0005079A /* TiledScrollView-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TiledScrollView-Prefix.pch"; sourceTree = "<group>"; };
+		46920BFC18A59BDD0005079A /* CCCanvasSample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CCCanvasSample-Prefix.pch"; sourceTree = "<group>"; };
 		46920BFD18A59BDD0005079A /* CCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAppDelegate.h; sourceTree = "<group>"; };
 		46920BFE18A59BDD0005079A /* CCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCAppDelegate.m; sourceTree = "<group>"; };
 		46920C0018A59BDD0005079A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		46920C0618A59BDD0005079A /* TiledScrollViewTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TiledScrollViewTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		46920C0618A59BDD0005079A /* CCCanvasSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCCanvasSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		46920C0718A59BDD0005079A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		46920C0F18A59BDD0005079A /* TiledScrollViewTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TiledScrollViewTests-Info.plist"; sourceTree = "<group>"; };
+		46920C0F18A59BDD0005079A /* CCCanvasSampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCCanvasSampleTests-Info.plist"; sourceTree = "<group>"; };
 		46920C1118A59BDD0005079A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		46920C1318A59BDD0005079A /* TiledScrollViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TiledScrollViewTests.m; sourceTree = "<group>"; };
 		46920C1D18A59C050005079A /* CCTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTileView.h; sourceTree = "<group>"; };
@@ -96,10 +101,28 @@
 			children = (
 				467B187E18AA707400BDEFE3 /* CCCanvasView.h */,
 				467B187F18AA707400BDEFE3 /* CCCanvasView.m */,
-				4672C37F18AD1F63006ABD36 /* CCMark.h */,
-				4672C38018AD1F63006ABD36 /* CCMark.m */,
+				4672C37F18AD1F63006ABD36 /* CCMarkLayer.h */,
+				4672C38018AD1F63006ABD36 /* CCMarkLayer.m */,
 			);
 			name = CCMarkupViewController;
+			sourceTree = "<group>";
+		};
+		4626973C18B3F739009A2868 /* CCTileScrollViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4699FE5218A6B89C0016C19F /* CCTileScrollViewController.h */,
+				4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */,
+			);
+			name = CCTileScrollViewController;
+			sourceTree = "<group>";
+		};
+		4626973D18B3F782009A2868 /* CCWebViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4626973918B3F698009A2868 /* CCWebViewController.h */,
+				4626973A18B3F698009A2868 /* CCWebViewController.m */,
+			);
+			name = CCWebViewController;
 			sourceTree = "<group>";
 		};
 		46920BE218A59BDD0005079A = {
@@ -115,8 +138,8 @@
 		46920BEC18A59BDD0005079A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				46920BEB18A59BDD0005079A /* TiledScrollView.app */,
-				46920C0618A59BDD0005079A /* TiledScrollViewTests.xctest */,
+				46920BEB18A59BDD0005079A /* CCCanvasSample.app */,
+				46920C0618A59BDD0005079A /* CCCanvasSampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,15 +158,16 @@
 		46920BF418A59BDD0005079A /* TiledScrollView */ = {
 			isa = PBXGroup;
 			children = (
-				4601FFC818A9378500DA25E3 /* CCMarkupViewController */,
-				4699FE5018A6B7CA0016C19F /* test_files */,
-				46920C2018A59C0F0005079A /* CCTileScrollView */,
+				4626974018B41F7D009A2868 /* doc (1) */,
+				4626973D18B3F782009A2868 /* CCWebViewController */,
 				46920BFD18A59BDD0005079A /* CCAppDelegate.h */,
 				46920BFE18A59BDD0005079A /* CCAppDelegate.m */,
+				4626973C18B3F739009A2868 /* CCTileScrollViewController */,
+				4601FFC818A9378500DA25E3 /* CCMarkupViewController */,
+				46920C2018A59C0F0005079A /* CCTileScrollView */,
+				4699FE5018A6B7CA0016C19F /* test_files */,
 				46920C0018A59BDD0005079A /* Images.xcassets */,
 				46920BF518A59BDD0005079A /* Supporting Files */,
-				4699FE5218A6B89C0016C19F /* CCTileScrollViewController.h */,
-				4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */,
 			);
 			path = TiledScrollView;
 			sourceTree = "<group>";
@@ -151,10 +175,10 @@
 		46920BF518A59BDD0005079A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				46920BF618A59BDD0005079A /* TiledScrollView-Info.plist */,
+				46920BF618A59BDD0005079A /* CCCanvasSample-Info.plist */,
 				46920BF718A59BDD0005079A /* InfoPlist.strings */,
 				46920BFA18A59BDD0005079A /* main.m */,
-				46920BFC18A59BDD0005079A /* TiledScrollView-Prefix.pch */,
+				46920BFC18A59BDD0005079A /* CCCanvasSample-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -171,7 +195,7 @@
 		46920C0E18A59BDD0005079A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				46920C0F18A59BDD0005079A /* TiledScrollViewTests-Info.plist */,
+				46920C0F18A59BDD0005079A /* CCCanvasSampleTests-Info.plist */,
 				46920C1018A59BDD0005079A /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
@@ -191,9 +215,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		46920BEA18A59BDD0005079A /* TiledScrollView */ = {
+		46920BEA18A59BDD0005079A /* CCCanvasSample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 46920C1718A59BDD0005079A /* Build configuration list for PBXNativeTarget "TiledScrollView" */;
+			buildConfigurationList = 46920C1718A59BDD0005079A /* Build configuration list for PBXNativeTarget "CCCanvasSample" */;
 			buildPhases = (
 				46920BE718A59BDD0005079A /* Sources */,
 				46920BE818A59BDD0005079A /* Frameworks */,
@@ -203,14 +227,14 @@
 			);
 			dependencies = (
 			);
-			name = TiledScrollView;
+			name = CCCanvasSample;
 			productName = TiledScrollView;
-			productReference = 46920BEB18A59BDD0005079A /* TiledScrollView.app */;
+			productReference = 46920BEB18A59BDD0005079A /* CCCanvasSample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		46920C0518A59BDD0005079A /* TiledScrollViewTests */ = {
+		46920C0518A59BDD0005079A /* CCCanvasSampleTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 46920C1A18A59BDD0005079A /* Build configuration list for PBXNativeTarget "TiledScrollViewTests" */;
+			buildConfigurationList = 46920C1A18A59BDD0005079A /* Build configuration list for PBXNativeTarget "CCCanvasSampleTests" */;
 			buildPhases = (
 				46920C0218A59BDD0005079A /* Sources */,
 				46920C0318A59BDD0005079A /* Frameworks */,
@@ -221,9 +245,9 @@
 			dependencies = (
 				46920C0C18A59BDD0005079A /* PBXTargetDependency */,
 			);
-			name = TiledScrollViewTests;
+			name = CCCanvasSampleTests;
 			productName = TiledScrollViewTests;
-			productReference = 46920C0618A59BDD0005079A /* TiledScrollViewTests.xctest */;
+			productReference = 46920C0618A59BDD0005079A /* CCCanvasSampleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -241,7 +265,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 46920BE618A59BDD0005079A /* Build configuration list for PBXProject "TiledScrollView" */;
+			buildConfigurationList = 46920BE618A59BDD0005079A /* Build configuration list for PBXProject "CCCanvasSample" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -253,8 +277,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				46920BEA18A59BDD0005079A /* TiledScrollView */,
-				46920C0518A59BDD0005079A /* TiledScrollViewTests */,
+				46920BEA18A59BDD0005079A /* CCCanvasSample */,
+				46920C0518A59BDD0005079A /* CCCanvasSampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -267,6 +291,7 @@
 				46920BF918A59BDD0005079A /* InfoPlist.strings in Resources */,
 				4699FE5118A6B7CA0016C19F /* test_files in Resources */,
 				46920C0118A59BDD0005079A /* Images.xcassets in Resources */,
+				4626974118B41F7D009A2868 /* doc (1) in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,7 +312,8 @@
 			files = (
 				4699FE5818A6D34E0016C19F /* CCTileScrollView.m in Sources */,
 				46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */,
-				4672C38118AD1F63006ABD36 /* CCMark.m in Sources */,
+				4672C38118AD1F63006ABD36 /* CCMarkLayer.m in Sources */,
+				4626973B18B3F698009A2868 /* CCWebViewController.m in Sources */,
 				4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */,
 				46920C1F18A59C050005079A /* CCTileView.m in Sources */,
 				467B188018AA707400BDEFE3 /* CCCanvasView.m in Sources */,
@@ -308,7 +334,7 @@
 /* Begin PBXTargetDependency section */
 		46920C0C18A59BDD0005079A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 46920BEA18A59BDD0005079A /* TiledScrollView */;
+			target = 46920BEA18A59BDD0005079A /* CCCanvasSample */;
 			targetProxy = 46920C0B18A59BDD0005079A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -415,9 +441,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Ortega (Z962E5P9SK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Ortega (Z962E5P9SK)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TiledScrollView/TiledScrollView-Prefix.pch";
-				INFOPLIST_FILE = "TiledScrollView/TiledScrollView-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "TiledScrollView/CCCanvasSample-Prefix.pch";
+				INFOPLIST_FILE = "TiledScrollView/CCCanvasSample-Info.plist";
+				PRODUCT_NAME = CCCanvasSample;
 				PROVISIONING_PROFILE = "F3E10A4E-C6AE-4D94-A1FE-4B90DBBBD38B";
 				WRAPPER_EXTENSION = app;
 			};
@@ -431,9 +457,9 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gabriel Ortega (Z962E5P9SK)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gabriel Ortega (Z962E5P9SK)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TiledScrollView/TiledScrollView-Prefix.pch";
-				INFOPLIST_FILE = "TiledScrollView/TiledScrollView-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				GCC_PREFIX_HEADER = "TiledScrollView/CCCanvasSample-Prefix.pch";
+				INFOPLIST_FILE = "TiledScrollView/CCCanvasSample-Info.plist";
+				PRODUCT_NAME = CCCanvasSample;
 				PROVISIONING_PROFILE = "F3E10A4E-C6AE-4D94-A1FE-4B90DBBBD38B";
 				WRAPPER_EXTENSION = app;
 			};
@@ -455,8 +481,8 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = "TiledScrollViewTests/TiledScrollViewTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "TiledScrollViewTests/CCCanvasSampleTests-Info.plist";
+				PRODUCT_NAME = CCCanvasSampleTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -474,8 +500,8 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TiledScrollView/TiledScrollView-Prefix.pch";
-				INFOPLIST_FILE = "TiledScrollViewTests/TiledScrollViewTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				INFOPLIST_FILE = "TiledScrollViewTests/CCCanvasSampleTests-Info.plist";
+				PRODUCT_NAME = CCCanvasSampleTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = xctest;
 			};
@@ -484,7 +510,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		46920BE618A59BDD0005079A /* Build configuration list for PBXProject "TiledScrollView" */ = {
+		46920BE618A59BDD0005079A /* Build configuration list for PBXProject "CCCanvasSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46920C1518A59BDD0005079A /* Debug */,
@@ -493,7 +519,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		46920C1718A59BDD0005079A /* Build configuration list for PBXNativeTarget "TiledScrollView" */ = {
+		46920C1718A59BDD0005079A /* Build configuration list for PBXNativeTarget "CCCanvasSample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46920C1818A59BDD0005079A /* Debug */,
@@ -502,7 +528,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		46920C1A18A59BDD0005079A /* Build configuration list for PBXNativeTarget "TiledScrollViewTests" */ = {
+		46920C1A18A59BDD0005079A /* Build configuration list for PBXNativeTarget "CCCanvasSampleTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				46920C1B18A59BDD0005079A /* Debug */,

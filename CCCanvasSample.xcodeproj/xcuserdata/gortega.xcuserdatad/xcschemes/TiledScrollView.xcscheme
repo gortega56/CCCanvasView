@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "46920BEA18A59BDD0005079A"
                BuildableName = "TiledScrollView.app"
-               BlueprintName = "TiledScrollView"
-               ReferencedContainer = "container:TiledScrollView.xcodeproj">
+               BlueprintName = "CCCanvasSample"
+               ReferencedContainer = "container:CCCanvasSample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,8 +34,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "46920C0518A59BDD0005079A"
                BuildableName = "TiledScrollViewTests.xctest"
-               BlueprintName = "TiledScrollViewTests"
-               ReferencedContainer = "container:TiledScrollView.xcodeproj">
+               BlueprintName = "CCCanvasSampleTests"
+               ReferencedContainer = "container:CCCanvasSample.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,8 +44,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "46920BEA18A59BDD0005079A"
             BuildableName = "TiledScrollView.app"
-            BlueprintName = "TiledScrollView"
-            ReferencedContainer = "container:TiledScrollView.xcodeproj">
+            BlueprintName = "CCCanvasSample"
+            ReferencedContainer = "container:CCCanvasSample.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -63,8 +63,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "46920BEA18A59BDD0005079A"
             BuildableName = "TiledScrollView.app"
-            BlueprintName = "TiledScrollView"
-            ReferencedContainer = "container:TiledScrollView.xcodeproj">
+            BlueprintName = "CCCanvasSample"
+            ReferencedContainer = "container:CCCanvasSample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "46920BEA18A59BDD0005079A"
             BuildableName = "TiledScrollView.app"
-            BlueprintName = "TiledScrollView"
-            ReferencedContainer = "container:TiledScrollView.xcodeproj">
+            BlueprintName = "CCCanvasSample"
+            ReferencedContainer = "container:CCCanvasSample.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

@@ -33,7 +33,7 @@ static CGPoint CGMidpointForPoints(CGPoint point1, CGPoint point2)
     return (CGPoint){(point1.x + point2.x) * 0.5f, (point1.y + point2.y) * 0.5f};
 }
 
-static UIBezierPath * bezierPathForPoints(NSArray *points)
+static UIBezierPath * curvedPathForPoints(NSArray *points)
 {
     UIBezierPath *path = [UIBezierPath bezierPath];
     path.lineWidth = kCCMarkupViewLineWidth;
@@ -54,6 +54,22 @@ static UIBezierPath * bezierPathForPoints(NSArray *points)
         [path moveToPoint:midPoint1];
         [path addQuadCurveToPoint:midPoint2 controlPoint:previousPoint1];
     }
+    
+    return path;
+}
+
+static UIBezierPath * straightPathForPoints(NSArray *points)
+{
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    path.lineWidth = kCCMarkupViewLineWidth;
+    path.lineCapStyle = kCGLineCapRound;
+    path.lineJoinStyle = kCGLineJoinRound;
+    
+    CGPoint anchorPoint = [points.firstObject CGPointValue];
+    [path moveToPoint:anchorPoint];
+    
+    CGPoint endPoint = [points.lastObject CGPointValue];
+    [path addLineToPoint:endPoint];
     
     return path;
 }

@@ -10,10 +10,20 @@
 
 CGFloat const kCCMarkupViewLineWidth = 10.f;
 
+typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
+{
+    CCCanvasViewTrackTypeFreeHand,
+    CCCanvasViewTrackTypeLine,
+    CCCanvasViewTrackTypeShape
+};
+
 @interface CCCanvasView ()
 
 @property (nonatomic) BOOL touchesMoved;
 @property (nonatomic, getter = isTrackingTouch) BOOL trackingTouch;
+
+@property (nonatomic) CCCanvasViewTrackType trackType;
+
 @property (nonatomic) CGPoint currentPoint;
 @property (nonatomic) CGPoint previousPoint1;
 @property (nonatomic) CGPoint previousPoint2;
@@ -36,6 +46,7 @@ CGFloat const kCCMarkupViewLineWidth = 10.f;
         _points = [NSMutableArray new];
         _strokeColor = [UIColor orangeColor];
         _strokeWidth = kCCMarkupViewLineWidth;
+        _trackType = CCCanvasViewTrackTypeFreeHand;
         _trackingTouch = NO;
     }
     
@@ -47,8 +58,22 @@ CGFloat const kCCMarkupViewLineWidth = 10.f;
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self configureContext:context];
     
+    switch (_trackType) {
+        case CCCanvasViewTrackTypeFreeHand:
+            [self drawFreeHandPathInRect:rect context:context];
+            break;
+        case CCCanvasViewTrackTypeLine:
+            [self drawLineInRect:rect context:context];
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)drawFreeHandPathInRect:(CGRect)rect context:(CGContextRef)context
+{
     // Current path being drawn
-   // NSLog(@"STROKING %lu POINTS", (unsigned long)_points.count);
+    // NSLog(@"STROKING %lu POINTS", (unsigned long)_points.count);
     __block CGPoint currentPoint = [_points.firstObject CGPointValue];
     __block CGPoint previousPoint1 = currentPoint;
     __block CGPoint previousPoint2;
@@ -65,6 +90,20 @@ CGFloat const kCCMarkupViewLineWidth = 10.f;
             CGContextStrokePath(context);
         }
     }];
+}
+
+- (void)drawLineInRect:(CGRect)rect context:(CGContextRef)context
+{
+    // Draw previous lines
+    
+    // Draw new line anchored from end of last line
+    CGPoint anchorPoint = [_points.firstObject CGPointValue];
+    CGContextMoveToPoint(context, anchorPoint.x, anchorPoint.y);
+    
+    CGPoint endPoint = [_points.lastObject CGPointValue];
+    CGContextAddLineToPoint(context, endPoint.x, endPoint.y);
+    
+    CGContextStrokePath(context);
 }
 
 #pragma mark - Point Tracking
@@ -91,7 +130,7 @@ CGFloat const kCCMarkupViewLineWidth = 10.f;
         [_delegate markView:self didFinishTrackingPoints:_points];
     }
     
-    UIBezierPath *completedPath = bezierPathForPoints(_points);
+    UIBezierPath *completedPath = curvedPathForPoints(_points);
     
     if ([_delegate respondsToSelector:@selector(markView:didFinishPath:)]) {
         [_delegate markView:self didFinishPath:completedPath];

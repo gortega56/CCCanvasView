@@ -1,0 +1,16 @@
+.crocodoc-CxBm1M .f328 { font-family: "crocodoc-CxBm1M-328"; } @font-face { font-family: "crocodoc-CxBm1M-328"; src: url("../fonts/328.ttf"); }
+.crocodoc-CxBm1M .fh { font-family: Helvetica, Arial; line-height:1em; }
+.crocodoc-CxBm1M .fhb { font-family: Helvetica, Arial; font-weight:bold; line-height:1em; }
+.crocodoc-CxBm1M .fhnb { font-family: Arial Narrow, Arial; font-weight:bold; line-height:1em; }
+.crocodoc-CxBm1M tspan { white-space:pre; }
+.crocodoc-CxBm1M path { fill:transparent; }
+.crocodoc-CxBm1M.crocodoc-page-text { position:relative; overflow:hidden; }
+.crocodoc-CxBm1M .tb { position:absolute; }
+.crocodoc-CxBm1M .tb::selection { opacity:0; }
+.crocodoc-CxBm1M .tx { position:absolute; display:inline-block; white-space:pre; text-align:left; }
+.crocodoc-CxBm1M .tx.r1,
+.crocodoc-CxBm1M .tx.r2,
+.crocodoc-CxBm1M .tx.r3 { -webkit-transform-origin:left top; -ms-transform-origin:left top; -moz-transform-origin:left top; -o-transform-origin:left top; transform-origin:left top; }
+.crocodoc-CxBm1M .tx.r1 { -webkit-transform:rotate(90deg); -ms-transform:rotate(90deg); -moz-transform:rotate(90deg); -o-transform:rotate(90deg); transform:rotate(90deg); }
+.crocodoc-CxBm1M .tx.r2 { -webkit-transform:rotate(180deg); -ms-transform:rotate(180deg); -moz-transform:rotate(180deg); -o-transform:rotate(180deg); transform:rotate(180deg); }
+.crocodoc-CxBm1M .tx.r3 { -webkit-transform:rotate(270deg); -ms-transform:rotate(270deg); -moz-transform:rotate(270deg); -o-transform:rotate(270deg); transform:rotate(270deg); }

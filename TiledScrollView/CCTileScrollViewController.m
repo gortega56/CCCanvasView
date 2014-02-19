@@ -10,6 +10,7 @@
 #import "CCTileScrollView.h"
 #import "CCTileView.h"
 #import "CCCanvasView.h"
+#import "CCMarkLayer.h"
 
 
 @interface CCTileScrollViewController () <CCTileScrollViewDataSource, CCTileScrollViewDelegate, CCMarkupViewDelegate>
@@ -87,6 +88,12 @@
 
 #pragma mark - CCTileScrollView ScrollDelegate
 
+- (void)tileScrollViewDidZoom:(CCTileScrollView *)tileScrollView
+{
+    [self.markupViews setValue:@(tileScrollView.zoomScale) forKey:@"scale"];
+    [self.markupViews makeObjectsPerformSelector:@selector(setNeedsDisplay)];
+}
+
 #pragma mark - Markup
 
 - (void)setMarkupEnabled:(BOOL)markupEnabled
@@ -130,14 +137,52 @@
         [viewPoints addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
     
-    UIBezierPath *viewPath = bezierPathForPoints(viewPoints);
-    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
-    shapeLayer.strokeColor = [UIColor orangeColor].CGColor;
-    shapeLayer.lineWidth = kCCMarkupViewLineWidth/_tileScrollView.zoomScale;
-    shapeLayer.lineCap = kCALineCapRound;
-    shapeLayer.lineJoin = kCALineJoinRound;
-    shapeLayer.path = viewPath.CGPath;
-    [_tileScrollView.zoomView.layer addSublayer:shapeLayer];
+    CCStroke *stroke = [CCStroke strokeWithPoints:viewPoints];
+    CCMarkLayer *markLayer = [CCMarkLayer layer];
+    markLayer.strokes = @[stroke];
+    markLayer.fillColor = [UIColor clearColor].CGColor;
+    markLayer.strokeColor = [UIColor orangeColor].CGColor;
+    markLayer.lineCap = kCALineCapRound;
+    markLayer.lineJoin = kCALineJoinRound;
+    markLayer.lineWidth = kCCMarkupViewLineWidth/_tileScrollView.zoomScale;
+    markLayer.path = markLayer.strokePath.CGPath;
+    markLayer.scale = _tileScrollView.zoomScale;
+    [_markupViews addObject:markLayer];
+    [_tileScrollView.zoomView.layer addSublayer:markLayer];
 }
 
+- (void)markView:(CCCanvasView *)markupView didFinishPath:(UIBezierPath *)path
+{
+//    CGFloat scale = (1.f/_tileScrollView.zoomScale);
+//    
+//    CCStroke *stroke = [CCStroke strokeWithPoints:];
+//    CCMarkLayer *markLayer = [CCMarkLayer layer];
+//    markLayer.strokes = @[stroke];
+//    markLayer.fillColor = [UIColor clearColor].CGColor;
+//    markLayer.strokeColor = [UIColor orangeColor].CGColor;
+//    markLayer.lineCap = kCALineCapRound;
+//    markLayer.lineJoin = kCALineJoinRound;
+//    markLayer.scale = _tileScrollView.zoomScale;
+//    markLayer.transform = CATransform3DMakeScale(scale, scale, 1);
+//    [_markupViews addObject:markLayer];
+//    [_tileScrollView.zoomView.layer addSublayer:markLayer];
+//
+//    
+//    
+//    CCMarkLayer *shapeLayer = [CCMarkLayer layer];
+//    shapeLayer.strokeColor = [UIColor orangeColor].CGColor;
+//    shapeLayer.lineWidth = kCCMarkupViewLineWidth;
+//    shapeLayer.lineCap = kCALineCapRound;
+//    shapeLayer.lineJoin = kCALineJoinRound;
+//    shapeLayer.path = path.CGPath;
+//    shapeLayer.transform = CATransform3DMakeScale(scale, scale, 1);
+//    [_tileScrollView.zoomView.layer addSublayer:shapeLayer];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    
+    NSLog(@"FUCKKKK NO MEMORY");
+}
 @end
