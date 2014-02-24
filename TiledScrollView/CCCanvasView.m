@@ -46,7 +46,7 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
         _points = [NSMutableArray new];
         _strokeColor = [UIColor orangeColor];
         _strokeWidth = kCCMarkupViewLineWidth;
-        _trackType = CCCanvasViewTrackTypeFreeHand;
+        _trackType = CCCanvasViewTrackTypeShape;
         _trackingTouch = NO;
     }
     
@@ -65,9 +65,23 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
         case CCCanvasViewTrackTypeLine:
             [self drawLineInRect:rect context:context];
             break;
+        case CCCanvasViewTrackTypeShape:
+            [self drawDebugInRect:rect context:context];
+            break;
         default:
             break;
     }
+}
+
+- (void)drawDebugInRect:(CGRect)rect context:(CGContextRef)context
+{
+    CGFloat scale = CGContextGetCTM(context).a;
+    CGFloat mSize = 100/scale;
+    [[UIColor redColor] setFill];
+    [_points enumerateObjectsUsingBlock:^(NSValue *value, NSUInteger idx, BOOL *stop) {
+        CGPoint p = [value CGPointValue];
+        CGContextFillEllipseInRect(context, (CGRect){p, .size = (CGSize){mSize, mSize}});
+    }];
 }
 
 - (void)drawFreeHandPathInRect:(CGRect)rect context:(CGContextRef)context
@@ -114,8 +128,8 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
     _previousPoint1 = [touch previousLocationInView:self];
     _currentPoint = [touch locationInView:self];
     
-    if ([_delegate respondsToSelector:@selector(markView:didTrackPoint:)]) {
-        [_delegate markView:self didTrackPoint:_currentPoint];
+    if ([_delegate respondsToSelector:@selector(canvasView:didTrackPoint:)]) {
+        [_delegate canvasView:self didTrackPoint:_currentPoint];
     }
 }
 
@@ -126,14 +140,14 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 
 - (void)finishTrackingPoints
 {
-    if ([_delegate respondsToSelector:@selector(markView:didFinishTrackingPoints:)]) {
-        [_delegate markView:self didFinishTrackingPoints:_points];
+    if ([_delegate respondsToSelector:@selector(canvasView:didFinishTrackingPoints:)]) {
+        [_delegate canvasView:self didFinishTrackingPoints:_points];
     }
     
     UIBezierPath *completedPath = curvedPathForPoints(_points);
     
-    if ([_delegate respondsToSelector:@selector(markView:didFinishPath:)]) {
-        [_delegate markView:self didFinishPath:completedPath];
+    if ([_delegate respondsToSelector:@selector(canvasView:didFinishPath:)]) {
+        [_delegate canvasView:self didFinishPath:completedPath];
     }
     
     [_points removeAllObjects];
@@ -146,6 +160,7 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     UITouch *touch = [touches anyObject];
     [self updateTrackedPointsWithTouch:touch];
     [self addTrackedPoint:_currentPoint];
@@ -156,6 +171,7 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     UITouch *touch = [touches anyObject];
     [self updateTrackedPointsWithTouch:touch];
     [self addTrackedPoint:_currentPoint];
@@ -166,6 +182,7 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
     UITouch *touch = [touches anyObject];
     [self updateTrackedPointsWithTouch:touch];
     [self addTrackedPoint:_currentPoint];

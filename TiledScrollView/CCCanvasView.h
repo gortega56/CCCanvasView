@@ -14,9 +14,9 @@ extern CGFloat const kCCMarkupViewLineWidth;
 @protocol CCMarkupViewDelegate <NSObject>
 
 @optional
-- (void)markView:(CCCanvasView *)markupView didTrackPoint:(CGPoint)point;
-- (void)markView:(CCCanvasView *)markupView didFinishTrackingPoints:(NSArray *)points;
-- (void)markView:(CCCanvasView *)markupView didFinishPath:(UIBezierPath *)path;
+- (void)canvasView:(CCCanvasView *)canvasView didTrackPoint:(CGPoint)point;
+- (void)canvasView:(CCCanvasView *)canvasView didFinishTrackingPoints:(NSArray *)points;
+- (void)canvasView:(CCCanvasView *)canvasView didFinishPath:(UIBezierPath *)path;
 
 @end
 
