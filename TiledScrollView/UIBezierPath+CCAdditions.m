@@ -53,6 +53,4 @@ static CGPoint CGMidpointForPoints(CGPoint point1, CGPoint point2)
     
     return path;
 }
-
-
 @end

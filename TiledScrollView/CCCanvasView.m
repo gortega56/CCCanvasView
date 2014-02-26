@@ -69,7 +69,7 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
             [self drawLineInRect:rect context:context];
             break;
         case CCCanvasViewTrackTypePin:
-            
+            // Don't draw pin just report tracked point
             break;
         case CCCanvasViewTrackTypeShape:
             
@@ -120,9 +120,38 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 
 - (void)updateTrackedPointsWithTouch:(UITouch *)touch
 {
-    _previousPoint2 =  (self.isTrackingTouch) ? _previousPoint1 : [touch previousLocationInView:self];
-    _previousPoint1 = [touch previousLocationInView:self];
-    _currentPoint = [touch locationInView:self];
+    switch (_trackType) {
+        case CCCanvasViewTrackTypeFreeHand:
+        {
+            _previousPoint2 =  (self.isTrackingTouch) ? _previousPoint1 : [touch previousLocationInView:self];
+            _previousPoint1 = [touch previousLocationInView:self];
+            _currentPoint = [touch locationInView:self];
+            break;
+        }
+        case CCCanvasViewTrackTypeLine:
+        {
+            
+            break;
+        }
+        case CCCanvasViewTrackTypeShape:
+        {
+            
+            break;
+        }
+        case CCCanvasViewTrackTypePin:
+        {
+            _currentPoint = [touch locationInView:self];
+            break;
+        }
+        case CCCanvasViewTrackTypeDebug:
+        {
+            _previousPoint2 =  (self.isTrackingTouch) ? _previousPoint1 : [touch previousLocationInView:self];
+            _previousPoint1 = [touch previousLocationInView:self];
+            _currentPoint = [touch locationInView:self];
+        }
+        default:
+            break;
+    }
     
     if ([_delegate respondsToSelector:@selector(canvasView:didTrackPoint:)]) {
         [_delegate canvasView:self didTrackPoint:_currentPoint];
@@ -140,7 +169,7 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
         [_delegate canvasView:self didFinishTrackingPoints:_points];
     }
     
-    UIBezierPath *completedPath = [UIBezierPath curvePathForPoints:_points];
+    UIBezierPath *completedPath = [self bezierPathForPoints];
     
     if ([_delegate respondsToSelector:@selector(canvasView:didFinishPath:)]) {
         [_delegate canvasView:self didFinishPath:completedPath];
@@ -148,6 +177,26 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
     
     [_points removeAllObjects];
     [_completedPaths addObject:completedPath];
+}
+
+#pragma mark - UIBezier Path Methods
+
+- (UIBezierPath *)bezierPathForPoints
+{
+    switch (_trackType) {
+        case CCCanvasViewTrackTypeFreeHand:
+            return [UIBezierPath curvePathForPoints:_points];
+        case CCCanvasViewTrackTypeLine:
+            return [UIBezierPath straightPathForPoints:_points];
+        case CCCanvasViewTrackTypeShape:
+        case CCCanvasViewTrackTypePin:
+            return [UIBezierPath straightPathForPoints:@[_points.lastObject]];
+        case CCCanvasViewTrackTypeDebug:
+        default:
+            break;
+    }
+    
+    return nil;
 }
 
 #pragma mark - Accessor Methods
