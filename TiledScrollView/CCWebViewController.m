@@ -8,16 +8,26 @@
 
 #import "CCWebViewController.h"
 #import "CCCanvasView.h"
-#import "CCMarkLayer.h"
+#import "CCAnnotationLayer.h"
+#import "CCAnnotatableWebView.h"
 
-@interface CCWebViewController () <CCMarkupViewDelegate>
+CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
 
-@property (nonatomic, strong) UIWebView *webView;
+
+@interface CCWebViewController () <CCMarkupViewDelegate, UIScrollViewDelegate, UIWebViewDelegate>
+
+@property (nonatomic, strong) CCAnnotatableWebView *webView;
 @property (nonatomic, strong) CCCanvasView *markupView;
+
+@property (nonatomic, strong) NSMutableArray *markLayers;
 
 @property (nonatomic, strong) UIButton *toggleButton;
 @property (nonatomic) BOOL markupEnabled;
 
+@property (nonatomic, weak) UIScrollView *scrollView;
+@property (nonatomic) CGFloat minimumZoomScale;
+@property (nonatomic) CGFloat maximumZoomScale;
+@property (nonatomic) CGFloat zoomScale;
 
 @end
 
@@ -27,10 +37,14 @@
 {
     UIView *containerView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    _webView = [[UIWebView alloc] initWithFrame:containerView.bounds];
+    _webView = [[CCAnnotatableWebView alloc] initWithFrame:containerView.bounds];
+    _webView.annotationLineWidth = kCCWebViewControllerDefaultAnnotationLineWidth;
     _webView.scalesPageToFit = YES;
+    _webView.delegate = self;
     [containerView addSubview:_webView];
     
+    _scrollView = _webView.scrollView;
+
     _toggleButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     _toggleButton.frame = CGRectMake(CGRectGetMidX(containerView.frame) - 30, CGRectGetMaxY(containerView.frame) - 40, 60, 40);
     _toggleButton.layer.borderColor = [UIColor redColor].CGColor;
@@ -47,6 +61,27 @@
 
     NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"doc" ofType:@"html" inDirectory:@"doc (1)"]];
     [_webView loadRequest:[NSURLRequest requestWithURL:url]];
+    
+    _markLayers = [NSMutableArray new];
+}
+
+- (void)webViewDidStartLoad:(CCAnnotatableWebView *)webView
+{
+    
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), NSStringFromCGSize(_webView.scrollView.contentSize));
+
+}
+
+- (void)webViewDidFinishLoad:(CCAnnotatableWebView *)webView
+{
+    NSLog(@"%@ %@", NSStringFromSelector(_cmd), NSStringFromCGSize(_webView.scrollView.contentSize));
+    NSLog(@"MIN SCALE %f", _webView.scrollView.minimumZoomScale);
+    NSLog(@"ZOOM SCALE %f", _webView.scrollView.zoomScale);
+    NSLog(@"MAX SCALE %f", _webView.scrollView.maximumZoomScale);
+
+    self.minimumZoomScale = _webView.scrollView.minimumZoomScale;
+    self.maximumZoomScale = _webView.scrollView.maximumZoomScale;
+    self.zoomScale = _webView.scrollView.zoomScale;
 }
 
 - (void)didReceiveMemoryWarning
@@ -82,29 +117,19 @@
     self.markupEnabled = !self.markupEnabled;
 }
 
-- (void)markView:(CCCanvasView *)markupView didFinishTrackingPoints:(NSArray *)points
+#pragma mark - CCCanvasViewDelegate
+
+- (void)canvasView:(CCCanvasView *)canvasView didFinishTrackingPoints:(NSArray *)points
 {
-    UIView *webBrowserView = _webView.scrollView.subviews[0];
     NSMutableArray *viewPoints = [NSMutableArray new];
     for (NSValue *value in points) {
-        CGPoint viewPoint = [webBrowserView convertPoint:[value CGPointValue] fromView:markupView];
+        CGPoint viewPoint = [_webView.scrollView convertPoint:[value CGPointValue] fromView:canvasView];
         [viewPoints addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
-    
-    
-    
+
     CCStroke *stroke = [CCStroke strokeWithPoints:viewPoints];
-    CCMarkLayer *markLayer = [CCMarkLayer layer];
-    markLayer.strokes = @[stroke];
-    markLayer.fillColor = [UIColor clearColor].CGColor;
-    markLayer.strokeColor = [UIColor orangeColor].CGColor;
-    markLayer.lineCap = kCALineCapRound;
-    markLayer.lineJoin = kCALineJoinRound;
-    markLayer.lineWidth = kCCMarkupViewLineWidth/_webView.scrollView.zoomScale;
-    markLayer.path = markLayer.strokePath.CGPath;
-    markLayer.scale = _webView.scrollView.zoomScale;
- //   [_markupViews addObject:markLayer];
-    [webBrowserView.layer addSublayer:markLayer];
+    CCAnnotationLayer *annotation = [CCAnnotationLayer annotationViewWithStrokes:@[stroke]];
+    [_webView addAnnotationLayer:annotation];
 }
 
 @end

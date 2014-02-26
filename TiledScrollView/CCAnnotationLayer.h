@@ -6,13 +6,16 @@
 //  Copyright (c) 2014 Clique City. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "CCShapeView.h"
 
-@interface CCMarkLayer : CAShapeLayer
+@interface CCAnnotationLayer : CCShapeView
 
+@property (nonatomic, strong) UIBezierPath *annotationPath;
 @property (nonatomic, strong) NSArray *strokes;
-@property (nonatomic, strong) UIBezierPath *strokePath;
-@property (nonatomic) CGFloat scale;
+
+@property (nonatomic) CGPoint annotationPosition;
+
++ (instancetype)annotationViewWithStrokes:(NSArray *)strokes;
 
 @end
 

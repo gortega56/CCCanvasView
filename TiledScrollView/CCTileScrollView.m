@@ -77,6 +77,10 @@
 
 #pragma mark - UIScrollView Methods
 
+- (void)setDelegate:(id<UIScrollViewDelegate>)delegate
+{
+    [super setDelegate:self];
+}
 
 #pragma mark - Tile/Zoom Methods
 

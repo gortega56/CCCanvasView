@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4608AD3918BE5E03000B2889 /* CCShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4608AD3818BE5E03000B2889 /* CCShapeView.m */; };
+		4608AD3E18BE7F65000B2889 /* UIBezierPath+CCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4608AD3D18BE7F65000B2889 /* UIBezierPath+CCAdditions.m */; };
+		4622605B18B67D9E0035666D /* CCAnnotatableWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4622605A18B67D9E0035666D /* CCAnnotatableWebView.m */; };
 		4626973B18B3F698009A2868 /* CCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4626973A18B3F698009A2868 /* CCWebViewController.m */; };
 		4626974118B41F7D009A2868 /* doc (1) in Resources */ = {isa = PBXBuildFile; fileRef = 4626974018B41F7D009A2868 /* doc (1) */; };
-		4672C38118AD1F63006ABD36 /* CCMarkLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4672C38018AD1F63006ABD36 /* CCMarkLayer.m */; };
+		4672C38118AD1F63006ABD36 /* CCAnnotationLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4672C38018AD1F63006ABD36 /* CCAnnotationLayer.m */; };
 		467B188018AA707400BDEFE3 /* CCCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 467B187F18AA707400BDEFE3 /* CCCanvasView.m */; };
 		46920BEF18A59BDD0005079A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BEE18A59BDD0005079A /* Foundation.framework */; };
 		46920BF118A59BDD0005079A /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF018A59BDD0005079A /* CoreGraphics.framework */; };
@@ -40,11 +43,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4608AD3718BE5E03000B2889 /* CCShapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCShapeView.h; sourceTree = "<group>"; };
+		4608AD3818BE5E03000B2889 /* CCShapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCShapeView.m; sourceTree = "<group>"; };
+		4608AD3C18BE7F65000B2889 /* UIBezierPath+CCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+CCAdditions.h"; sourceTree = "<group>"; };
+		4608AD3D18BE7F65000B2889 /* UIBezierPath+CCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+CCAdditions.m"; sourceTree = "<group>"; };
+		4622605918B67D9E0035666D /* CCAnnotatableWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAnnotatableWebView.h; sourceTree = "<group>"; };
+		4622605A18B67D9E0035666D /* CCAnnotatableWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAnnotatableWebView.m; sourceTree = "<group>"; };
 		4626973918B3F698009A2868 /* CCWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCWebViewController.h; sourceTree = "<group>"; };
 		4626973A18B3F698009A2868 /* CCWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCWebViewController.m; sourceTree = "<group>"; };
 		4626974018B41F7D009A2868 /* doc (1) */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "doc (1)"; sourceTree = "<group>"; };
-		4672C37F18AD1F63006ABD36 /* CCMarkLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCMarkLayer.h; sourceTree = "<group>"; };
-		4672C38018AD1F63006ABD36 /* CCMarkLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCMarkLayer.m; sourceTree = "<group>"; };
+		4672C37F18AD1F63006ABD36 /* CCAnnotationLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAnnotationLayer.h; sourceTree = "<group>"; };
+		4672C38018AD1F63006ABD36 /* CCAnnotationLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAnnotationLayer.m; sourceTree = "<group>"; };
 		467B187E18AA707400BDEFE3 /* CCCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCanvasView.h; sourceTree = "<group>"; };
 		467B187F18AA707400BDEFE3 /* CCCanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCanvasView.m; sourceTree = "<group>"; };
 		46920BEB18A59BDD0005079A /* CCCanvasSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CCCanvasSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,15 +105,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4601FFC818A9378500DA25E3 /* CCMarkupViewController */ = {
+		4601FFC818A9378500DA25E3 /* CCCanvasView */ = {
 			isa = PBXGroup;
 			children = (
 				467B187E18AA707400BDEFE3 /* CCCanvasView.h */,
 				467B187F18AA707400BDEFE3 /* CCCanvasView.m */,
-				4672C37F18AD1F63006ABD36 /* CCMarkLayer.h */,
-				4672C38018AD1F63006ABD36 /* CCMarkLayer.m */,
 			);
-			name = CCMarkupViewController;
+			name = CCCanvasView;
+			sourceTree = "<group>";
+		};
+		4608AD3A18BE65C5000B2889 /* CCShapeView */ = {
+			isa = PBXGroup;
+			children = (
+				4608AD3718BE5E03000B2889 /* CCShapeView.h */,
+				4608AD3818BE5E03000B2889 /* CCShapeView.m */,
+			);
+			name = CCShapeView;
+			sourceTree = "<group>";
+		};
+		4608AD3B18BE7F26000B2889 /* CCCanvasAdditions */ = {
+			isa = PBXGroup;
+			children = (
+				4608AD3C18BE7F65000B2889 /* UIBezierPath+CCAdditions.h */,
+				4608AD3D18BE7F65000B2889 /* UIBezierPath+CCAdditions.m */,
+			);
+			name = CCCanvasAdditions;
 			sourceTree = "<group>";
 		};
 		4626973C18B3F739009A2868 /* CCTileScrollViewController */ = {
@@ -121,6 +146,10 @@
 			children = (
 				4626973918B3F698009A2868 /* CCWebViewController.h */,
 				4626973A18B3F698009A2868 /* CCWebViewController.m */,
+				4622605918B67D9E0035666D /* CCAnnotatableWebView.h */,
+				4622605A18B67D9E0035666D /* CCAnnotatableWebView.m */,
+				4672C37F18AD1F63006ABD36 /* CCAnnotationLayer.h */,
+				4672C38018AD1F63006ABD36 /* CCAnnotationLayer.m */,
 			);
 			name = CCWebViewController;
 			sourceTree = "<group>";
@@ -158,13 +187,15 @@
 		46920BF418A59BDD0005079A /* TiledScrollView */ = {
 			isa = PBXGroup;
 			children = (
-				4626974018B41F7D009A2868 /* doc (1) */,
-				4626973D18B3F782009A2868 /* CCWebViewController */,
+				4608AD3B18BE7F26000B2889 /* CCCanvasAdditions */,
 				46920BFD18A59BDD0005079A /* CCAppDelegate.h */,
 				46920BFE18A59BDD0005079A /* CCAppDelegate.m */,
+				4626973D18B3F782009A2868 /* CCWebViewController */,
 				4626973C18B3F739009A2868 /* CCTileScrollViewController */,
-				4601FFC818A9378500DA25E3 /* CCMarkupViewController */,
+				4601FFC818A9378500DA25E3 /* CCCanvasView */,
+				4608AD3A18BE65C5000B2889 /* CCShapeView */,
 				46920C2018A59C0F0005079A /* CCTileScrollView */,
+				4626974018B41F7D009A2868 /* doc (1) */,
 				4699FE5018A6B7CA0016C19F /* test_files */,
 				46920C0018A59BDD0005079A /* Images.xcassets */,
 				46920BF518A59BDD0005079A /* Supporting Files */,
@@ -312,9 +343,12 @@
 			files = (
 				4699FE5818A6D34E0016C19F /* CCTileScrollView.m in Sources */,
 				46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */,
-				4672C38118AD1F63006ABD36 /* CCMarkLayer.m in Sources */,
+				4672C38118AD1F63006ABD36 /* CCAnnotationLayer.m in Sources */,
 				4626973B18B3F698009A2868 /* CCWebViewController.m in Sources */,
+				4608AD3918BE5E03000B2889 /* CCShapeView.m in Sources */,
 				4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */,
+				4622605B18B67D9E0035666D /* CCAnnotatableWebView.m in Sources */,
+				4608AD3E18BE7F65000B2889 /* UIBezierPath+CCAdditions.m in Sources */,
 				46920C1F18A59C050005079A /* CCTileView.m in Sources */,
 				467B188018AA707400BDEFE3 /* CCCanvasView.m in Sources */,
 				46920BFB18A59BDD0005079A /* main.m in Sources */,

@@ -10,7 +10,7 @@
 #import "CCTileScrollView.h"
 #import "CCTileView.h"
 #import "CCCanvasView.h"
-#import "CCMarkLayer.h"
+#import "CCAnnotationLayer.h"
 
 
 @interface CCTileScrollViewController () <CCTileScrollViewDataSource, CCTileScrollViewDelegate, CCMarkupViewDelegate>
@@ -124,34 +124,34 @@
 }
 
 #pragma mark - CCMarkup Delegate
-- (void)markView:(CCCanvasView *)markupView didTrackPoint:(CGPoint)point
+- (void)canvasView:(CCCanvasView *)canvasView didTrackPoint:(CGPoint)point
 {
 
 }
 
-- (void)markView:(CCCanvasView *)markupView didFinishTrackingPoints:(NSArray *)points
+- (void)canvasView:(CCCanvasView *)canvasView didFinishTrackingPoints:(NSArray *)points
 {
     NSMutableArray *viewPoints = [NSMutableArray new];
     for (NSValue *value in points) {
-        CGPoint viewPoint = [_tileScrollView.zoomView convertPoint:[value CGPointValue] fromView:markupView];
+        CGPoint viewPoint = [_tileScrollView.zoomView convertPoint:[value CGPointValue] fromView:canvasView];
         [viewPoints addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
     
-    CCStroke *stroke = [CCStroke strokeWithPoints:viewPoints];
-    CCMarkLayer *markLayer = [CCMarkLayer layer];
-    markLayer.strokes = @[stroke];
-    markLayer.fillColor = [UIColor clearColor].CGColor;
-    markLayer.strokeColor = [UIColor orangeColor].CGColor;
-    markLayer.lineCap = kCALineCapRound;
-    markLayer.lineJoin = kCALineJoinRound;
-    markLayer.lineWidth = kCCMarkupViewLineWidth/_tileScrollView.zoomScale;
-    markLayer.path = markLayer.strokePath.CGPath;
-    markLayer.scale = _tileScrollView.zoomScale;
-    [_markupViews addObject:markLayer];
-    [_tileScrollView.zoomView.layer addSublayer:markLayer];
+//    CCStroke *stroke = [CCStroke strokeWithPoints:viewPoints];
+//    CCAnnotationLayer *markLayer = [CCAnnotationLayer layer];
+//    markLayer.strokes = @[stroke];
+//    markLayer.fillColor = [UIColor clearColor].CGColor;
+//    markLayer.strokeColor = [UIColor orangeColor].CGColor;
+//    markLayer.lineCap = kCALineCapRound;
+//    markLayer.lineJoin = kCALineJoinRound;
+//    markLayer.lineWidth = kCCMarkupViewLineWidth/_tileScrollView.zoomScale;
+//    markLayer.path = markLayer.strokePath.CGPath;
+//    markLayer.scale = _tileScrollView.zoomScale;
+//    [_markupViews addObject:markLayer];
+//    [_tileScrollView.zoomView.layer addSublayer:markLayer];
 }
 
-- (void)markView:(CCCanvasView *)markupView didFinishPath:(UIBezierPath *)path
+- (void)canvasView:(CCCanvasView *)canvasView didFinishPath:(UIBezierPath *)path
 {
 //    CGFloat scale = (1.f/_tileScrollView.zoomScale);
 //    

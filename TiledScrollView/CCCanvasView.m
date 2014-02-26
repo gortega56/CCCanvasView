@@ -7,14 +7,17 @@
 //
 
 #import "CCCanvasView.h"
+#import "UIBezierPath+CCAdditions.h"
 
-CGFloat const kCCMarkupViewLineWidth = 10.f;
+CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
 
 typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 {
     CCCanvasViewTrackTypeFreeHand,
     CCCanvasViewTrackTypeLine,
-    CCCanvasViewTrackTypeShape
+    CCCanvasViewTrackTypeShape,
+    CCCanvasViewTrackTypePin,
+    CCCanvasViewTrackTypeDebug
 };
 
 @interface CCCanvasView ()
@@ -45,8 +48,8 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
         _completedPaths = [NSMutableArray new];
         _points = [NSMutableArray new];
         _strokeColor = [UIColor orangeColor];
-        _strokeWidth = kCCMarkupViewLineWidth;
-        _trackType = CCCanvasViewTrackTypeShape;
+        _strokeWidth = kCCCanvasViewDefaultLineWidth;
+        _trackType = CCCanvasViewTrackTypeFreeHand;
         _trackingTouch = NO;
     }
     
@@ -65,7 +68,13 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
         case CCCanvasViewTrackTypeLine:
             [self drawLineInRect:rect context:context];
             break;
+        case CCCanvasViewTrackTypePin:
+            
+            break;
         case CCCanvasViewTrackTypeShape:
+            
+            break;
+        case CCCanvasViewTrackTypeDebug:
             [self drawDebugInRect:rect context:context];
             break;
         default:
@@ -80,30 +89,17 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
     [[UIColor redColor] setFill];
     [_points enumerateObjectsUsingBlock:^(NSValue *value, NSUInteger idx, BOOL *stop) {
         CGPoint p = [value CGPointValue];
+        p.x -= mSize/2;
+        p.y -= mSize/2;
         CGContextFillEllipseInRect(context, (CGRect){p, .size = (CGSize){mSize, mSize}});
     }];
 }
 
 - (void)drawFreeHandPathInRect:(CGRect)rect context:(CGContextRef)context
 {
-    // Current path being drawn
-    // NSLog(@"STROKING %lu POINTS", (unsigned long)_points.count);
-    __block CGPoint currentPoint = [_points.firstObject CGPointValue];
-    __block CGPoint previousPoint1 = currentPoint;
-    __block CGPoint previousPoint2;
-    
-    [_points enumerateObjectsUsingBlock:^(NSValue *value, NSUInteger idx, BOOL *stop) {
-        previousPoint2 = previousPoint1;
-        previousPoint1 = currentPoint;
-        currentPoint = [value CGPointValue];
-        if (CGRectContainsPoint(rect, currentPoint)) {
-            CGPoint midPoint1 = CGMidpointForPoints(previousPoint1, previousPoint2);
-            CGPoint midPoint2 = CGMidpointForPoints(currentPoint, previousPoint1);
-            CGContextMoveToPoint(context, midPoint1.x, midPoint1.y);
-            CGContextAddQuadCurveToPoint(context, previousPoint1.x, previousPoint1.y, midPoint2.x, midPoint2.y);
-            CGContextStrokePath(context);
-        }
-    }];
+    UIBezierPath *path = [UIBezierPath curvePathForPoints:_points];
+    CGContextAddPath(context, path.CGPath);
+    CGContextStrokePath(context);
 }
 
 - (void)drawLineInRect:(CGRect)rect context:(CGContextRef)context
@@ -144,7 +140,7 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
         [_delegate canvasView:self didFinishTrackingPoints:_points];
     }
     
-    UIBezierPath *completedPath = curvedPathForPoints(_points);
+    UIBezierPath *completedPath = [UIBezierPath curvePathForPoints:_points];
     
     if ([_delegate respondsToSelector:@selector(canvasView:didFinishPath:)]) {
         [_delegate canvasView:self didFinishPath:completedPath];
@@ -160,7 +156,6 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
     UITouch *touch = [touches anyObject];
     [self updateTrackedPointsWithTouch:touch];
     [self addTrackedPoint:_currentPoint];
@@ -171,7 +166,6 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
     UITouch *touch = [touches anyObject];
     [self updateTrackedPointsWithTouch:touch];
     [self addTrackedPoint:_currentPoint];
@@ -182,7 +176,6 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"%@", NSStringFromSelector(_cmd));
     UITouch *touch = [touches anyObject];
     [self updateTrackedPointsWithTouch:touch];
     [self addTrackedPoint:_currentPoint];
@@ -198,7 +191,7 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 {
     CGContextSetLineCap(context, kCGLineCapRound);
     CGContextSetLineJoin(context, kCGLineJoinRound);
-    CGContextSetLineWidth(context, kCCMarkupViewLineWidth);
+    CGContextSetLineWidth(context, kCCCanvasViewDefaultLineWidth);
     [self.strokeColor setStroke];
 }
 

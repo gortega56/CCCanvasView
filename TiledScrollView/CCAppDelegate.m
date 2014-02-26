@@ -15,7 +15,7 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-//    self.window.rootViewController = [[CCTileScrollViewController alloc] init];
+ //   self.window.rootViewController = [[CCTileScrollViewController alloc] init];
     self.window.rootViewController = [[CCWebViewController alloc] init];
     [self.window makeKeyAndVisible];
     return YES;

@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "46920BEA18A59BDD0005079A"
-               BuildableName = "TiledScrollView.app"
+               BuildableName = "CCCanvasSample.app"
                BlueprintName = "CCCanvasSample"
                ReferencedContainer = "container:CCCanvasSample.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "46920C0518A59BDD0005079A"
-               BuildableName = "TiledScrollViewTests.xctest"
+               BuildableName = "CCCanvasSampleTests.xctest"
                BlueprintName = "CCCanvasSampleTests"
                ReferencedContainer = "container:CCCanvasSample.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "46920BEA18A59BDD0005079A"
-            BuildableName = "TiledScrollView.app"
+            BuildableName = "CCCanvasSample.app"
             BlueprintName = "CCCanvasSample"
             ReferencedContainer = "container:CCCanvasSample.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "46920BEA18A59BDD0005079A"
-            BuildableName = "TiledScrollView.app"
+            BuildableName = "CCCanvasSample.app"
             BlueprintName = "CCCanvasSample"
             ReferencedContainer = "container:CCCanvasSample.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "46920BEA18A59BDD0005079A"
-            BuildableName = "TiledScrollView.app"
+            BuildableName = "CCCanvasSample.app"
             BlueprintName = "CCCanvasSample"
             ReferencedContainer = "container:CCCanvasSample.xcodeproj">
          </BuildableReference>
