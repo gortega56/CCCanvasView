@@ -17,6 +17,10 @@
 
 + (instancetype)annotationViewWithStrokes:(NSArray *)strokes;
 
+- (void)applyTransformWithScale:(CGFloat)scale;
+- (void)updatePositionWithScale:(CGFloat)scale;
+- (void)updateCenterWithScale:(CGFloat)scale;
+
 @end
 
 @interface CCStroke : NSObject

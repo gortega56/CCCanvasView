@@ -42,6 +42,27 @@ static CGRect CGRectForPoints(NSArray *points)
 
 @implementation CCAnnotationLayer
 
+- (void)applyTransformWithScale:(CGFloat)scale
+{
+    self.transform = CGAffineTransformMakeScale(scale, scale);
+}
+
+- (void)updatePositionWithScale:(CGFloat)scale
+{
+    CGPoint annotationPosition = self.center;
+    annotationPosition.x = annotationPosition.x * scale;
+    annotationPosition.y = annotationPosition.y * scale;
+    self.annotationPosition = annotationPosition;
+}
+
+- (void)updateCenterWithScale:(CGFloat)scale
+{
+    CGPoint annotationPosition = self.annotationPosition;
+    annotationPosition.x = annotationPosition.x * scale;
+    annotationPosition.y = annotationPosition.y * scale;
+    self.center = annotationPosition;
+}
+
 #pragma mark - UIView Methods
 
 + (instancetype)annotationViewWithStrokes:(NSArray *)strokes
@@ -55,15 +76,13 @@ static CGRect CGRectForPoints(NSArray *points)
     self = [super initWithFrame:CGRectForPoints(points)];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        _annotationPosition = self.center;
-        _strokes = strokes;
-        
-       // NSLog(@"Setting Center %@ for frame %@", NSStringFromCGPoint(self.center), NSStringFromCGRect(self.frame));
         self.strokeColor = [UIColor orangeColor];
         self.fillColor = [UIColor clearColor];
         self.lineJoinStyle = kCGLineJoinRound;
         self.lineCapStyle = kCGLineCapRound;
-        
+        _annotationPosition = self.center;
+        _strokes = strokes;
+
 //        self.layer.borderColor = [UIColor blueColor].CGColor;
 //        self.layer.borderWidth = 2.f;
     }
@@ -99,7 +118,6 @@ static CGRect CGRectForPoints(NSArray *points)
     NSMutableArray *convertedPoints = [NSMutableArray new];
     for (NSValue *value in stroke.points) {
         CGPoint convertedPoint = [self convertPoint:value.CGPointValue fromView:view];
-    //    NSLog(@"Point %@ converted from point %@", NSStringFromCGPoint(convertedPoint), NSStringFromCGPoint(value.CGPointValue));
         [convertedPoints addObject:[NSValue valueWithCGPoint:convertedPoint]];
     }
     

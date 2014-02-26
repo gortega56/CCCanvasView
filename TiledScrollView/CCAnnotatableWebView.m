@@ -28,7 +28,6 @@
     return self;
 }
 
-
 #pragma mark - Accessor Methods
 
 - (CGFloat)webViewZoomScale
@@ -40,20 +39,11 @@
 
 - (void)addAnnotationLayer:(CCAnnotationLayer *)annotationLayer
 {
-    
     annotationLayer.lineWidth = self.annotationLineWidth/self.webViewZoomScale;
-    annotationLayer.annotationPosition = [self positionForAnnotation:annotationLayer withScale:1/self.webViewZoomScale];
-    annotationLayer.transform = CGAffineTransformMakeScale(self.webViewZoomScale, self.webViewZoomScale);
+    [annotationLayer updatePositionWithScale:(1.f/self.webViewZoomScale)];
+    [annotationLayer applyTransformWithScale:self.webViewZoomScale];
     [_annotations addObject:annotationLayer];
     [self.scrollView addSubview:annotationLayer];
-}
-
-- (CGPoint)positionForAnnotation:(CCAnnotationLayer *)annotation withScale:(CGFloat)scale
-{
-    CGPoint annotationPosition = annotation.center;
-    annotationPosition.x = annotationPosition.x * scale;
-    annotationPosition.y = annotationPosition.y * scale;
-    return annotationPosition;
 }
 
 #pragma mark - UIScrollViewDelegate Methods
@@ -67,14 +57,10 @@
 
     CGFloat scale = scrollView.zoomScale/self.scrollView.minimumZoomScale;
     [_annotations enumerateObjectsUsingBlock:^(CCAnnotationLayer *annotationLayer, NSUInteger idx, BOOL *stop) {
-        CGPoint annotationPosition = annotationLayer.annotationPosition;
-        annotationPosition.x = annotationPosition.x * scale;
-        annotationPosition.y = annotationPosition.y * scale;
-        annotationLayer.center = annotationPosition;
-        annotationLayer.transform = CGAffineTransformMakeScale(scale, scale);
         annotationLayer.lineWidth = self.annotationLineWidth/scale;
+        [annotationLayer updateCenterWithScale:scale];
+        [annotationLayer applyTransformWithScale:scale];
     }];
-
 }
 
 - (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
