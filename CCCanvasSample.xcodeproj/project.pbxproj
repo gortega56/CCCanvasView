@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4608AD3918BE5E03000B2889 /* CCShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4608AD3818BE5E03000B2889 /* CCShapeView.m */; };
 		4608AD3E18BE7F65000B2889 /* UIBezierPath+CCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4608AD3D18BE7F65000B2889 /* UIBezierPath+CCAdditions.m */; };
+		4608AD4118BE8B39000B2889 /* bluePin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4608AD4018BE8B39000B2889 /* bluePin@2x.png */; };
 		4622605B18B67D9E0035666D /* CCAnnotatableWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4622605A18B67D9E0035666D /* CCAnnotatableWebView.m */; };
 		4626973B18B3F698009A2868 /* CCWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4626973A18B3F698009A2868 /* CCWebViewController.m */; };
 		4626974118B41F7D009A2868 /* doc (1) in Resources */ = {isa = PBXBuildFile; fileRef = 4626974018B41F7D009A2868 /* doc (1) */; };
@@ -47,6 +48,7 @@
 		4608AD3818BE5E03000B2889 /* CCShapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCShapeView.m; sourceTree = "<group>"; };
 		4608AD3C18BE7F65000B2889 /* UIBezierPath+CCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+CCAdditions.h"; sourceTree = "<group>"; };
 		4608AD3D18BE7F65000B2889 /* UIBezierPath+CCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+CCAdditions.m"; sourceTree = "<group>"; };
+		4608AD4018BE8B39000B2889 /* bluePin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluePin@2x.png"; sourceTree = "<group>"; };
 		4622605918B67D9E0035666D /* CCAnnotatableWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAnnotatableWebView.h; sourceTree = "<group>"; };
 		4622605A18B67D9E0035666D /* CCAnnotatableWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAnnotatableWebView.m; sourceTree = "<group>"; };
 		4626973918B3F698009A2868 /* CCWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCWebViewController.h; sourceTree = "<group>"; };
@@ -132,6 +134,14 @@
 			name = CCCanvasAdditions;
 			sourceTree = "<group>";
 		};
+		4608AD3F18BE8AF5000B2889 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				4608AD4018BE8B39000B2889 /* bluePin@2x.png */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
 		4626973C18B3F739009A2868 /* CCTileScrollViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +197,7 @@
 		46920BF418A59BDD0005079A /* TiledScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				4608AD3F18BE8AF5000B2889 /* Assets */,
 				4608AD3B18BE7F26000B2889 /* CCCanvasAdditions */,
 				46920BFD18A59BDD0005079A /* CCAppDelegate.h */,
 				46920BFE18A59BDD0005079A /* CCAppDelegate.m */,
@@ -321,6 +332,7 @@
 			files = (
 				46920BF918A59BDD0005079A /* InfoPlist.strings in Resources */,
 				4699FE5118A6B7CA0016C19F /* test_files in Resources */,
+				4608AD4118BE8B39000B2889 /* bluePin@2x.png in Resources */,
 				46920C0118A59BDD0005079A /* Images.xcassets in Resources */,
 				4626974118B41F7D009A2868 /* doc (1) in Resources */,
 			);
