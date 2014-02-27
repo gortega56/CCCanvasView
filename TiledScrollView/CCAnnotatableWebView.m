@@ -7,7 +7,7 @@
 //
 
 #import "CCAnnotatableWebView.h"
-#import "CCAnnotationLayer.h"
+#import "CCAnnotationView.h"
 
 @interface CCAnnotatableWebView ()
 
@@ -37,7 +37,16 @@
 
 #pragma mark - Mutator Methods
 
-- (void)addAnnotationLayer:(CCAnnotationLayer *)annotationLayer
+- (void)addAnnotationView:(CCAnnotationView *)annotationView animated:(BOOL)animated
+{
+    annotationView.lineWidth = self.annotationLineWidth/self.webViewZoomScale;
+    [annotationView updatePositionWithScale:(1.f/self.webViewZoomScale)];
+    [annotationView applyTransformWithScale:self.webViewZoomScale];
+    [_annotations addObject:annotationView];
+    
+    }
+
+- (void)addAnnotationLayer:(CCAnnotationView *)annotationLayer
 {
     annotationLayer.lineWidth = self.annotationLineWidth/self.webViewZoomScale;
     [annotationLayer updatePositionWithScale:(1.f/self.webViewZoomScale)];
@@ -56,7 +65,7 @@
     }
 
     CGFloat scale = scrollView.zoomScale/self.scrollView.minimumZoomScale;
-    [_annotations enumerateObjectsUsingBlock:^(CCAnnotationLayer *annotationLayer, NSUInteger idx, BOOL *stop) {
+    [_annotations enumerateObjectsUsingBlock:^(CCAnnotationView *annotationLayer, NSUInteger idx, BOOL *stop) {
         annotationLayer.lineWidth = self.annotationLineWidth/scale;
         [annotationLayer updateCenterWithScale:scale];
         [annotationLayer applyTransformWithScale:scale];

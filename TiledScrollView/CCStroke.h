@@ -10,4 +10,10 @@
 
 @interface CCStroke : NSObject
 
+@property (nonatomic, readonly) NSArray *points;
+@property (nonatomic, readonly) UIBezierPath *path;
+@property (nonatomic, readonly) CGRect bounds;
+
++ (instancetype)strokeWithPoints:(NSArray *)points;
+
 @end

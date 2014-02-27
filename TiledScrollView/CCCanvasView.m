@@ -11,21 +11,10 @@
 
 CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
 
-typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
-{
-    CCCanvasViewTrackTypeFreeHand,
-    CCCanvasViewTrackTypeLine,
-    CCCanvasViewTrackTypeShape,
-    CCCanvasViewTrackTypePin,
-    CCCanvasViewTrackTypeDebug
-};
-
 @interface CCCanvasView ()
 
 @property (nonatomic) BOOL touchesMoved;
 @property (nonatomic, getter = isTrackingTouch) BOOL trackingTouch;
-
-@property (nonatomic) CCCanvasViewTrackType trackType;
 
 @property (nonatomic) CGPoint currentPoint;
 @property (nonatomic) CGPoint previousPoint1;
@@ -33,6 +22,8 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 
 @property (nonatomic, strong) NSMutableArray *points;
 @property (nonatomic, strong) NSMutableArray *completedPaths;
+
+@property (nonatomic, readonly) NSArray *pointsTracked;
 
 @end
 
@@ -166,7 +157,7 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 - (void)finishTrackingPoints
 {
     if ([_delegate respondsToSelector:@selector(canvasView:didFinishTrackingPoints:)]) {
-        [_delegate canvasView:self didFinishTrackingPoints:_points];
+        [_delegate canvasView:self didFinishTrackingPoints:self.pointsTracked];
     }
     
     UIBezierPath *completedPath = [self bezierPathForPoints];
@@ -180,6 +171,24 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 }
 
 #pragma mark - UIBezier Path Methods
+
+- (NSArray *)pointsTracked
+{
+    switch (_trackType) {
+        case CCCanvasViewTrackTypeFreeHand:
+            return _points;
+        case CCCanvasViewTrackTypeLine:
+            return @[_points.firstObject, _points.lastObject];
+        case CCCanvasViewTrackTypeShape:
+        case CCCanvasViewTrackTypePin:
+            return @[_points.lastObject];
+        case CCCanvasViewTrackTypeDebug:
+        default:
+            break;
+    }
+    
+    return nil;
+}
 
 - (UIBezierPath *)bezierPathForPoints
 {

@@ -10,6 +10,15 @@
 
 CGFloat const kCCCanvasViewDefaultLineWidth;
 
+typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
+{
+    CCCanvasViewTrackTypeFreeHand,
+    CCCanvasViewTrackTypeLine,
+    CCCanvasViewTrackTypeShape,
+    CCCanvasViewTrackTypePin,
+    CCCanvasViewTrackTypeDebug
+};
+
 @class CCCanvasView;
 @protocol CCMarkupViewDelegate <NSObject>
 
@@ -25,6 +34,7 @@ CGFloat const kCCCanvasViewDefaultLineWidth;
 @property (nonatomic) CGFloat strokeWidth;
 @property (nonatomic, strong) UIColor *strokeColor;
 @property (nonatomic, weak) id<CCMarkupViewDelegate> delegate;
+@property (nonatomic) CCCanvasViewTrackType trackType;
 
 @end
 

@@ -10,7 +10,7 @@
 #import "CCTileScrollView.h"
 #import "CCTileView.h"
 #import "CCCanvasView.h"
-#import "CCAnnotationLayer.h"
+#import "CCAnnotationView.h"
 
 
 @interface CCTileScrollViewController () <CCTileScrollViewDataSource, CCTileScrollViewDelegate, CCMarkupViewDelegate>

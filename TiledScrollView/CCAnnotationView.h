@@ -8,7 +8,7 @@
 
 #import "CCShapeView.h"
 
-@interface CCAnnotationLayer : CCShapeView
+@interface CCAnnotationView : CCShapeView
 
 @property (nonatomic, strong) UIBezierPath *annotationPath;
 @property (nonatomic, strong) NSArray *strokes;
@@ -23,12 +23,8 @@
 
 @end
 
-@interface CCStroke : NSObject
+@interface CCAnnotationPinView : CCAnnotationView
 
-@property (nonatomic, readonly) NSArray *points;
-@property (nonatomic, readonly) UIBezierPath *path;
-@property (nonatomic, readonly) CGRect bounds;
-
-+ (instancetype)strokeWithPoints:(NSArray *)points;
+@property (nonatomic, strong) UIImage *annotationImage;
 
 @end

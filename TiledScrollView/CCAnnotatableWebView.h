@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class CCAnnotationLayer;
+@class CCAnnotationView;
 
 @interface CCAnnotatableWebView : UIWebView
 
 @property (nonatomic, strong) NSMutableArray *annotations;
 @property (nonatomic) CGFloat annotationLineWidth;
 
-- (void)addAnnotationLayer:(CCAnnotationLayer *)annotationLayer;
+- (void)addAnnotationLayer:(CCAnnotationView *)annotationLayer;
 
 @end

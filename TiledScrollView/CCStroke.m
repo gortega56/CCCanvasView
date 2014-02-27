@@ -7,7 +7,37 @@
 //
 
 #import "CCStroke.h"
+#import "UIBezierPath+CCAdditions.h"
+
+@interface CCStroke ()
+
+@end
 
 @implementation CCStroke
+
++ (instancetype)strokeWithPoints:(NSArray *)points
+{
+    return [[CCStroke alloc] initWithPoints:points];
+}
+
+- (id)initWithPoints:(NSArray *)points
+{
+    self = [super init];
+    if (self) {
+        _points = points;
+    }
+    
+    return self;
+}
+
+- (id)init
+{
+    return [self initWithPoints:nil];
+}
+
+- (UIBezierPath *)path
+{
+    return [UIBezierPath curvePathForPoints:_points];
+}
 
 @end

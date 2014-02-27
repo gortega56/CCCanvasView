@@ -8,7 +8,8 @@
 
 #import "CCWebViewController.h"
 #import "CCCanvasView.h"
-#import "CCAnnotationLayer.h"
+#import "CCStroke.h"
+#import "CCAnnotationView.h"
 #import "CCAnnotatableWebView.h"
 
 CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
@@ -18,16 +19,10 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
 
 @property (nonatomic, strong) CCAnnotatableWebView *webView;
 @property (nonatomic, strong) CCCanvasView *markupView;
-
-@property (nonatomic, strong) NSMutableArray *markLayers;
+@property (nonatomic, strong) NSMutableArray *canvasStrokes;
 
 @property (nonatomic, strong) UIButton *toggleButton;
 @property (nonatomic) BOOL markupEnabled;
-
-@property (nonatomic, weak) UIScrollView *scrollView;
-@property (nonatomic) CGFloat minimumZoomScale;
-@property (nonatomic) CGFloat maximumZoomScale;
-@property (nonatomic) CGFloat zoomScale;
 
 @end
 
@@ -43,14 +38,13 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
     _webView.delegate = self;
     [containerView addSubview:_webView];
     
-    _scrollView = _webView.scrollView;
-
     _toggleButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    _toggleButton.frame = CGRectMake(CGRectGetMidX(containerView.frame) - 30, CGRectGetMaxY(containerView.frame) - 40, 60, 40);
-    _toggleButton.layer.borderColor = [UIColor redColor].CGColor;
-    _toggleButton.layer.borderWidth = 1.f;
+    _toggleButton.frame = CGRectMake(0.f, CGRectGetMaxY(containerView.frame) - 40, 60, 40);
+    [_toggleButton setTitle:@"Mark Up" forState:UIControlStateNormal];
     [_toggleButton addTarget:self action:@selector(toggleMarkup) forControlEvents:UIControlEventTouchUpInside];
     [containerView addSubview:_toggleButton];
+    
+    
     
     self.view = containerView;
 }
@@ -62,26 +56,7 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
     NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"doc" ofType:@"html" inDirectory:@"doc (1)"]];
     [_webView loadRequest:[NSURLRequest requestWithURL:url]];
     
-    _markLayers = [NSMutableArray new];
-}
-
-- (void)webViewDidStartLoad:(CCAnnotatableWebView *)webView
-{
-    
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), NSStringFromCGSize(_webView.scrollView.contentSize));
-
-}
-
-- (void)webViewDidFinishLoad:(CCAnnotatableWebView *)webView
-{
-    NSLog(@"%@ %@", NSStringFromSelector(_cmd), NSStringFromCGSize(_webView.scrollView.contentSize));
-    NSLog(@"MIN SCALE %f", _webView.scrollView.minimumZoomScale);
-    NSLog(@"ZOOM SCALE %f", _webView.scrollView.zoomScale);
-    NSLog(@"MAX SCALE %f", _webView.scrollView.maximumZoomScale);
-
-    self.minimumZoomScale = _webView.scrollView.minimumZoomScale;
-    self.maximumZoomScale = _webView.scrollView.maximumZoomScale;
-    self.zoomScale = _webView.scrollView.zoomScale;
+    _canvasStrokes = [NSMutableArray new];
 }
 
 - (void)didReceiveMemoryWarning
@@ -108,6 +83,7 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
         [_markupView removeFromSuperview];
     }
     
+    _markupView.trackType = CCCanvasViewTrackTypePin;
     _markupView.userInteractionEnabled = _markupEnabled;
     _webView.scrollView.scrollEnabled = !_markupEnabled;
 }
@@ -126,10 +102,40 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
         CGPoint viewPoint = [_webView.scrollView convertPoint:[value CGPointValue] fromView:canvasView];
         [viewPoints addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
+    [_canvasStrokes addObject:[CCStroke strokeWithPoints:viewPoints]];
 
-    CCStroke *stroke = [CCStroke strokeWithPoints:viewPoints];
-    CCAnnotationLayer *annotation = [CCAnnotationLayer annotationViewWithStrokes:@[stroke]];
+    CCAnnotationView *annotation = [self annotationForTrackType:canvasView.trackType];
     [_webView addAnnotationLayer:annotation];
+}
+
+#pragma mark - Annotation Methods
+
+- (CCAnnotationView *)annotationForTrackType:(CCCanvasViewTrackType)trackType
+{
+    switch (trackType) {
+        case CCCanvasViewTrackTypeFreeHand:
+        {
+            CCAnnotationView *annotation = [CCAnnotationView annotationViewWithStrokes:_canvasStrokes.copy];
+            [_canvasStrokes removeAllObjects];
+            return annotation;
+        }
+        case CCCanvasViewTrackTypeShape:
+            break;
+        case CCCanvasViewTrackTypeLine:
+            break;
+        case CCCanvasViewTrackTypePin:
+        {
+            CCAnnotationPinView *annotation = [CCAnnotationPinView annotationViewWithStrokes:_canvasStrokes.copy];
+            annotation.annotationImage = [UIImage imageNamed:@"bluePin"];
+            annotation.frame = CGRectInset(annotation.frame, -40, -40);
+            [_canvasStrokes removeAllObjects];
+            return annotation;
+        }
+        default:
+            break;
+    }
+    
+    return nil;
 }
 
 @end

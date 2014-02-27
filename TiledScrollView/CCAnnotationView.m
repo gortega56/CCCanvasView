@@ -6,7 +6,8 @@
 //  Copyright (c) 2014 Clique City. All rights reserved.
 //
 
-#import "CCAnnotationLayer.h"
+#import "CCAnnotationView.h"
+#import "CCStroke.h"
 #import "UIBezierPath+CCAdditions.h"
 
 static CGRect CGRectForPoints(NSArray *points)
@@ -34,13 +35,13 @@ static CGRect CGRectForPoints(NSArray *points)
 
 #pragma mark - CCAnnotation
 
-@interface CCAnnotationLayer ()
+@interface CCAnnotationView ()
 
 @property (nonatomic, strong) UIBezierPath *path;
 
 @end
 
-@implementation CCAnnotationLayer
+@implementation CCAnnotationView
 
 - (void)applyTransformWithScale:(CGFloat)scale
 {
@@ -67,7 +68,7 @@ static CGRect CGRectForPoints(NSArray *points)
 
 + (instancetype)annotationViewWithStrokes:(NSArray *)strokes
 {
-    return [[CCAnnotationLayer alloc] initWithStrokes:strokes];
+    return [[[self class] alloc] initWithStrokes:strokes];
 }
             
 - (id)initWithStrokes:(NSArray *)strokes
@@ -161,37 +162,41 @@ static CGRect CGRectForPoints(NSArray *points)
 
 @end
 
-#pragma mark - CCStroke
+@interface CCAnnotationPinView ()
 
-@interface CCStroke ()
+@property (nonatomic) CGRect startRect;
+@property (nonatomic) CGRect endRect;
+
+@end
+
+@implementation CCAnnotationPinView
+
+#pragma mark - Mutator
+
+- (void)setAnnotationImage:(UIImage *)annotationImage
+{
+    self.layer.contents = (id)annotationImage.CGImage;
+}
+
+- (void)applyTransformWithScale:(CGFloat)scale
+{
+    self.transform = CGAffineTransformIdentity;
+}
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    [super willMoveToSuperview:newSuperview];
+    self.transform = CGAffineTransformMakeScale(0, 0);
+}
+
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+    self.layer.strokeColor = [UIColor clearColor].CGColor;
+    [UIView animateWithDuration:0.2 animations:^{
+        self.transform = CGAffineTransformMakeScale(1, 1);
+    }];
+}
 
 @end
 
-@implementation CCStroke
-
-+ (instancetype)strokeWithPoints:(NSArray *)points
-{
-    return [[CCStroke alloc] initWithPoints:points];
-}
-
-- (id)initWithPoints:(NSArray *)points
-{
-    self = [super init];
-    if (self) {
-        _points = points;
-    }
-    
-    return self;
-}
-
-- (id)init
-{
-    return [self initWithPoints:nil];
-}
-
-- (UIBezierPath *)path
-{
-    return [UIBezierPath curvePathForPoints:_points];
-}
-
-@end
