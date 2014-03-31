@@ -11,7 +11,8 @@
 
 @interface CCAnnotatableWebView ()
 
-@property (nonatomic, readonly) CGFloat webViewZoomScale;
+@property (nonatomic, strong) NSMutableArray *annotations;
+
 @end
 
 @implementation CCAnnotatableWebView
@@ -37,22 +38,42 @@
 
 #pragma mark - Mutator Methods
 
-- (void)addAnnotationView:(CCAnnotationView *)annotationView animated:(BOOL)animated
-{
-    annotationView.lineWidth = self.annotationLineWidth/self.webViewZoomScale;
-    [annotationView updatePositionWithScale:(1.f/self.webViewZoomScale)];
-    [annotationView applyTransformWithScale:self.webViewZoomScale];
-    [_annotations addObject:annotationView];
-    
-    }
-
 - (void)addAnnotationLayer:(CCAnnotationView *)annotationLayer
 {
-    annotationLayer.lineWidth = self.annotationLineWidth/self.webViewZoomScale;
+    annotationLayer.lineWidth = annotationLayer.constantLineWidth/self.webViewZoomScale;
     [annotationLayer updatePositionWithScale:(1.f/self.webViewZoomScale)];
     [annotationLayer applyTransformWithScale:self.webViewZoomScale];
     [_annotations addObject:annotationLayer];
     [self.scrollView addSubview:annotationLayer];
+}
+
+- (void)removeAnnotation:(CCAnnotationView *)annotation
+{
+    [annotation removeFromSuperview];
+    [_annotations removeObject:annotation];
+}
+
+- (void)removeLastAnnotation
+{
+    [self removeAnnotation:_annotations.lastObject];
+}
+
+- (void)consolidateAnnotationsInRange:(NSRange)range usingBlock:(CCAnnotationView *(^)(NSArray *subAnnotationStrokes))block
+{
+    if (self.annotations.count == 0) {
+        return;
+    }
+    
+    NSMutableArray *strokes = [NSMutableArray new];
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:range];
+    NSArray *subAnnotations = [self.annotations objectsAtIndexes:indexSet];
+    for (CCAnnotationView *subAnnotation in subAnnotations) {
+        [strokes addObjectsFromArray:subAnnotation.strokes];
+        [self removeAnnotation:subAnnotation];
+    }
+    
+    CCAnnotationView *annotation = block(strokes);
+    [self addAnnotationLayer:annotation];
 }
 
 #pragma mark - UIScrollViewDelegate Methods
@@ -64,9 +85,9 @@
         [(id<UIScrollViewDelegate>)self.delegate scrollViewDidZoom:scrollView];
     }
 
-    CGFloat scale = scrollView.zoomScale/self.scrollView.minimumZoomScale;
+    CGFloat scale = self.webViewZoomScale;
     [_annotations enumerateObjectsUsingBlock:^(CCAnnotationView *annotationLayer, NSUInteger idx, BOOL *stop) {
-        annotationLayer.lineWidth = self.annotationLineWidth/scale;
+        annotationLayer.lineWidth = annotationLayer.constantLineWidth/scale;
         [annotationLayer updateCenterWithScale:scale];
         [annotationLayer applyTransformWithScale:scale];
     }];
@@ -87,6 +108,22 @@
     if ([self.delegate respondsToSelector:_cmd]) {
         [(id<UIScrollViewDelegate>)self.delegate scrollViewDidEndZooming:scrollView withView:view atScale:scale];
     }
+}
+
+#pragma mark - Image Capture
+
+- (UIImage *)imageCaptureWithSize:(CGSize)size
+{
+    if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+        UIGraphicsBeginImageContextWithOptions(size, NO, [UIScreen mainScreen].scale);
+    }
+    else {
+        UIGraphicsBeginImageContext(size);
+    }
+    [self.layer renderInContext:UIGraphicsGetCurrentContext()];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return image;
 }
 
 @end

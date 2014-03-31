@@ -13,8 +13,10 @@ CGFloat const kCCCanvasViewDefaultLineWidth;
 typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 {
     CCCanvasViewTrackTypeFreeHand,
-    CCCanvasViewTrackTypeLine,
-    CCCanvasViewTrackTypeShape,
+    CCCanvasViewTrackTypePolygon,
+    CCCanvasViewTrackTypeUndefinedPolygon,
+    CCCanvasViewTrackTypeCircle,
+    CCCanvasViewTrackTypeRectangle,
     CCCanvasViewTrackTypePin,
     CCCanvasViewTrackTypeDebug
 };
@@ -35,6 +37,8 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 @property (nonatomic, strong) UIColor *strokeColor;
 @property (nonatomic, weak) id<CCMarkupViewDelegate> delegate;
 @property (nonatomic) CCCanvasViewTrackType trackType;
+
+- (void)clearCurrentPathPoints;
 
 @end
 

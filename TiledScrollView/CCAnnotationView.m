@@ -7,45 +7,85 @@
 //
 
 #import "CCAnnotationView.h"
-#import "CCStroke.h"
 #import "UIBezierPath+CCAdditions.h"
-
-static CGRect CGRectForPoints(NSArray *points)
-{
-    if (points.count == 0) {
-        return CGRectZero;
-    }
-    
-    CGPoint firstPoint = [points[0] CGPointValue];
-    __block CGFloat minX = firstPoint.x;
-    __block CGFloat minY = firstPoint.y;
-    __block CGFloat maxX = firstPoint.x;
-    __block CGFloat maxY = firstPoint.y;
-    [points enumerateObjectsUsingBlock:^(NSValue *value, NSUInteger idx, BOOL *stop) {
-        CGPoint point = [value CGPointValue];
-        minX = MIN(minX, point.x);
-        minY = MIN(minY, point.y);
-        maxX = MAX(maxX, point.x);
-        maxY = MAX(maxY, point.y);
-    }];
-    
-    CGRect rect = CGRectMake(minX, minY, maxX - minX, maxY - minY);
-    return rect;
-}
 
 #pragma mark - CCAnnotation
 
 @interface CCAnnotationView ()
 
-@property (nonatomic, strong) UIBezierPath *path;
-
 @end
 
 @implementation CCAnnotationView
 
+#pragma mark - UIView Methods
+
++ (instancetype)annotationViewWithStrokes:(NSArray *)strokes
+{
+    return [[[self class] alloc] initWithStrokes:strokes];
+}
+
+- (id)initWithStrokes:(NSArray *)strokes
+{
+    NSArray *points = [self pointsForStrokes:strokes];
+    self = [super initWithFrame:CGRectForPoints(points)];
+    if (self) {
+        self.backgroundColor = [UIColor clearColor];
+        self.strokeColor = [UIColor openStatusColor];
+        self.fillColor = [UIColor clearColor];
+        self.lineJoinStyle = kCGLineJoinRound;
+        self.lineCapStyle = kCGLineCapRound;
+        _annotationPosition = self.center;
+        _strokes = strokes;
+        
+//        self.layer.borderColor = [UIColor blueColor].CGColor;
+//        self.layer.borderWidth = 2.f;
+    }
+    
+    return self;
+}
+
+- (id)initWithFrame:(CGRect)frame
+{
+    return [self initWithStrokes:nil];
+}
+
+- (void)willMoveToSuperview:(UIView *)newSuperview
+{
+    [super willMoveToSuperview:newSuperview];
+    
+    if (self.layer.contents) { // Scale image down for pop animation
+        self.transform = CGAffineTransformMakeScale(0, 0);
+    }
+}
+
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+    
+    if (self.layer.contents) { // Pop Animation
+        [UIView animateWithDuration:0.1 animations:^{
+            self.transform = CGAffineTransformMakeScale(1.5, 1.5);
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.15 animations:^{
+                self.transform = CGAffineTransformMakeScale(1, 1);
+            }];
+        }];
+    }
+    else { // Draw path
+        self.path = self.boundedPath;
+    }
+}
+
+#pragma mark - CGAffineTransform Methods
+
 - (void)applyTransformWithScale:(CGFloat)scale
 {
-    self.transform = CGAffineTransformMakeScale(scale, scale);
+    if (self.layer.contents) { // Keep image the same size
+        self.transform = CGAffineTransformIdentity;
+    }
+    else {
+        self.transform = CGAffineTransformMakeScale(scale, scale);
+    }
 }
 
 - (void)updatePositionWithScale:(CGFloat)scale
@@ -64,45 +104,8 @@ static CGRect CGRectForPoints(NSArray *points)
     self.center = annotationPosition;
 }
 
-#pragma mark - UIView Methods
 
-+ (instancetype)annotationViewWithStrokes:(NSArray *)strokes
-{
-    return [[[self class] alloc] initWithStrokes:strokes];
-}
-            
-- (id)initWithStrokes:(NSArray *)strokes
-{
-    NSArray *points = [self pointsForStrokes:strokes];
-    self = [super initWithFrame:CGRectForPoints(points)];
-    if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.strokeColor = [UIColor orangeColor];
-        self.fillColor = [UIColor clearColor];
-        self.lineJoinStyle = kCGLineJoinRound;
-        self.lineCapStyle = kCGLineCapRound;
-        _annotationPosition = self.center;
-        _strokes = strokes;
-
-//        self.layer.borderColor = [UIColor blueColor].CGColor;
-//        self.layer.borderWidth = 2.f;
-    }
-    
-    return self;
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    return [self initWithStrokes:nil];
-}
-
-- (void)didMoveToSuperview
-{
-    [super didMoveToSuperview];
-    self.path = self.annotationPath;
-}
-
-#pragma mark -
+#pragma mark -  CCStroke Methods
 
 - (NSArray *)convertStrokes:(NSArray *)strokes fromView:(UIView *)view
 {
@@ -122,7 +125,7 @@ static CGRect CGRectForPoints(NSArray *points)
         [convertedPoints addObject:[NSValue valueWithCGPoint:convertedPoint]];
     }
     
-    return [CCStroke strokeWithPoints:convertedPoints];
+    return [[CCStroke alloc] initWithType:stroke.type points:convertedPoints];
 }
 
 - (NSArray *)convertedPointsForStrokes:(NSArray *)strokes
@@ -145,57 +148,79 @@ static CGRect CGRectForPoints(NSArray *points)
     return points;
 }
 
-
-- (UIBezierPath *)annotationPath
+// Use for hit testing
+- (UIBezierPath *)closedPathForStrokes:(NSArray *)strokes convertedFromView:(UIView *)view
 {
-    UIBezierPath *annotationPath = [UIBezierPath bezierPath];
-    annotationPath.lineJoinStyle = self.lineJoinStyle;
-    annotationPath.lineCapStyle = self.lineCapStyle;
-    annotationPath.lineWidth = self.lineWidth;
-    NSArray *convertedStrokes = [self convertStrokes:_strokes fromView:self.superview];
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    path.lineJoinStyle = self.lineJoinStyle;
+    path.lineCapStyle = self.lineCapStyle;
+    path.lineWidth = self.lineWidth;
+    path.usesEvenOddFillRule = YES;
+    
+    NSArray *convertedStrokes = [self convertStrokes:strokes fromView:view];
+    CGPoint previousStrokeEndPoint = CGPointZero;
     for (CCStroke *stroke in convertedStrokes) {
-        [annotationPath appendPath:stroke.path];
+        for (NSValue *value in stroke.points) {
+            if ((path.isEmpty || (!CGPointEqualToPoint(previousStrokeEndPoint, stroke.startPoint) && !CGPointEqualToPoint(CGPointZero, previousStrokeEndPoint)))) {
+                [path moveToPoint:[value CGPointValue]];
+            }
+            else {
+                [path addLineToPoint:[value CGPointValue]];
+            }
+        }
+        previousStrokeEndPoint = stroke.endPoint;
     }
     
-    return annotationPath;
+    return path;
 }
 
-@end
+- (UIBezierPath *)pathForStrokes:(NSArray *)strokes convertedFromView:(UIView *)view
+{
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    path.lineJoinStyle = self.lineJoinStyle;
+    path.lineCapStyle = self.lineCapStyle;
+    path.lineWidth = self.lineWidth;
 
-@interface CCAnnotationPinView ()
+    NSArray *convertedStrokes = [self convertStrokes:strokes fromView:view];
+    for (CCStroke *stroke in convertedStrokes) {
+        [path appendPath:stroke.path];
+    }
+    
+    return path;
+}
 
-@property (nonatomic) CGRect startRect;
-@property (nonatomic) CGRect endRect;
+#pragma mark - Accessor Methods
 
-@end
+- (UIBezierPath *)boundedPathClosed
+{
+    return [self closedPathForStrokes:_strokes convertedFromView:self.superview];
+}
 
-@implementation CCAnnotationPinView
+- (UIBezierPath *)boundedPath
+{
+    return [self pathForStrokes:_strokes convertedFromView:self.superview];
+}
+
+- (NSArray *)boundedStrokes
+{
+     return [self convertStrokes:_strokes fromView:self.superview];
+}
+
+- (CGPoint)startPoint
+{
+    return [(CCStroke *)_strokes.firstObject startPoint];
+}
+
+- (CGPoint)endPoint
+{
+    return [(CCStroke *)_strokes.lastObject endPoint];
+}
 
 #pragma mark - Mutator
 
 - (void)setAnnotationImage:(UIImage *)annotationImage
 {
     self.layer.contents = (id)annotationImage.CGImage;
-}
-
-- (void)applyTransformWithScale:(CGFloat)scale
-{
-    self.transform = CGAffineTransformIdentity;
-}
-
-- (void)willMoveToSuperview:(UIView *)newSuperview
-{
-    [super willMoveToSuperview:newSuperview];
-    self.transform = CGAffineTransformMakeScale(0, 0);
-}
-
-- (void)didMoveToSuperview
-{
-    [super didMoveToSuperview];
-    self.layer.strokeColor = [UIColor clearColor].CGColor;
-    [UIView animateWithDuration:0.2 animations:^{
-        self.transform = CGAffineTransformMakeScale(1, 1);
-    }];
 }
 
 @end

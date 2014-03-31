@@ -10,6 +10,7 @@
 #import "UIBezierPath+CCAdditions.h"
 
 CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
+CGFloat const kCCCanvasViewAnchorPointRadius = 20.f;
 
 @interface CCCanvasView ()
 
@@ -19,11 +20,9 @@ CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
 @property (nonatomic) CGPoint currentPoint;
 @property (nonatomic) CGPoint previousPoint1;
 @property (nonatomic) CGPoint previousPoint2;
-
 @property (nonatomic, strong) NSMutableArray *points;
-@property (nonatomic, strong) NSMutableArray *completedPaths;
 
-@property (nonatomic, readonly) NSArray *pointsTracked;
+@property (nonatomic, strong) UIBezierPath *currentPath;
 
 @end
 
@@ -36,15 +35,19 @@ CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        _completedPaths = [NSMutableArray new];
         _points = [NSMutableArray new];
         _strokeColor = [UIColor orangeColor];
         _strokeWidth = kCCCanvasViewDefaultLineWidth;
         _trackType = CCCanvasViewTrackTypeFreeHand;
-        _trackingTouch = NO;
     }
     
     return self;
+}
+
+- (void)removeFromSuperview
+{
+    [self closeCurrentPath];
+    [super removeFromSuperview];
 }
 
 - (void)drawRect:(CGRect)rect
@@ -52,18 +55,26 @@ CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self configureContext:context];
     
+    if (_points.count == 0) {
+        return;
+    }
+    
     switch (_trackType) {
         case CCCanvasViewTrackTypeFreeHand:
             [self drawFreeHandPathInRect:rect context:context];
             break;
-        case CCCanvasViewTrackTypeLine:
+        case CCCanvasViewTrackTypeUndefinedPolygon:
+        case CCCanvasViewTrackTypePolygon:
             [self drawLineInRect:rect context:context];
             break;
         case CCCanvasViewTrackTypePin:
             // Don't draw pin just report tracked point
             break;
-        case CCCanvasViewTrackTypeShape:
-            
+        case CCCanvasViewTrackTypeCircle:
+            [self drawCircleInRect:rect context:context];
+            break;
+        case CCCanvasViewTrackTypeRectangle:
+            [self drawRectangleInRect:rect context:context];
             break;
         case CCCanvasViewTrackTypeDebug:
             [self drawDebugInRect:rect context:context];
@@ -71,6 +82,16 @@ CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
         default:
             break;
     }
+}
+
+#pragma mark - Quartz Drawing
+
+- (void)configureContext:(CGContextRef)context
+{
+    CGContextSetLineCap(context, kCGLineCapRound);
+    CGContextSetLineJoin(context, kCGLineJoinRound);
+    CGContextSetLineWidth(context, self.strokeWidth);
+    [self.strokeColor setStroke];
 }
 
 - (void)drawDebugInRect:(CGRect)rect context:(CGContextRef)context
@@ -95,50 +116,64 @@ CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
 
 - (void)drawLineInRect:(CGRect)rect context:(CGContextRef)context
 {
-    // Draw previous lines
-    
-    // Draw new line anchored from end of last line
-    CGPoint anchorPoint = [_points.firstObject CGPointValue];
-    CGContextMoveToPoint(context, anchorPoint.x, anchorPoint.y);
-    
-    CGPoint endPoint = [_points.lastObject CGPointValue];
-    CGContextAddLineToPoint(context, endPoint.x, endPoint.y);
-    
+    UIBezierPath *path = [UIBezierPath straightPathForPoints:_points];
+    CGContextAddPath(context, path.CGPath);
+    CGContextStrokePath(context);
+}
+
+- (void)drawCircleInRect:(CGRect)rect context:(CGContextRef)context
+{
+    UIBezierPath *path = [UIBezierPath circularPathForPoints:_points];
+    CGContextAddPath(context, path.CGPath);
+    CGContextStrokePath(context);
+}
+
+- (void)drawRectangleInRect:(CGRect)rect context:(CGContextRef)context
+{
+    UIBezierPath *path = [UIBezierPath rectanglePathForPoints:_points];
+    CGContextAddPath(context, path.CGPath);
     CGContextStrokePath(context);
 }
 
 #pragma mark - Point Tracking
 
-- (void)updateTrackedPointsWithTouch:(UITouch *)touch
+- (void)updateTrackedPointsWithCurrentPoint:(CGPoint)currentPoint previousPoint:(CGPoint)previousPoint trackingTouch:(BOOL)trackingTouch
 {
     switch (_trackType) {
         case CCCanvasViewTrackTypeFreeHand:
         {
-            _previousPoint2 =  (self.isTrackingTouch) ? _previousPoint1 : [touch previousLocationInView:self];
-            _previousPoint1 = [touch previousLocationInView:self];
-            _currentPoint = [touch locationInView:self];
+            _previousPoint2 =  (trackingTouch) ? _previousPoint1 : previousPoint;
+            _previousPoint1 = previousPoint;
+            _currentPoint = currentPoint;
             break;
         }
-        case CCCanvasViewTrackTypeLine:
+        case CCCanvasViewTrackTypeUndefinedPolygon:
+        case CCCanvasViewTrackTypePolygon:
         {
-            
+            _previousPoint2 =  (_points.count == 0) ? currentPoint : _previousPoint2 ; // Set Close path Point
+            _previousPoint1 = (trackingTouch) ? previousPoint : _previousPoint2;
+            _currentPoint = currentPoint;
+            if (CGFloatDistanceBetweenPoints(_currentPoint, _previousPoint2) < kCCCanvasViewAnchorPointRadius) {
+                _currentPoint = _previousPoint2;
+            }
             break;
         }
-        case CCCanvasViewTrackTypeShape:
-        {
-            
+        case CCCanvasViewTrackTypeCircle:
+        case CCCanvasViewTrackTypeRectangle:
+            _previousPoint1 = (_points.count == 0) ? currentPoint : _previousPoint1;
+            _currentPoint = currentPoint;
             break;
-        }
         case CCCanvasViewTrackTypePin:
         {
-            _currentPoint = [touch locationInView:self];
+            _currentPoint = currentPoint;
             break;
         }
         case CCCanvasViewTrackTypeDebug:
         {
-            _previousPoint2 =  (self.isTrackingTouch) ? _previousPoint1 : [touch previousLocationInView:self];
-            _previousPoint1 = [touch previousLocationInView:self];
-            _currentPoint = [touch locationInView:self];
+            _previousPoint2 =  (trackingTouch) ? [_points.firstObject CGPointValue] : currentPoint;
+            _previousPoint1 = (trackingTouch) ? previousPoint : _previousPoint2;
+            _currentPoint = currentPoint;
+            
         }
         default:
             break;
@@ -151,61 +186,114 @@ CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
 
 - (void)addTrackedPoint:(CGPoint)point
 {
-    [_points addObject:[NSValue valueWithCGPoint:point]];
+    switch (_trackType) {
+        case CCCanvasViewTrackTypeFreeHand:
+        {
+            [_points addObject:[NSValue valueWithCGPoint:point]];
+            break;
+        }
+        case CCCanvasViewTrackTypeCircle:
+        case CCCanvasViewTrackTypeRectangle:
+        case CCCanvasViewTrackTypeUndefinedPolygon:
+        case CCCanvasViewTrackTypePolygon:
+        {
+            if (_points.count < 2) {
+                [_points addObject:[NSValue valueWithCGPoint:point]];
+            }
+            else if (_points.count == 2) {
+                [_points removeLastObject];
+                [_points addObject:[NSValue valueWithCGPoint:point]];
+            }
+            break;
+        }
+        case CCCanvasViewTrackTypePin:
+        {
+            [_points removeAllObjects];
+            [_points addObject:[NSValue valueWithCGPoint:point]];
+            break;
+        }
+        case CCCanvasViewTrackTypeDebug:
+        default:
+            break;
+    }
 }
 
 - (void)finishTrackingPoints
 {
     if ([_delegate respondsToSelector:@selector(canvasView:didFinishTrackingPoints:)]) {
-        [_delegate canvasView:self didFinishTrackingPoints:self.pointsTracked];
+        [_delegate canvasView:self didFinishTrackingPoints:_points];
     }
     
-    UIBezierPath *completedPath = [self bezierPathForPoints];
+    [self finalizeCurrentPath];
+}
+
+- (void)finalizeCurrentPath
+{
+    switch (_trackType) {
+        case CCCanvasViewTrackTypeFreeHand:
+        {
+            _currentPath = [UIBezierPath curvePathForPoints:_points];
+            [_points removeAllObjects];
+            break;
+        }
+        case CCCanvasViewTrackTypeUndefinedPolygon:
+        case CCCanvasViewTrackTypePolygon:
+        {
+            [_currentPath appendPath:[UIBezierPath straightPathForPoints:_points]];
+            (CGPointEqualToPoint(_currentPoint, _previousPoint2)) ? [_points removeAllObjects] : [_points removeObjectsInRange:NSMakeRange(0, _points.count-1)]; // Should leave last point in the array to be the anchor of next point
+            break;
+        }
+        case CCCanvasViewTrackTypeCircle:
+        {
+            _currentPath = [UIBezierPath circularPathForPoints:_points];
+            [_points removeAllObjects];
+            break;
+        }
+        case CCCanvasViewTrackTypeRectangle:
+        {
+            _currentPath = [UIBezierPath rectanglePathForPoints:_points];
+            [_points removeAllObjects];
+            break;
+        }
+        case CCCanvasViewTrackTypePin:
+        {
+            _currentPath = [UIBezierPath straightPathForPoints:_points];
+            [_points removeAllObjects];
+            break;
+        }
+        case CCCanvasViewTrackTypeDebug:
+            break;
+        default:
+            break;
+    }
     
     if ([_delegate respondsToSelector:@selector(canvasView:didFinishPath:)]) {
-        [_delegate canvasView:self didFinishPath:completedPath];
+        [_delegate canvasView:self didFinishPath:_currentPath];
+    }
+}
+
+- (void)closeCurrentPath
+{
+    if (CGPointEqualToPoint(_currentPoint, _previousPoint2)) {
+        return;
     }
     
+    if (_trackType == CCCanvasViewTrackTypeUndefinedPolygon || _trackType == CCCanvasViewTrackTypePolygon) {
+        [self updateTrackedPointsWithCurrentPoint:_previousPoint2 previousPoint:_currentPoint trackingTouch:YES];
+        [self addTrackedPoint:_currentPoint];
+        [self finishTrackingPoints];
+        [self setNeedsDisplay];
+    }
+}
+
+- (void)clearCurrentPathPoints
+{
     [_points removeAllObjects];
-    [_completedPaths addObject:completedPath];
-}
-
-#pragma mark - UIBezier Path Methods
-
-- (NSArray *)pointsTracked
-{
-    switch (_trackType) {
-        case CCCanvasViewTrackTypeFreeHand:
-            return _points;
-        case CCCanvasViewTrackTypeLine:
-            return @[_points.firstObject, _points.lastObject];
-        case CCCanvasViewTrackTypeShape:
-        case CCCanvasViewTrackTypePin:
-            return @[_points.lastObject];
-        case CCCanvasViewTrackTypeDebug:
-        default:
-            break;
-    }
-    
-    return nil;
-}
-
-- (UIBezierPath *)bezierPathForPoints
-{
-    switch (_trackType) {
-        case CCCanvasViewTrackTypeFreeHand:
-            return [UIBezierPath curvePathForPoints:_points];
-        case CCCanvasViewTrackTypeLine:
-            return [UIBezierPath straightPathForPoints:_points];
-        case CCCanvasViewTrackTypeShape:
-        case CCCanvasViewTrackTypePin:
-            return [UIBezierPath straightPathForPoints:@[_points.lastObject]];
-        case CCCanvasViewTrackTypeDebug:
-        default:
-            break;
-    }
-    
-    return nil;
+    [_currentPath removeAllPoints];
+    _currentPoint = CGPointZero;
+    _previousPoint1 = CGPointZero;
+    _previousPoint2 = CGPointZero;
+    [self setNeedsDisplay];
 }
 
 #pragma mark - Accessor Methods
@@ -215,19 +303,16 @@ CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
-    [self updateTrackedPointsWithTouch:touch];
+    [self updateTrackedPointsWithCurrentPoint:[touch locationInView:self] previousPoint:[touch previousLocationInView:self] trackingTouch:NO];
     [self addTrackedPoint:_currentPoint];
-    
-    _trackingTouch = YES;
     _touchesMoved = NO;
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
-    [self updateTrackedPointsWithTouch:touch];
+    [self updateTrackedPointsWithCurrentPoint:[touch locationInView:self] previousPoint:[touch previousLocationInView:self] trackingTouch:YES];
     [self addTrackedPoint:_currentPoint];
-    
     [self setNeedsDisplay];
     _touchesMoved = YES;
 }
@@ -235,22 +320,10 @@ CGFloat const kCCCanvasViewDefaultLineWidth = 10.f;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
-    [self updateTrackedPointsWithTouch:touch];
+    [self updateTrackedPointsWithCurrentPoint:[touch locationInView:self] previousPoint:[touch previousLocationInView:self] trackingTouch:YES];
     [self addTrackedPoint:_currentPoint];
     [self finishTrackingPoints];
-    
     [self setNeedsDisplay];
-    _trackingTouch = NO;
-}
-
-#pragma mark - Quartz Drawing
-
-- (void)configureContext:(CGContextRef)context
-{
-    CGContextSetLineCap(context, kCGLineCapRound);
-    CGContextSetLineJoin(context, kCGLineJoinRound);
-    CGContextSetLineWidth(context, kCCCanvasViewDefaultLineWidth);
-    [self.strokeColor setStroke];
 }
 
 @end

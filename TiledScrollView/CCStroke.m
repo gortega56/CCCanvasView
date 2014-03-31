@@ -15,15 +15,31 @@
 
 @implementation CCStroke
 
-+ (instancetype)strokeWithPoints:(NSArray *)points
++ (instancetype)straightStrokeWithPoints:(NSArray *)points
 {
-    return [[CCStroke alloc] initWithPoints:points];
+    return [[CCStroke alloc] initWithType:CCStrokeTypeStraight points:points];
 }
 
-- (id)initWithPoints:(NSArray *)points
++ (instancetype)curvedStrokeWithPoints:(NSArray *)points
+{
+    return [[CCStroke alloc] initWithType:CCStrokeTypeQuadCurve points:points];
+}
+
++ (instancetype)rectagularStrokeWithPoints:(NSArray *)points
+{
+    return [[CCStroke alloc] initWithType:CCStrokeTypeRectangle points:points];
+}
+
++ (instancetype)circularStrokeWithPoints:(NSArray *)points
+{
+    return [[CCStroke alloc] initWithType:CCStrokeTypeCircular points:points];
+}
+
+- (id)initWithType:(CCStrokeType)type points:(NSArray *)points
 {
     self = [super init];
     if (self) {
+        _type = type;
         _points = points;
     }
     
@@ -32,12 +48,33 @@
 
 - (id)init
 {
-    return [self initWithPoints:nil];
+    return [self initWithType:CCStrokeTypeQuadCurve points:nil];
 }
 
 - (UIBezierPath *)path
 {
-    return [UIBezierPath curvePathForPoints:_points];
+    switch (_type) {
+        case CCStrokeTypeQuadCurve:
+            return [UIBezierPath curvePathForPoints:_points];
+        case CCStrokeTypeStraight:
+            return [UIBezierPath straightPathForPoints:_points];
+        case CCStrokeTypeRectangle:
+            return [UIBezierPath rectanglePathForPoints:_points];
+        case CCStrokeTypeCircular:
+            return [UIBezierPath circularPathForPoints:_points];
+        default:
+            break;
+    }
+}
+
+- (CGPoint)startPoint
+{
+    return [_points.firstObject CGPointValue];
+}
+
+- (CGPoint)endPoint
+{
+    return [_points.lastObject CGPointValue];
 }
 
 @end

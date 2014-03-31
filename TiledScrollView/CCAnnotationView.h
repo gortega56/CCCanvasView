@@ -7,24 +7,24 @@
 //
 
 #import "CCShapeView.h"
+#import "CCStroke.h"
 
 @interface CCAnnotationView : CCShapeView
 
-@property (nonatomic, strong) UIBezierPath *annotationPath;
-@property (nonatomic, strong) NSArray *strokes;
-
+@property (nonatomic, readonly) UIBezierPath *boundedPathClosed;
+@property (nonatomic, readonly) UIBezierPath *boundedPath;
+@property (nonatomic, readonly) NSArray *strokes;
+@property (nonatomic, readonly) NSArray *boundedStrokes;
+@property (nonatomic, readonly) CGPoint startPoint;
+@property (nonatomic, readonly) CGPoint endPoint;
 @property (nonatomic) CGPoint annotationPosition;
+@property (nonatomic) CGFloat constantLineWidth;
+@property (nonatomic, strong) UIImage *annotationImage;
 
 + (instancetype)annotationViewWithStrokes:(NSArray *)strokes;
 
 - (void)applyTransformWithScale:(CGFloat)scale;
 - (void)updatePositionWithScale:(CGFloat)scale;
 - (void)updateCenterWithScale:(CGFloat)scale;
-
-@end
-
-@interface CCAnnotationPinView : CCAnnotationView
-
-@property (nonatomic, strong) UIImage *annotationImage;
 
 @end
