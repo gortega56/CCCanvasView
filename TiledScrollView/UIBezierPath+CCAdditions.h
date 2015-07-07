@@ -7,18 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
-typedef NS_ENUM(NSInteger, CCBezierPathType)
-{
-    CCBezierPathTypeCurve,
-    CCBezierPathTypeStraight
-};
-
-static CGPoint CGMidpointForPoints(CGPoint point1, CGPoint point2);
+#import "CCGeometry.h"
 
 @interface UIBezierPath (CCAdditions)
 
 + (UIBezierPath *)curvePathForPoints:(NSArray *)points;
 + (UIBezierPath *)straightPathForPoints:(NSArray *)points;
-
++ (UIBezierPath *)rectanglePathForPoints:(NSArray *)points;
++ (UIBezierPath *)circularPathForPoints:(NSArray *)points;
++ (UIBezierPath *)multiArcPathForPoints:(NSArray *)points
+                            arcDiameter:(CGFloat)arcDiameter
+                          referencePath:(UIBezierPath *)referencePath;
 @end

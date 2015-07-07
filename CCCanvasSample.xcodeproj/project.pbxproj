@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 47;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,11 +17,6 @@
 		46920BFB18A59BDD0005079A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920BFA18A59BDD0005079A /* main.m */; };
 		46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920BFE18A59BDD0005079A /* CCAppDelegate.m */; };
 		46920C0118A59BDD0005079A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46920C0018A59BDD0005079A /* Images.xcassets */; };
-		46920C0818A59BDD0005079A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920C0718A59BDD0005079A /* XCTest.framework */; };
-		46920C0918A59BDD0005079A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BEE18A59BDD0005079A /* Foundation.framework */; };
-		46920C0A18A59BDD0005079A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 46920BF218A59BDD0005079A /* UIKit.framework */; };
-		46920C1218A59BDD0005079A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 46920C1018A59BDD0005079A /* InfoPlist.strings */; };
-		46920C1418A59BDD0005079A /* TiledScrollViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920C1318A59BDD0005079A /* TiledScrollViewTests.m */; };
 		46920C1F18A59C050005079A /* CCTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920C1E18A59C050005079A /* CCTileView.m */; };
 		4699FE5118A6B7CA0016C19F /* test_files in Resources */ = {isa = PBXBuildFile; fileRef = 4699FE5018A6B7CA0016C19F /* test_files */; };
 		4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */; };
@@ -32,17 +27,8 @@
 		46E0C88E18E9F28E001C2770 /* CCGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88618E9F28E001C2770 /* CCGeometry.m */; };
 		46E0C88F18E9F28E001C2770 /* CCShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88818E9F28E001C2770 /* CCShapeView.m */; };
 		46E0C89018E9F28E001C2770 /* CCStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88A18E9F28E001C2770 /* CCStroke.m */; };
+		C00CBFED1B4C321D005846A3 /* UIBezierPath+CCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C00CBFEC1B4C321D005846A3 /* UIBezierPath+CCAdditions.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		46920C0B18A59BDD0005079A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 46920BE318A59BDD0005079A /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 46920BEA18A59BDD0005079A;
-			remoteInfo = TiledScrollView;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4608AD4018BE8B39000B2889 /* bluePin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bluePin@2x.png"; sourceTree = "<group>"; };
@@ -60,11 +46,6 @@
 		46920BFD18A59BDD0005079A /* CCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAppDelegate.h; sourceTree = "<group>"; };
 		46920BFE18A59BDD0005079A /* CCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCAppDelegate.m; sourceTree = "<group>"; };
 		46920C0018A59BDD0005079A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		46920C0618A59BDD0005079A /* CCCanvasSampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CCCanvasSampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		46920C0718A59BDD0005079A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
-		46920C0F18A59BDD0005079A /* CCCanvasSampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "CCCanvasSampleTests-Info.plist"; sourceTree = "<group>"; };
-		46920C1118A59BDD0005079A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		46920C1318A59BDD0005079A /* TiledScrollViewTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TiledScrollViewTests.m; sourceTree = "<group>"; };
 		46920C1D18A59C050005079A /* CCTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTileView.h; sourceTree = "<group>"; };
 		46920C1E18A59C050005079A /* CCTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTileView.m; sourceTree = "<group>"; };
 		4699FE5018A6B7CA0016C19F /* test_files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test_files; sourceTree = "<group>"; };
@@ -84,6 +65,8 @@
 		46E0C88818E9F28E001C2770 /* CCShapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCShapeView.m; sourceTree = "<group>"; };
 		46E0C88918E9F28E001C2770 /* CCStroke.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCStroke.h; sourceTree = "<group>"; };
 		46E0C88A18E9F28E001C2770 /* CCStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCStroke.m; sourceTree = "<group>"; };
+		C00CBFEB1B4C321D005846A3 /* UIBezierPath+CCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+CCAdditions.h"; sourceTree = "<group>"; };
+		C00CBFEC1B4C321D005846A3 /* UIBezierPath+CCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+CCAdditions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,16 +77,6 @@
 				46920BF118A59BDD0005079A /* CoreGraphics.framework in Frameworks */,
 				46920BF318A59BDD0005079A /* UIKit.framework in Frameworks */,
 				46920BEF18A59BDD0005079A /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		46920C0318A59BDD0005079A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				46920C0818A59BDD0005079A /* XCTest.framework in Frameworks */,
-				46920C0A18A59BDD0005079A /* UIKit.framework in Frameworks */,
-				46920C0918A59BDD0005079A /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +113,6 @@
 			isa = PBXGroup;
 			children = (
 				46920BF418A59BDD0005079A /* TiledScrollView */,
-				46920C0D18A59BDD0005079A /* TiledScrollViewTests */,
 				46920BED18A59BDD0005079A /* Frameworks */,
 				46920BEC18A59BDD0005079A /* Products */,
 			);
@@ -150,7 +122,6 @@
 			isa = PBXGroup;
 			children = (
 				46920BEB18A59BDD0005079A /* CCCanvasSample.app */,
-				46920C0618A59BDD0005079A /* CCCanvasSampleTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -161,7 +132,6 @@
 				46920BEE18A59BDD0005079A /* Foundation.framework */,
 				46920BF018A59BDD0005079A /* CoreGraphics.framework */,
 				46920BF218A59BDD0005079A /* UIKit.framework */,
-				46920C0718A59BDD0005079A /* XCTest.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -195,24 +165,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		46920C0D18A59BDD0005079A /* TiledScrollViewTests */ = {
-			isa = PBXGroup;
-			children = (
-				46920C1318A59BDD0005079A /* TiledScrollViewTests.m */,
-				46920C0E18A59BDD0005079A /* Supporting Files */,
-			);
-			path = TiledScrollViewTests;
-			sourceTree = "<group>";
-		};
-		46920C0E18A59BDD0005079A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				46920C0F18A59BDD0005079A /* CCCanvasSampleTests-Info.plist */,
-				46920C1018A59BDD0005079A /* InfoPlist.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		46920C2018A59C0F0005079A /* CCTileScrollView */ = {
 			isa = PBXGroup;
 			children = (
@@ -227,6 +179,8 @@
 		46E0C87E18E9F08A001C2770 /* CCUtilities */ = {
 			isa = PBXGroup;
 			children = (
+				C00CBFEB1B4C321D005846A3 /* UIBezierPath+CCAdditions.h */,
+				C00CBFEC1B4C321D005846A3 /* UIBezierPath+CCAdditions.m */,
 				46E0C87F18E9F28E001C2770 /* CCAnnotatableWebView.h */,
 				46E0C88018E9F28E001C2770 /* CCAnnotatableWebView.m */,
 				46E0C88118E9F28E001C2770 /* CCAnnotationView.h */,
@@ -263,24 +217,6 @@
 			productReference = 46920BEB18A59BDD0005079A /* CCCanvasSample.app */;
 			productType = "com.apple.product-type.application";
 		};
-		46920C0518A59BDD0005079A /* CCCanvasSampleTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 46920C1A18A59BDD0005079A /* Build configuration list for PBXNativeTarget "CCCanvasSampleTests" */;
-			buildPhases = (
-				46920C0218A59BDD0005079A /* Sources */,
-				46920C0318A59BDD0005079A /* Frameworks */,
-				46920C0418A59BDD0005079A /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				46920C0C18A59BDD0005079A /* PBXTargetDependency */,
-			);
-			name = CCCanvasSampleTests;
-			productName = TiledScrollViewTests;
-			productReference = 46920C0618A59BDD0005079A /* CCCanvasSampleTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -290,14 +226,9 @@
 				CLASSPREFIX = CC;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = "Clique City";
-				TargetAttributes = {
-					46920C0518A59BDD0005079A = {
-						TestTargetID = 46920BEA18A59BDD0005079A;
-					};
-				};
 			};
 			buildConfigurationList = 46920BE618A59BDD0005079A /* Build configuration list for PBXProject "CCCanvasSample" */;
-			compatibilityVersion = "Xcode 3.2";
+			compatibilityVersion = "Xcode 6.3";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -309,7 +240,6 @@
 			projectRoot = "";
 			targets = (
 				46920BEA18A59BDD0005079A /* CCCanvasSample */,
-				46920C0518A59BDD0005079A /* CCCanvasSampleTests */,
 			);
 		};
 /* End PBXProject section */
@@ -324,14 +254,6 @@
 				4608AD4118BE8B39000B2889 /* bluePin@2x.png in Resources */,
 				46920C0118A59BDD0005079A /* Images.xcassets in Resources */,
 				4626974118B41F7D009A2868 /* doc (1) in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		46920C0418A59BDD0005079A /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				46920C1218A59BDD0005079A /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -354,40 +276,17 @@
 				46920BFB18A59BDD0005079A /* main.m in Sources */,
 				46E0C88E18E9F28E001C2770 /* CCGeometry.m in Sources */,
 				46E0C89018E9F28E001C2770 /* CCStroke.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		46920C0218A59BDD0005079A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				46920C1418A59BDD0005079A /* TiledScrollViewTests.m in Sources */,
+				C00CBFED1B4C321D005846A3 /* UIBezierPath+CCAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		46920C0C18A59BDD0005079A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 46920BEA18A59BDD0005079A /* CCCanvasSample */;
-			targetProxy = 46920C0B18A59BDD0005079A /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		46920BF718A59BDD0005079A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				46920BF818A59BDD0005079A /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		46920C1018A59BDD0005079A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				46920C1118A59BDD0005079A /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -501,48 +400,6 @@
 			};
 			name = Release;
 		};
-		46920C1B18A59BDD0005079A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TiledScrollView.app/TiledScrollView";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TiledScrollView/TiledScrollView-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = "TiledScrollViewTests/CCCanvasSampleTests-Info.plist";
-				PRODUCT_NAME = CCCanvasSampleTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Debug;
-		};
-		46920C1C18A59BDD0005079A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TiledScrollView.app/TiledScrollView";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-					"$(DEVELOPER_FRAMEWORKS_DIR)",
-				);
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "TiledScrollView/TiledScrollView-Prefix.pch";
-				INFOPLIST_FILE = "TiledScrollViewTests/CCCanvasSampleTests-Info.plist";
-				PRODUCT_NAME = CCCanvasSampleTests;
-				TEST_HOST = "$(BUNDLE_LOADER)";
-				WRAPPER_EXTENSION = xctest;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -560,15 +417,6 @@
 			buildConfigurations = (
 				46920C1818A59BDD0005079A /* Debug */,
 				46920C1918A59BDD0005079A /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		46920C1A18A59BDD0005079A /* Build configuration list for PBXNativeTarget "CCCanvasSampleTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				46920C1B18A59BDD0005079A /* Debug */,
-				46920C1C18A59BDD0005079A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

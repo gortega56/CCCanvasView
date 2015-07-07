@@ -13,6 +13,8 @@
 
 @interface CCAnnotationView ()
 
+@property (nonatomic, readonly) CGFloat superviewScale;
+
 @end
 
 @implementation CCAnnotationView
@@ -30,7 +32,6 @@
     self = [super initWithFrame:CGRectForPoints(points)];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        self.strokeColor = [UIColor openStatusColor];
         self.fillColor = [UIColor clearColor];
         self.lineJoinStyle = kCGLineJoinRound;
         self.lineCapStyle = kCGLineCapRound;
@@ -62,14 +63,14 @@
 {
     [super didMoveToSuperview];
     
+    if (self.superview == nil) {
+        return;
+    }
+    
     if (self.layer.contents) { // Pop Animation
-        [UIView animateWithDuration:0.1 animations:^{
-            self.transform = CGAffineTransformMakeScale(1.5, 1.5);
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.15 animations:^{
-                self.transform = CGAffineTransformMakeScale(1, 1);
-            }];
-        }];
+        [UIView animateWithDuration:0.25 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
+            self.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
+        } completion:nil];
     }
     else { // Draw path
         self.path = self.boundedPath;
@@ -80,16 +81,15 @@
 
 - (void)applyTransformWithScale:(CGFloat)scale
 {
-    if (self.layer.contents) { // Keep image the same size
-        self.transform = CGAffineTransformIdentity;
-    }
-    else {
+    if (!self.layer.contents) { // Don't transform pin image.
         self.transform = CGAffineTransformMakeScale(scale, scale);
     }
 }
 
 - (void)updatePositionWithScale:(CGFloat)scale
 {
+    // Should set the center of the view at the base zoom level
+    // All other zoom calculations based on annotationPos
     CGPoint annotationPosition = self.center;
     annotationPosition.x = annotationPosition.x * scale;
     annotationPosition.y = annotationPosition.y * scale;
@@ -98,6 +98,7 @@
 
 - (void)updateCenterWithScale:(CGFloat)scale
 {
+    // This will change the frame of the view relative to the superview's zoom scale
     CGPoint annotationPosition = self.annotationPosition;
     annotationPosition.x = annotationPosition.x * scale;
     annotationPosition.y = annotationPosition.y * scale;
@@ -107,21 +108,24 @@
 
 #pragma mark -  CCStroke Methods
 
-- (NSArray *)convertStrokes:(NSArray *)strokes fromView:(UIView *)view
+- (NSArray *)convertStrokes:(NSArray *)strokes fromView:(UIView *)view withScale:(CGFloat)scale
 {
     NSMutableArray *convertedStrokes = [NSMutableArray new];
     for (CCStroke *stroke in strokes) {
-        [convertedStrokes addObject:[self convertStroke:stroke fromView:view]];
+        [convertedStrokes addObject:[self convertStroke:stroke fromView:view withScale:scale]];
     }
     
     return convertedStrokes;
 }
 
-- (CCStroke *)convertStroke:(CCStroke *)stroke fromView:(UIView *)view
+- (CCStroke *)convertStroke:(CCStroke *)stroke fromView:(UIView *)view withScale:(CGFloat)scale;
 {
+//    CGFloat scale = [(UIScrollView *)view zoomScale]/[(UIScrollView *)view minimumZoomScale];
     NSMutableArray *convertedPoints = [NSMutableArray new];
     for (NSValue *value in stroke.points) {
-        CGPoint convertedPoint = [self convertPoint:value.CGPointValue fromView:view];
+        CGPoint strokePoint = value.CGPointValue;
+        CGPoint scaledPoint = CGPointMake(strokePoint.x * scale, strokePoint.y * scale);
+        CGPoint convertedPoint = [self convertPoint:scaledPoint fromView:view];
         [convertedPoints addObject:[NSValue valueWithCGPoint:convertedPoint]];
     }
     
@@ -149,7 +153,7 @@
 }
 
 // Use for hit testing
-- (UIBezierPath *)closedPathForStrokes:(NSArray *)strokes convertedFromView:(UIView *)view
+- (UIBezierPath *)closedPathForStrokes:(NSArray *)strokes convertedFromView:(UIView *)view withScale:(CGFloat)scale
 {
     UIBezierPath *path = [UIBezierPath bezierPath];
     path.lineJoinStyle = self.lineJoinStyle;
@@ -157,7 +161,7 @@
     path.lineWidth = self.lineWidth;
     path.usesEvenOddFillRule = YES;
     
-    NSArray *convertedStrokes = [self convertStrokes:strokes fromView:view];
+    NSArray *convertedStrokes = [self convertStrokes:strokes fromView:view withScale:scale];
     CGPoint previousStrokeEndPoint = CGPointZero;
     for (CCStroke *stroke in convertedStrokes) {
         for (NSValue *value in stroke.points) {
@@ -174,14 +178,14 @@
     return path;
 }
 
-- (UIBezierPath *)pathForStrokes:(NSArray *)strokes convertedFromView:(UIView *)view
+- (UIBezierPath *)pathForStrokes:(NSArray *)strokes convertedFromView:(UIView *)view withScale:(CGFloat)scale
 {
     UIBezierPath *path = [UIBezierPath bezierPath];
     path.lineJoinStyle = self.lineJoinStyle;
     path.lineCapStyle = self.lineCapStyle;
     path.lineWidth = self.lineWidth;
 
-    NSArray *convertedStrokes = [self convertStrokes:strokes fromView:view];
+    NSArray *convertedStrokes = [self convertStrokes:strokes fromView:view withScale:scale];
     for (CCStroke *stroke in convertedStrokes) {
         [path appendPath:stroke.path];
     }
@@ -191,19 +195,24 @@
 
 #pragma mark - Accessor Methods
 
+- (CGFloat)superviewScale
+{
+    return (![self.superview isKindOfClass:[UIScrollView class]]) ? 1.f : [(UIScrollView *)self.superview zoomScale]/[(UIScrollView *)self.superview minimumZoomScale];
+}
+
 - (UIBezierPath *)boundedPathClosed
 {
-    return [self closedPathForStrokes:_strokes convertedFromView:self.superview];
+    return [self closedPathForStrokes:_strokes convertedFromView:self.superview withScale:self.superviewScale];
 }
 
 - (UIBezierPath *)boundedPath
 {
-    return [self pathForStrokes:_strokes convertedFromView:self.superview];
+    return [self pathForStrokes:_strokes convertedFromView:self.superview withScale:self.superviewScale];
 }
 
 - (NSArray *)boundedStrokes
 {
-     return [self convertStrokes:_strokes fromView:self.superview];
+     return [self convertStrokes:_strokes fromView:self.superview withScale:self.superviewScale];
 }
 
 - (CGPoint)startPoint

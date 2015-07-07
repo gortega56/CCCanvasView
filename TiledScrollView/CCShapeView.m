@@ -12,6 +12,11 @@
 
 #pragma mark - CALayer
 
+- (CAShapeLayer *)shapeLayer
+{
+    return (CAShapeLayer *)self.layer;
+}
+
 + (Class)layerClass
 {
     return [CAShapeLayer class];
@@ -30,48 +35,49 @@
 
 - (UIColor *)strokeColor
 {
-    return [UIColor colorWithCGColor:self.layer.strokeColor];
+
+    return [UIColor colorWithCGColor:self.shapeLayer.strokeColor];
 }
 
 - (UIColor *)fillColor
 {
-    return [UIColor colorWithCGColor:self.layer.fillColor];
+    return [UIColor colorWithCGColor:self.shapeLayer.fillColor];
 }
 
 - (CGFloat)lineWidth
 {
-    return self.layer.lineWidth;
+    return self.shapeLayer.lineWidth;
 }
 
 - (CGLineJoin)lineJoinStyle
 {
-    if ([self.layer.lineJoin isEqualToString:kCALineJoinBevel]) {
+    if ([self.shapeLayer.lineJoin isEqualToString:kCALineJoinBevel]) {
         return kCGLineJoinBevel;
     }
-    else if ([self.layer.lineJoin isEqualToString:kCALineJoinRound]) {
+    else if ([self.shapeLayer.lineJoin isEqualToString:kCALineJoinRound]) {
         return kCGLineJoinRound;
     }
-    else  { // ([self.layer.lineJoin isEqualToString:kCALineJoinMiter])
+    else  { // ([self.shapeLayer.lineJoin isEqualToString:kCALineJoinMiter])
         return kCGLineJoinMiter;
     }
 }
 
 - (CGLineCap)lineCapStyle
 {
-    if ([self.layer.lineCap isEqualToString:kCALineCapButt]) {
+    if ([self.shapeLayer.lineCap isEqualToString:kCALineCapButt]) {
         return kCGLineCapButt;
     }
-    else if ([self.layer.lineCap isEqualToString:kCALineCapRound]) {
+    else if ([self.shapeLayer.lineCap isEqualToString:kCALineCapRound]) {
         return kCGLineCapRound;
     }
-    else  { // ([self.layer.lineCap isEqualToString:kCALineCapSquare])
+    else  { // ([self.shapeLayer.lineCap isEqualToString:kCALineCapSquare])
         return kCGLineCapSquare;
     }
 }
 
 - (UIBezierPath *)path
 {
-    UIBezierPath *path = [UIBezierPath bezierPathWithCGPath:self.layer.path];
+    UIBezierPath *path = [UIBezierPath bezierPathWithCGPath:self.shapeLayer.path];
     path.lineCapStyle = self.lineCapStyle;
     path.lineJoinStyle = self.lineJoinStyle;
     path.lineWidth = self.lineWidth;
@@ -82,30 +88,30 @@
 
 - (void)setStrokeColor:(UIColor *)strokeColor
 {
-    self.layer.strokeColor = strokeColor.CGColor;
+    self.shapeLayer.strokeColor = strokeColor.CGColor;
 }
 
 - (void)setFillColor:(UIColor *)fillColor
 {
-    self.layer.fillColor = fillColor.CGColor;
+    self.shapeLayer.fillColor = fillColor.CGColor;
 }
 
 - (void)setLineWidth:(CGFloat)lineWidth
 {
-    self.layer.lineWidth = lineWidth;
+    self.shapeLayer.lineWidth = lineWidth;
 }
 
 - (void)setLineJoinStyle:(CGLineJoin)lineJoinStyle
 {
     switch (lineJoinStyle) {
         case kCGLineJoinMiter:
-            self.layer.lineJoin = kCALineJoinMiter;
+            self.shapeLayer.lineJoin = kCALineJoinMiter;
             break;
         case kCGLineJoinRound:
-            self.layer.lineJoin = kCALineJoinRound;
+            self.shapeLayer.lineJoin = kCALineJoinRound;
             break;
         case kCGLineJoinBevel:
-            self.layer.lineJoin = kCALineJoinBevel;
+            self.shapeLayer.lineJoin = kCALineJoinBevel;
             break;
     }
 }
@@ -114,13 +120,13 @@
 {
     switch (lineCapStyle) {
         case kCGLineCapButt:
-            self.layer.lineCap = kCALineCapButt;
+            self.shapeLayer.lineCap = kCALineCapButt;
             break;
         case kCGLineCapRound:
-            self.layer.lineCap = kCALineCapRound;
+            self.shapeLayer.lineCap = kCALineCapRound;
             break;
         case kCGLineCapSquare:
-            self.layer.lineCap = kCALineCapSquare;
+            self.shapeLayer.lineCap = kCALineCapSquare;
             break;
     }
 }
@@ -129,7 +135,7 @@
 {
     self.lineCapStyle = path.lineCapStyle;
     self.lineJoinStyle = path.lineJoinStyle;
-    self.layer.path = path.CGPath;
+    self.shapeLayer.path = path.CGPath;
 }
 
 

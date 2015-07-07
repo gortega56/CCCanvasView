@@ -102,7 +102,7 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
         CGPoint viewPoint = [_webView.scrollView convertPoint:[value CGPointValue] fromView:canvasView];
         [viewPoints addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
-    [_canvasStrokes addObject:[CCStroke strokeWithPoints:viewPoints]];
+    [_canvasStrokes addObject:[CCStroke curvedStrokeWithPoints:viewPoints]];
 
     CCAnnotationView *annotation = [self annotationForTrackType:canvasView.trackType];
     [_webView addAnnotationLayer:annotation];
@@ -119,13 +119,13 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
             [_canvasStrokes removeAllObjects];
             return annotation;
         }
-        case CCCanvasViewTrackTypeShape:
+        case CCCanvasViewTrackTypePolygon:
             break;
-        case CCCanvasViewTrackTypeLine:
+        case CCCanvasViewTrackTypeUndefinedPolygon:
             break;
         case CCCanvasViewTrackTypePin:
         {
-            CCAnnotationPinView *annotation = [CCAnnotationPinView annotationViewWithStrokes:_canvasStrokes.copy];
+            CCAnnotationView *annotation = [CCAnnotationView annotationViewWithStrokes:_canvasStrokes.copy];
             annotation.annotationImage = [UIImage imageNamed:@"bluePin"];
             annotation.frame = CGRectInset(annotation.frame, -40, -40);
             [_canvasStrokes removeAllObjects];

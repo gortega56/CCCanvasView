@@ -153,7 +153,7 @@ CGFloat const kCCCanvasViewAnchorPointRadius = 20.f;
             _previousPoint2 =  (_points.count == 0) ? currentPoint : _previousPoint2 ; // Set Close path Point
             _previousPoint1 = (trackingTouch) ? previousPoint : _previousPoint2;
             _currentPoint = currentPoint;
-            if (CGFloatDistanceBetweenPoints(_currentPoint, _previousPoint2) < kCCCanvasViewAnchorPointRadius) {
+            if (CGFloatDistanceBetweenPoints(_currentPoint, _previousPoint2) < kCCCanvasViewAnchorPointRadius && trackingTouch) {
                 _currentPoint = _previousPoint2;
             }
             break;
@@ -320,7 +320,7 @@ CGFloat const kCCCanvasViewAnchorPointRadius = 20.f;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
-    [self updateTrackedPointsWithCurrentPoint:[touch locationInView:self] previousPoint:[touch previousLocationInView:self] trackingTouch:YES];
+    [self updateTrackedPointsWithCurrentPoint:[touch locationInView:self] previousPoint:[touch previousLocationInView:self] trackingTouch:_touchesMoved];
     [self addTrackedPoint:_currentPoint];
     [self finishTrackingPoints];
     [self setNeedsDisplay];

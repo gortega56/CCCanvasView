@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-CGFloat const kCCCanvasViewDefaultLineWidth;
+extern CGFloat const kCCCanvasViewDefaultLineWidth;
 
 typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 {
+    CCCanvasViewTrackTypePin,
     CCCanvasViewTrackTypeFreeHand,
-    CCCanvasViewTrackTypePolygon,
-    CCCanvasViewTrackTypeUndefinedPolygon,
     CCCanvasViewTrackTypeCircle,
     CCCanvasViewTrackTypeRectangle,
-    CCCanvasViewTrackTypePin,
+    CCCanvasViewTrackTypePolygon,
+    CCCanvasViewTrackTypeUndefinedPolygon,
     CCCanvasViewTrackTypeDebug
 };
 
@@ -39,6 +39,8 @@ typedef NS_ENUM(NSInteger, CCCanvasViewTrackType)
 @property (nonatomic) CCCanvasViewTrackType trackType;
 
 - (void)clearCurrentPathPoints;
+- (void)addTrackedPoint:(CGPoint)point;
+- (void)finishTrackingPoints;
 
 @end
 

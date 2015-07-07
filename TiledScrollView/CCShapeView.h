@@ -10,7 +10,7 @@
 
 @interface CCShapeView : UIView
 
-@property (nonatomic, strong) CAShapeLayer *layer;
+@property (nonatomic, strong) CAShapeLayer *shapeLayer;
 @property (nonatomic, strong) UIBezierPath *path;
 @property (nonatomic, strong) UIColor *strokeColor;
 @property (nonatomic, strong) UIColor *fillColor;

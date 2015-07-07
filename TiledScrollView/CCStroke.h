@@ -19,6 +19,7 @@ typedef NS_ENUM(NSInteger, CCStrokeType)
 @interface CCStroke : NSObject
 
 @property (nonatomic, readonly) NSArray *points;
+@property (nonatomic, readonly) NSArray *normalizedPoints;
 @property (nonatomic, readonly) UIBezierPath *path;
 @property (nonatomic, readonly) CGRect bounds;
 @property (nonatomic, readonly) CCStrokeType type;

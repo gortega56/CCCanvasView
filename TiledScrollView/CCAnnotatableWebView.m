@@ -29,6 +29,19 @@
     return self;
 }
 
+- (void)dealloc
+{
+    [self removeAnnotationViews:_annotations];
+    _annotations = nil;
+    
+    // UIWebView is notorious for leaking memory... Here are some tricks to get it to release
+    // http://www.codercowboy.com/code-uiwebview-memory-leak-prevention/
+    [self loadHTMLString:@"" baseURL:nil];
+    [self stopLoading];
+    self.delegate = nil;
+    [self removeFromSuperview];
+}
+
 #pragma mark - Accessor Methods
 
 - (CGFloat)webViewZoomScale
@@ -36,26 +49,48 @@
     return self.scrollView.zoomScale/self.scrollView.minimumZoomScale;
 }
 
+- (CGSize)webViewContentSize
+{
+    return CGSizeMake(self.scrollView.contentSize.width/self.webViewZoomScale, self.scrollView.contentSize.height/self.webViewZoomScale);
+}
+
 #pragma mark - Mutator Methods
+
+- (void)addAnnotationViews:(NSArray *)annotationViews
+{
+    for (CCAnnotationView *annotationView in annotationViews) {
+        [self addAnnotationLayer:annotationView];
+    }
+}
 
 - (void)addAnnotationLayer:(CCAnnotationView *)annotationLayer
 {
-    annotationLayer.lineWidth = annotationLayer.constantLineWidth/self.webViewZoomScale;
-    [annotationLayer updatePositionWithScale:(1.f/self.webViewZoomScale)];
-    [annotationLayer applyTransformWithScale:self.webViewZoomScale];
+    CGFloat scale = self.webViewZoomScale;
+    annotationLayer.lineWidth = annotationLayer.constantLineWidth/scale;
+    [annotationLayer updateCenterWithScale:scale];
+    [annotationLayer applyTransformWithScale:scale];
     [_annotations addObject:annotationLayer];
     [self.scrollView addSubview:annotationLayer];
 }
 
-- (void)removeAnnotation:(CCAnnotationView *)annotation
+- (void)removeAnnotationViews:(NSArray *)annotationViews
 {
-    [annotation removeFromSuperview];
-    [_annotations removeObject:annotation];
+    [annotationViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [_annotations removeObjectsInArray:annotationViews];
 }
 
-- (void)removeLastAnnotation
+- (void)removeAnnotation:(CCAnnotationView *)annotation
 {
-    [self removeAnnotation:_annotations.lastObject];
+    if (!annotation) {
+        return;
+    }
+    
+    [self removeAnnotationViews:@[annotation]];
+}
+
+- (NSArray *)annotationsWithPredicate:(NSPredicate *)predicate
+{
+    return [_annotations filteredArrayUsingPredicate:predicate];
 }
 
 - (void)consolidateAnnotationsInRange:(NSRange)range usingBlock:(CCAnnotationView *(^)(NSArray *subAnnotationStrokes))block
@@ -107,6 +142,14 @@
     [super scrollViewDidEndZooming:scrollView withView:view atScale:scale];
     if ([self.delegate respondsToSelector:_cmd]) {
         [(id<UIScrollViewDelegate>)self.delegate scrollViewDidEndZooming:scrollView withView:view atScale:scale];
+    }
+}
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
+{
+    // NOTE: Base class does NOT respond to [id<UIScrollViewDelegate> scrollViewWillEndDragging:withVelocity:targetContentOffset:]
+    if ([self.delegate respondsToSelector:_cmd]) {
+        [(id<UIScrollViewDelegate>)self.delegate scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
     }
 }
 

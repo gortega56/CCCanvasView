@@ -14,12 +14,19 @@
 @interface CCAnnotatableWebView : UIWebView
 
 @property (nonatomic, readonly) NSMutableArray *annotations;
+@property (nonatomic, readonly) CGSize webViewContentSize;
 @property (nonatomic, readonly) CGFloat webViewZoomScale;
+
 @property (nonatomic, strong) UIColor *annotationColor;
 @property (nonatomic) CGFloat annotationLineWidth;
 
+- (void)addAnnotationViews:(NSArray *)annotationViews;
 - (void)addAnnotationLayer:(CCAnnotationView *)annotationLayer;
 - (void)consolidateAnnotationsInRange:(NSRange)range usingBlock:(CCAnnotationView *(^)(NSArray *subAnnotationStrokes))block;
-- (void)removeLastAnnotation;
+
+- (NSArray *)annotationsWithPredicate:(NSPredicate *)predicate;
+- (void)removeAnnotationViews:(NSArray *)annotationViews;
+- (void)removeAnnotation:(CCAnnotationView *)annotation;
+
 - (UIImage *)imageCaptureWithSize:(CGSize)size;
 @end
