@@ -17,12 +17,12 @@
 
 @property (nonatomic, strong) CCTileScrollView *tileScrollView;
 @property (nonatomic, strong) CCCanvasView *markupView;
-
+@property (nonatomic, strong) NSMutableArray *canvasStrokes;
+@property (nonatomic, strong) NSMutableArray *annotations;
 
 @property (nonatomic, strong) NSString *tilesPath;
 @property (nonatomic) BOOL markupEnabled;
 
-@property (nonatomic, strong) NSMutableArray *markupViews;
 @property (nonatomic, strong) UIButton *toggleButton;
 @end
 
@@ -57,7 +57,8 @@
     
     _tilesPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"test_files/HalfAndMax"];
     _tileScrollView.placeHolderImage = [UIImage imageWithContentsOfFile:[NSString stringWithFormat:@"%@/downsample.png", self.tilesPath]];
-    _markupViews = [NSMutableArray new];
+    _canvasStrokes = [NSMutableArray new];
+    _annotations = [NSMutableArray new];
     self.markupEnabled = NO;
 }
 
@@ -90,8 +91,10 @@
 
 - (void)tileScrollViewDidZoom:(CCTileScrollView *)tileScrollView
 {
-    [self.markupViews setValue:@(tileScrollView.zoomScale) forKey:@"scale"];
-    [self.markupViews makeObjectsPerformSelector:@selector(setNeedsDisplay)];
+    CGFloat scale = tileScrollView.zoomScale;
+    for (CCAnnotationView *annotation in self.annotations) {
+        annotation.lineWidth = annotation.constantLineWidth/scale;
+    }
 }
 
 #pragma mark - Markup
@@ -123,60 +126,55 @@
     self.markupEnabled = !self.markupEnabled;
 }
 
-#pragma mark - CCMarkup Delegate
-- (void)canvasView:(CCCanvasView *)canvasView didTrackPoint:(CGPoint)point
-{
-
-}
+#pragma mark - CCCanvasViewDelegate
 
 - (void)canvasView:(CCCanvasView *)canvasView didFinishTrackingPoints:(NSArray *)points
 {
     NSMutableArray *viewPoints = [NSMutableArray new];
     for (NSValue *value in points) {
-        CGPoint viewPoint = [_tileScrollView.zoomView convertPoint:[value CGPointValue] fromView:canvasView];
+        CGPoint viewPoint = [self.tileScrollView.zoomView convertPoint:[value CGPointValue] fromView:canvasView];
         [viewPoints addObject:[NSValue valueWithCGPoint:viewPoint]];
     }
+    [_canvasStrokes addObject:[CCStroke curvedStrokeWithPoints:viewPoints]];
     
-//    CCStroke *stroke = [CCStroke strokeWithPoints:viewPoints];
-//    CCAnnotationLayer *markLayer = [CCAnnotationLayer layer];
-//    markLayer.strokes = @[stroke];
-//    markLayer.fillColor = [UIColor clearColor].CGColor;
-//    markLayer.strokeColor = [UIColor orangeColor].CGColor;
-//    markLayer.lineCap = kCALineCapRound;
-//    markLayer.lineJoin = kCALineJoinRound;
-//    markLayer.lineWidth = kCCMarkupViewLineWidth/_tileScrollView.zoomScale;
-//    markLayer.path = markLayer.strokePath.CGPath;
-//    markLayer.scale = _tileScrollView.zoomScale;
-//    [_markupViews addObject:markLayer];
-//    [_tileScrollView.zoomView.layer addSublayer:markLayer];
+    CCAnnotationView *annotation = [self annotationForTrackType:canvasView.trackType];
+    annotation.layer.borderWidth = 1.0f;
+    annotation.layer.borderColor = [UIColor orangeColor].CGColor;
+    annotation.constantLineWidth = canvasView.strokeWidth;
+    annotation.strokeColor = canvasView.strokeColor;
+    annotation.lineWidth = annotation.constantLineWidth/self.tileScrollView.zoomScale;
+    [_annotations addObject:annotation];
+    [_tileScrollView.zoomView addSubview:annotation];
 }
 
-- (void)canvasView:(CCCanvasView *)canvasView didFinishPath:(UIBezierPath *)path
+#pragma mark - Annotation Methods
+
+- (CCAnnotationView *)annotationForTrackType:(CCCanvasViewTrackType)trackType
 {
-//    CGFloat scale = (1.f/_tileScrollView.zoomScale);
-//    
-//    CCStroke *stroke = [CCStroke strokeWithPoints:];
-//    CCMarkLayer *markLayer = [CCMarkLayer layer];
-//    markLayer.strokes = @[stroke];
-//    markLayer.fillColor = [UIColor clearColor].CGColor;
-//    markLayer.strokeColor = [UIColor orangeColor].CGColor;
-//    markLayer.lineCap = kCALineCapRound;
-//    markLayer.lineJoin = kCALineJoinRound;
-//    markLayer.scale = _tileScrollView.zoomScale;
-//    markLayer.transform = CATransform3DMakeScale(scale, scale, 1);
-//    [_markupViews addObject:markLayer];
-//    [_tileScrollView.zoomView.layer addSublayer:markLayer];
-//
-//    
-//    
-//    CCMarkLayer *shapeLayer = [CCMarkLayer layer];
-//    shapeLayer.strokeColor = [UIColor orangeColor].CGColor;
-//    shapeLayer.lineWidth = kCCMarkupViewLineWidth;
-//    shapeLayer.lineCap = kCALineCapRound;
-//    shapeLayer.lineJoin = kCALineJoinRound;
-//    shapeLayer.path = path.CGPath;
-//    shapeLayer.transform = CATransform3DMakeScale(scale, scale, 1);
-//    [_tileScrollView.zoomView.layer addSublayer:shapeLayer];
+    switch (trackType) {
+        case CCCanvasViewTrackTypeFreeHand:
+        {
+            CCAnnotationView *annotation = [CCAnnotationView annotationViewWithStrokes:_canvasStrokes.copy];
+            [_canvasStrokes removeAllObjects];
+            return annotation;
+        }
+        case CCCanvasViewTrackTypePolygon:
+            break;
+        case CCCanvasViewTrackTypeUndefinedPolygon:
+            break;
+        case CCCanvasViewTrackTypePin:
+        {
+            CCAnnotationView *annotation = [CCAnnotationView annotationViewWithStrokes:_canvasStrokes.copy];
+            annotation.annotationImage = [UIImage imageNamed:@"bluePin"];
+            annotation.frame = CGRectInset(annotation.frame, -40, -40);
+            [_canvasStrokes removeAllObjects];
+            return annotation;
+        }
+        default:
+            break;
+    }
+    
+    return nil;
 }
 
 - (void)didReceiveMemoryWarning

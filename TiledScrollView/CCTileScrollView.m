@@ -125,30 +125,6 @@
     _zoomView.image = image;
 }
 
-- (void)setZoomScalesForCurrentBoundsAndContentSize
-{
-    CGSize boundsSize = self.bounds.size;
-    CGFloat scaleWidth = CGRectGetWidth(self.frame) / _fullImageSize.width;
-    CGFloat scaleHeight = CGRectGetHeight(self.frame) / _fullImageSize.height;
-    
-    // fill width if the image and phone are both portrait or both landscape; otherwise take smaller scale
-    BOOL imagePortrait = _fullImageSize.height > _fullImageSize.width;
-    BOOL phonePortrait = boundsSize.height > boundsSize.width;
-    CGFloat minScale = imagePortrait == phonePortrait ? scaleWidth : MIN(scaleWidth, scaleHeight);
-    
-    // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
-    // maximum zoom scale to 0.5.
-    CGFloat maxScale = 1.0 / [[UIScreen mainScreen] scale];
-    
-    // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.)
-    if (minScale > maxScale) {
-        minScale = maxScale;
-    }
-    
-    self.minimumZoomScale = minScale;
-    self.maximumZoomScale = maxScale;
-}
-
 #pragma mark - UIScrollView Delegate
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -288,6 +264,30 @@
     offset.y = MAX(minOffset.y, realMaxOffset);
     
     self.contentOffset = offset;
+}
+
+- (void)setZoomScalesForCurrentBoundsAndContentSize
+{
+    CGSize boundsSize = self.bounds.size;
+    CGFloat scaleWidth = CGRectGetWidth(self.frame) / _fullImageSize.width;
+    CGFloat scaleHeight = CGRectGetHeight(self.frame) / _fullImageSize.height;
+    
+    // fill width if the image and phone are both portrait or both landscape; otherwise take smaller scale
+    BOOL imagePortrait = _fullImageSize.height > _fullImageSize.width;
+    BOOL phonePortrait = boundsSize.height > boundsSize.width;
+    CGFloat minScale = imagePortrait == phonePortrait ? scaleWidth : MIN(scaleWidth, scaleHeight);
+    
+    // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
+    // maximum zoom scale to 0.5.
+    CGFloat maxScale = 1.0 / [[UIScreen mainScreen] scale];
+    
+    // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.)
+    if (minScale > maxScale) {
+        minScale = maxScale;
+    }
+    
+    self.minimumZoomScale = minScale;
+    self.maximumZoomScale = maxScale;
 }
 
 - (CGPoint)maximumContentOffset

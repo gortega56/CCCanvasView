@@ -122,7 +122,6 @@
 
     CGFloat scale = self.webViewZoomScale;
     [_annotations enumerateObjectsUsingBlock:^(CCAnnotationView *annotationLayer, NSUInteger idx, BOOL *stop) {
-        annotationLayer.lineWidth = annotationLayer.constantLineWidth/scale;
         [annotationLayer updateCenterWithScale:scale];
         [annotationLayer applyTransformWithScale:scale];
     }];
