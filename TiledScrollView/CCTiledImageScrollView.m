@@ -6,23 +6,21 @@
 //  Copyright (c) 2014 Clique City. All rights reserved.
 //
 
-#import "CCTileScrollView.h"
-#import "CCCanvasView.h"
-#import "CCTileView.h"
+#import "CCTiledImageScrollView.h"
+#import "CCTiledView.h"
 
-@interface CCTileScrollView () <UIScrollViewDelegate, CCTileViewDelegate>
+@interface CCTiledImageScrollView () <UIScrollViewDelegate, CCTiledViewDelegate>
 {
     CGPoint _pointToCenterAfterResize;
     CGFloat _scaleToRestoreAfterResize; // Used for rotation support
 }
 
 @property (nonatomic, strong) UIImageView *zoomView;
-@property (nonatomic, strong) CCCanvasView *markupView;
-@property (nonatomic, strong) CCTileView *imageTileView;
+@property (nonatomic, strong) CCTiledView *tiledView;
 
 @end
 
-@implementation CCTileScrollView
+@implementation CCTiledImageScrollView
 
 #pragma mark - UIView Methods
 
@@ -88,15 +86,15 @@
 {
     self.contentSize = fullImageSize;
     _fullImageSize = fullImageSize;
-    [self initTileImageViewWithContentSize:fullImageSize];
+    [self initSubviewsWithContentSize:fullImageSize];
 }
 
-- (void)initTileImageViewWithContentSize:(CGSize)contentSize
+- (void)initSubviewsWithContentSize:(CGSize)contentSize
 {
     // Clear previous image
     [_zoomView removeFromSuperview];
     _zoomView = nil;
-    _imageTileView = nil;
+    _tiledView = nil;
     
     // Reset zoom scale
     self.zoomScale = 1.f;
@@ -106,10 +104,10 @@
     _zoomView.userInteractionEnabled = YES;
     [self addSubview:_zoomView];
     
-    _imageTileView = [[CCTileView alloc] initWithFrame:_zoomView.bounds];
-    _imageTileView.userInteractionEnabled = NO;
-    _imageTileView.delegate = self;
-    [_zoomView addSubview:_imageTileView];
+    _tiledView = [[CCTiledView alloc] initWithFrame:_zoomView.bounds];
+    _tiledView.userInteractionEnabled = NO;
+    _tiledView.delegate = self;
+    [_zoomView addSubview:_tiledView];
     
     [self configureForContentSize:contentSize];
 }
@@ -127,76 +125,77 @@
 
 #pragma mark - UIScrollView Delegate
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidEndDeceleration:)]) {
-        [self.scrollDelegate tileScrollViewDidEndDeceleration:self];
-    }
-}
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidEndDragging:)]) {
-        [self.scrollDelegate tileScrollViewDidEndDragging:self];
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewDidScroll:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewDidScroll:scrollView];
     }
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidEndScrollingAnimation:)]) {
-        [self.scrollDelegate tileScrollViewDidEndScrollingAnimation:self];
-    }
-}
-
-- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
-{
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidEndZooming:withView:atScale:)]) {
-        [self.scrollDelegate tileScrollViewDidEndZooming:self withView:view atScale:scale];
-    }
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidScroll:)]) {
-        [self.scrollDelegate tileScrollViewDidScroll:self];
-    }
-}
-
-- (void)scrollViewDidZoom:(UIScrollView *)scrollView
-{
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewDidZoom:)]) {
-        [self.scrollDelegate tileScrollViewDidZoom:self];
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewDidEndScrollingAnimation:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewDidEndScrollingAnimation:scrollView];
     }
 }
 
 - (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView
 {
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewWillBeginDeceleration:)]) {
-        [self.scrollDelegate tileScrollViewWillBeginDeceleration:self];
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDecelerating:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewWillBeginDecelerating:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewDidEndDecelerating:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewDidEndDecelerating:scrollView];
     }
 }
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewWillBeginDragging:)]) {
-        [self.scrollDelegate tileScrollViewWillBeginDragging:self];
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginDragging:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewWillBeginDragging:scrollView];
     }
 }
 
-- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewWillBeginZooming:withView:)]) {
-        [self.scrollDelegate tileScrollViewWillBeginZooming:self withView:view];
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewDidEndDragging:willDecelerate:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewDidEndDragging:scrollView willDecelerate:decelerate];
     }
 }
 
 - (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset
 {
-    if ([self.scrollDelegate respondsToSelector:@selector(tileScrollViewWillEndDragging:withVelocity:targetContentOffset:)]) {
-        [self.scrollDelegate tileScrollViewWillEndDragging:self withVelocity:velocity targetContentOffset:targetContentOffset];
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewWillEndDragging:withVelocity:targetContentOffset:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
     }
 }
 
+- (void)scrollViewWillBeginZooming:(UIScrollView *)scrollView withView:(UIView *)view
+{
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewWillBeginZooming:withView:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewWillBeginZooming:scrollView withView:view];
+    }
+}
+
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
+{
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewDidZoom:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewDidZoom:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndZooming:(UIScrollView *)scrollView withView:(UIView *)view atScale:(CGFloat)scale
+{
+    if ([self.tiledImageScrollViewDelegate respondsToSelector:@selector(scrollViewDidEndZooming:withView:atScale:)]) {
+        [self.tiledImageScrollViewDelegate scrollViewDidEndZooming:scrollView withView:view atScale:scale];
+    }
+}
+
+// This method does not get forwarded to tiledScrollViewDelegate
 - (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView
 {
     return _zoomView;
@@ -204,25 +203,29 @@
 
 #pragma mark - CCTileView DataSource
 
-- (UIImage *)tileView:(CCTileView *)tileView imageForRow:(NSInteger)row column:(NSInteger)column scale:(CGFloat)scale
+- (UIImage *)tileView:(CCTiledView *)tileView imageForRow:(NSInteger)row column:(NSInteger)column scale:(CGFloat)scale
 {
-    return [self.dataSource tileScrollView:self imageForRow:row column:column scale:scale];
+    return [self.dataSource tiledImageScrollView:self imageForRow:row column:column atScale:scale];
 }
 
 #pragma mark - CCTileView Delegate
 
-- (void)tileView:(CCTileView *)tileView drawTileRect:(CGRect)tileRect atRow:(NSInteger)row column:(NSInteger)column inBoundingRect:(CGRect)boundingRect context:(CGContextRef)context
+- (void)tiledView:(CCTiledView *)tiledView context:(CGContextRef)context drawRect:(CGRect)rect forRow:(NSInteger)row column:(NSInteger)column
 {
-    if (tileView == _imageTileView) {
+    if (tiledView == _tiledView) {
         CGFloat scale = CGContextGetCTM(context).a;
-        UIImage *tileImage = [self.dataSource tileScrollView:self imageForRow:row column:column scale:scale];
+        UIImage *tileImage = [self.dataSource tiledImageScrollView:self imageForRow:row column:column atScale:scale];
         if (tileImage) {
-            [tileImage drawInRect:tileRect];
+            [tileImage drawInRect:rect];
         }
+        
+//        [[UIColor redColor] setStroke];
+//        CGContextStrokeRect(context, rect);
     }
 }
 
 // Copied from Apple Docs PhotoScroller Sample Code
+
 #pragma mark - Rotation Support Methods
 
 - (void)willResizeFrame

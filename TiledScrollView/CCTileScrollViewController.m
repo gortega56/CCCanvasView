@@ -7,15 +7,15 @@
 //
 
 #import "CCTileScrollViewController.h"
-#import "CCTileScrollView.h"
-#import "CCTileView.h"
+#import "CCTiledImageScrollView.h"
+#import "CCTiledView.h"
 #import "CCCanvasView.h"
 #import "CCAnnotationView.h"
 
 
-@interface CCTileScrollViewController () <CCTileScrollViewDataSource, CCTileScrollViewDelegate, CCMarkupViewDelegate>
+@interface CCTileScrollViewController () <CCTiledImageScrollViewDataSource, CCTiledImageScrollViewDelegate, CCMarkupViewDelegate>
 
-@property (nonatomic, strong) CCTileScrollView *tileScrollView;
+@property (nonatomic, strong) CCTiledImageScrollView *tileScrollView;
 @property (nonatomic, strong) CCCanvasView *markupView;
 @property (nonatomic, strong) NSMutableArray *canvasStrokes;
 @property (nonatomic, strong) NSMutableArray *annotations;
@@ -34,11 +34,11 @@
 {
     UIView *containerView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    _tileScrollView = [[CCTileScrollView alloc] initWithFrame:containerView.bounds];
+    _tileScrollView = [[CCTiledImageScrollView alloc] initWithFrame:containerView.bounds];
     _tileScrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     _tileScrollView.fullImageSize = (CGSize){9444.0f, 6805.0f};
     _tileScrollView.dataSource = self;
-    _tileScrollView.scrollDelegate = self;
+    _tileScrollView.tiledImageScrollViewDelegate = self;
     [containerView addSubview:_tileScrollView];
     
     _toggleButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -80,7 +80,7 @@
 
 #pragma mark - CCTileScrollView DataSource
 
-- (UIImage *)tileScrollView:(CCTileScrollView *)tileScrollView imageForRow:(NSInteger)row column:(NSInteger)column scale:(CGFloat)scale
+- (UIImage *)tiledImageScrollView:(CCTiledImageScrollView *)tileScrollView imageForRow:(NSInteger)row column:(NSInteger)column atScale:(CGFloat)scale
 {
     NSString *path = [NSString stringWithFormat:@"%@/%i/%ld_%ld.png", self.tilesPath, (int)(scale * 1000), (long)row, (long)column];
     UIImage *tileImage = [UIImage imageWithContentsOfFile:path];
@@ -89,7 +89,7 @@
 
 #pragma mark - CCTileScrollView ScrollDelegate
 
-- (void)tileScrollViewDidZoom:(CCTileScrollView *)tileScrollView
+- (void)tileScrollViewDidZoom:(CCTiledImageScrollView *)tileScrollView
 {
     CGFloat scale = tileScrollView.zoomScale;
     for (CCAnnotationView *annotation in self.annotations) {

@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Clique City. All rights reserved.
 //
 
-#import "CCTileView.h"
+#import "CCTiledView.h"
 
 static const CGFloat kCCTileScrollViewDefaultTileSize = 256.f;
 
-@interface CCTileView ()
+@interface CCTiledView ()
 
 @end
 
-@implementation CCTileView
+@implementation CCTiledView
 
 #pragma mark - UIView Methods
 
@@ -51,7 +51,7 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.f;
         for (NSInteger column = firstColumn; column <= lastColumn; column++) {
             CGRect tileRect = CGRectMake((tileSize.width * column), (tileSize.height * row), tileSize.width, tileSize.height);
             tileRect = CGRectIntersection(self.bounds, tileRect);
-            [self.delegate tileView:self drawTileRect:tileRect atRow:row column:column inBoundingRect:rect context:context];
+            [self.delegate tiledView:self context:context drawRect:tileRect forRow:row column:column];
         }
     }
 }

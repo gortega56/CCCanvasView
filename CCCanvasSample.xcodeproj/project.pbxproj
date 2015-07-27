@@ -17,10 +17,10 @@
 		46920BFB18A59BDD0005079A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920BFA18A59BDD0005079A /* main.m */; };
 		46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920BFE18A59BDD0005079A /* CCAppDelegate.m */; };
 		46920C0118A59BDD0005079A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46920C0018A59BDD0005079A /* Images.xcassets */; };
-		46920C1F18A59C050005079A /* CCTileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920C1E18A59C050005079A /* CCTileView.m */; };
+		46920C1F18A59C050005079A /* CCTiledView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46920C1E18A59C050005079A /* CCTiledView.m */; };
 		4699FE5118A6B7CA0016C19F /* test_files in Resources */ = {isa = PBXBuildFile; fileRef = 4699FE5018A6B7CA0016C19F /* test_files */; };
 		4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */; };
-		4699FE5818A6D34E0016C19F /* CCTileScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4699FE5718A6D34E0016C19F /* CCTileScrollView.m */; };
+		4699FE5818A6D34E0016C19F /* CCTiledImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4699FE5718A6D34E0016C19F /* CCTiledImageScrollView.m */; };
 		46E0C88B18E9F28E001C2770 /* CCAnnotatableWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88018E9F28E001C2770 /* CCAnnotatableWebView.m */; };
 		46E0C88C18E9F28E001C2770 /* CCAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88218E9F28E001C2770 /* CCAnnotationView.m */; };
 		46E0C88D18E9F28E001C2770 /* CCCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88418E9F28E001C2770 /* CCCanvasView.m */; };
@@ -46,13 +46,13 @@
 		46920BFD18A59BDD0005079A /* CCAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CCAppDelegate.h; sourceTree = "<group>"; };
 		46920BFE18A59BDD0005079A /* CCAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CCAppDelegate.m; sourceTree = "<group>"; };
 		46920C0018A59BDD0005079A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		46920C1D18A59C050005079A /* CCTileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTileView.h; sourceTree = "<group>"; };
-		46920C1E18A59C050005079A /* CCTileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTileView.m; sourceTree = "<group>"; };
+		46920C1D18A59C050005079A /* CCTiledView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTiledView.h; sourceTree = "<group>"; };
+		46920C1E18A59C050005079A /* CCTiledView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTiledView.m; sourceTree = "<group>"; };
 		4699FE5018A6B7CA0016C19F /* test_files */ = {isa = PBXFileReference; lastKnownFileType = folder; path = test_files; sourceTree = "<group>"; };
 		4699FE5218A6B89C0016C19F /* CCTileScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTileScrollViewController.h; sourceTree = "<group>"; };
 		4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTileScrollViewController.m; sourceTree = "<group>"; };
-		4699FE5618A6D34E0016C19F /* CCTileScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTileScrollView.h; sourceTree = "<group>"; };
-		4699FE5718A6D34E0016C19F /* CCTileScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTileScrollView.m; sourceTree = "<group>"; };
+		4699FE5618A6D34E0016C19F /* CCTiledImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTiledImageScrollView.h; sourceTree = "<group>"; };
+		4699FE5718A6D34E0016C19F /* CCTiledImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTiledImageScrollView.m; sourceTree = "<group>"; };
 		46E0C87F18E9F28E001C2770 /* CCAnnotatableWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAnnotatableWebView.h; sourceTree = "<group>"; };
 		46E0C88018E9F28E001C2770 /* CCAnnotatableWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAnnotatableWebView.m; sourceTree = "<group>"; };
 		46E0C88118E9F28E001C2770 /* CCAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAnnotationView.h; sourceTree = "<group>"; };
@@ -168,10 +168,10 @@
 		46920C2018A59C0F0005079A /* CCTileScrollView */ = {
 			isa = PBXGroup;
 			children = (
-				46920C1D18A59C050005079A /* CCTileView.h */,
-				46920C1E18A59C050005079A /* CCTileView.m */,
-				4699FE5618A6D34E0016C19F /* CCTileScrollView.h */,
-				4699FE5718A6D34E0016C19F /* CCTileScrollView.m */,
+				46920C1D18A59C050005079A /* CCTiledView.h */,
+				46920C1E18A59C050005079A /* CCTiledView.m */,
+				4699FE5618A6D34E0016C19F /* CCTiledImageScrollView.h */,
+				4699FE5718A6D34E0016C19F /* CCTiledImageScrollView.m */,
 			);
 			name = CCTileScrollView;
 			sourceTree = "<group>";
@@ -264,14 +264,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4699FE5818A6D34E0016C19F /* CCTileScrollView.m in Sources */,
+				4699FE5818A6D34E0016C19F /* CCTiledImageScrollView.m in Sources */,
 				46E0C88D18E9F28E001C2770 /* CCCanvasView.m in Sources */,
 				46E0C88F18E9F28E001C2770 /* CCShapeView.m in Sources */,
 				46E0C88C18E9F28E001C2770 /* CCAnnotationView.m in Sources */,
 				46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */,
 				4626973B18B3F698009A2868 /* CCWebViewController.m in Sources */,
 				4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */,
-				46920C1F18A59C050005079A /* CCTileView.m in Sources */,
+				46920C1F18A59C050005079A /* CCTiledView.m in Sources */,
 				46E0C88B18E9F28E001C2770 /* CCAnnotatableWebView.m in Sources */,
 				46920BFB18A59BDD0005079A /* main.m in Sources */,
 				46E0C88E18E9F28E001C2770 /* CCGeometry.m in Sources */,
