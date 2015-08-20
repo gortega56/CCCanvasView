@@ -6,27 +6,22 @@
 //  Copyright (c) 2014 Clique City. All rights reserved.
 //
 
-#import "CCAnnotationView.h"
+#import "CCScalingShapeView.h"
 #import "UIBezierPath+CCAdditions.h"
 
 #pragma mark - CCAnnotation
 
-@interface CCAnnotationView ()
+@interface CCScalingShapeView () 
 
 @property (nonatomic, readonly) CGFloat superviewScale;
 
 @end
 
-@implementation CCAnnotationView
+@implementation CCScalingShapeView
 
 #pragma mark - UIView Methods
 
-+ (instancetype)annotationViewWithStrokes:(NSArray *)strokes
-{
-    return [[[self class] alloc] initWithStrokes:strokes];
-}
-
-- (id)initWithStrokes:(NSArray *)strokes
+- (instancetype)initWithStrokes:(NSArray *)strokes
 {
     NSArray *points = [self pointsForStrokes:strokes];
     self = [super initWithFrame:CGRectForPoints(points)];
@@ -35,7 +30,7 @@
         self.fillColor = [UIColor clearColor];
         self.lineJoinStyle = kCGLineJoinRound;
         self.lineCapStyle = kCGLineCapRound;
-        _annotationPosition = self.center;
+        _absoluteCenter = self.center;
         _strokes = strokes;
         
 //        self.layer.borderColor = [UIColor blueColor].CGColor;
@@ -50,12 +45,23 @@
     return [self initWithStrokes:nil];
 }
 
-- (void)willMoveToSuperview:(UIView *)newSuperview
+- (void)willMoveToScalingWebView:(CCScalingWebView *)webView
 {
-    [super willMoveToSuperview:newSuperview];
-    
     if (self.layer.contents) { // Scale image down for pop animation
         self.transform = CGAffineTransformMakeScale(0, 0);
+    }
+}
+
+- (void)didMoveToScalingWebView:(CCScalingWebView *)webView
+{
+    if (self.superview == nil) {
+        return;
+    }
+    
+    if (self.layer.contents) { // Pop Animation
+        [UIView animateWithDuration:0.25 delay:0 usingSpringWithDamping:0.8f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
+            self.transform = CGAffineTransformMakeScale(1.f, 1.f);
+        } completion:nil];
     }
 }
 
@@ -63,48 +69,29 @@
 {
     [super didMoveToSuperview];
     
-    if (self.superview == nil) {
-        return;
-    }
-    
-    if (self.layer.contents) { // Pop Animation
-        [UIView animateWithDuration:0.25 delay:0 usingSpringWithDamping:0.8 initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
-            self.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
-        } completion:nil];
-    }
-    else { // Draw path
-        self.path = self.boundedPath;
-    }
+    self.path = self.boundedPath;
 }
 
-#pragma mark - CGAffineTransform Methods
+#pragma mark - CCScalingWebViewScaling
 
-- (void)applyTransformWithScale:(CGFloat)scale
+- (BOOL)scalesWithWebView:(CCScalingWebView *)webView
 {
-    if (!self.layer.contents) { // Don't transform pin image.
+    return YES;
+}
+
+- (void)webView:(CCScalingWebView *)webView didScale:(CGFloat)scale
+{
+    // Keep line width constant
+    self.lineWidth = self.absoluteLineWidth/scale;
+    
+    // This will change the frame of the view relative to the superview's zoom scale
+    self.center = CGPointMake(self.absoluteCenter.x * scale, self.absoluteCenter.y * scale);
+    
+    // Don't transform pin image.
+    if (!self.layer.contents) {
         self.transform = CGAffineTransformMakeScale(scale, scale);
     }
 }
-
-- (void)updatePositionWithScale:(CGFloat)scale
-{
-    // Should set the center of the view at the base zoom level
-    // All other zoom calculations based on annotationPos
-    CGPoint annotationPosition = self.center;
-    annotationPosition.x = annotationPosition.x * scale;
-    annotationPosition.y = annotationPosition.y * scale;
-    self.annotationPosition = annotationPosition;
-}
-
-- (void)updateCenterWithScale:(CGFloat)scale
-{
-    // This will change the frame of the view relative to the superview's zoom scale
-    CGPoint annotationPosition = self.annotationPosition;
-    annotationPosition.x = annotationPosition.x * scale;
-    annotationPosition.y = annotationPosition.y * scale;
-    self.center = annotationPosition;
-}
-
 
 #pragma mark -  CCStroke Methods
 
@@ -120,7 +107,6 @@
 
 - (CCStroke *)convertStroke:(CCStroke *)stroke fromView:(UIView *)view withScale:(CGFloat)scale;
 {
-//    CGFloat scale = [(UIScrollView *)view zoomScale]/[(UIScrollView *)view minimumZoomScale];
     NSMutableArray *convertedPoints = [NSMutableArray new];
     for (NSValue *value in stroke.points) {
         CGPoint strokePoint = value.CGPointValue;
@@ -227,9 +213,9 @@
 
 #pragma mark - Mutator
 
-- (void)setAnnotationImage:(UIImage *)annotationImage
+- (void)setLayerImage:(UIImage *)layerImage
 {
-    self.layer.contents = (id)annotationImage.CGImage;
+    self.layer.contents = (id)layerImage.CGImage;
 }
 
 @end

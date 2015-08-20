@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class CCTiledImageScrollView;
+@class CCTiledView;
 
 @protocol CCTiledImageScrollViewDataSource <NSObject>
 @required
@@ -26,5 +27,10 @@
 @property (nonatomic) CGSize fullImageSize;
 @property (nonatomic, weak) UIImage *placeHolderImage;
 @property (nonatomic, strong, readonly) UIImageView *zoomView;
+@property (nonatomic, strong, readonly) CCTiledView *tiledView;
+
+@property (nonatomic) size_t numberOfZoomLevels;
+@property (nonatomic) size_t numberOfMagnifiedZoomLevels;
+@property (nonatomic) CGSize tileSize;
 
 @end

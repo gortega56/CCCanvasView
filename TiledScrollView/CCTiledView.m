@@ -8,8 +8,6 @@
 
 #import "CCTiledView.h"
 
-static const CGFloat kCCTileScrollViewDefaultTileSize = 256.f;
-
 @interface CCTiledView ()
 
 @end
@@ -23,7 +21,7 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.f;
     self = [super initWithFrame:frame];
     if (self) {
         self.backgroundColor = [UIColor clearColor];
-        self.tiledLayer.levelsOfDetail = 2;
+        self.numberOfZoomLevels = 2;
     }
     return self;
 }
@@ -70,7 +68,12 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.f;
 
 - (CGSize)tileSize
 {
-    return (CGSize){kCCTileScrollViewDefaultTileSize, kCCTileScrollViewDefaultTileSize};
+    return self.tiledLayer.tileSize;
+}
+
+- (void)setTileSize:(CGSize)tileSize
+{
+    self.tiledLayer.tileSize = tileSize;
 }
 
 - (size_t)numberOfZoomLevels
@@ -83,6 +86,14 @@ static const CGFloat kCCTileScrollViewDefaultTileSize = 256.f;
     self.tiledLayer.levelsOfDetail = levels;
 }
 
+- (size_t)numberOfMagnifiedZoomLevels
+{
+    return self.tiledLayer.levelsOfDetailBias;
+}
 
+- (void)setNumberOfMagnifiedZoomLevels:(size_t)numberOfMagnifiedZoomLevels
+{
+    self.tiledLayer.levelsOfDetailBias = numberOfMagnifiedZoomLevels;
+}
 
 @end

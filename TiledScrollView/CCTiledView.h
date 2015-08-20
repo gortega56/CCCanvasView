@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @class CCTiledView;
 
 @protocol CCTiledViewDelegate <NSObject>
@@ -19,8 +18,9 @@
 @interface CCTiledView : UIView
 
 @property (nonatomic, strong, readonly) CATiledLayer *tiledLayer;
-@property (nonatomic, assign) size_t numberOfZoomLevels;
-@property (nonatomic, readonly) CGSize tileSize;
+@property (nonatomic) size_t numberOfZoomLevels;
+@property (nonatomic) size_t numberOfMagnifiedZoomLevels;
+@property (nonatomic) CGSize tileSize;
 @property (nonatomic, weak) id <CCTiledViewDelegate> delegate;
 
 @end

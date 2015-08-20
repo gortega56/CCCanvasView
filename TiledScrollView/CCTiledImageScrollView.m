@@ -9,6 +9,8 @@
 #import "CCTiledImageScrollView.h"
 #import "CCTiledView.h"
 
+#define DEBUG_TILE 0
+
 @interface CCTiledImageScrollView () <UIScrollViewDelegate, CCTiledViewDelegate>
 {
     CGPoint _pointToCenterAfterResize;
@@ -16,7 +18,7 @@
 }
 
 @property (nonatomic, strong) UIImageView *zoomView;
-@property (nonatomic, strong) CCTiledView *tiledView;
+@property (nonatomic, strong, readwrite) CCTiledView *tiledView;
 
 @end
 
@@ -31,6 +33,9 @@
         self.decelerationRate = UIScrollViewDecelerationRateFast;
         self.bouncesZoom = YES;
         self.delegate = self;
+        self.numberOfMagnifiedZoomLevels = 0;
+        self.numberOfZoomLevels = 2;
+        self.tileSize = CGSizeMake(256.f, 256.f);
     }
     
     return self;
@@ -105,6 +110,9 @@
     [self addSubview:_zoomView];
     
     _tiledView = [[CCTiledView alloc] initWithFrame:_zoomView.bounds];
+    _tiledView.numberOfZoomLevels = self.numberOfZoomLevels;
+    _tiledView.numberOfMagnifiedZoomLevels = self.numberOfMagnifiedZoomLevels;
+    _tiledView.tileSize = self.tileSize;
     _tiledView.userInteractionEnabled = NO;
     _tiledView.delegate = self;
     [_zoomView addSubview:_tiledView];
@@ -219,8 +227,10 @@
             [tileImage drawInRect:rect];
         }
         
-//        [[UIColor redColor] setStroke];
-//        CGContextStrokeRect(context, rect);
+        if (DEBUG_TILE) {
+            [[UIColor redColor] setStroke];
+            CGContextStrokeRect(context, rect);
+        }
     }
 }
 
@@ -280,9 +290,7 @@
     BOOL phonePortrait = boundsSize.height > boundsSize.width;
     CGFloat minScale = imagePortrait == phonePortrait ? scaleWidth : MIN(scaleWidth, scaleHeight);
     
-    // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
-    // maximum zoom scale to 0.5.
-    CGFloat maxScale = 1.0 / [[UIScreen mainScreen] scale];
+    CGFloat maxScale = (1 + self.numberOfMagnifiedZoomLevels) ;
     
     // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.)
     if (minScale > maxScale) {

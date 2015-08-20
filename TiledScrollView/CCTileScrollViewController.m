@@ -10,8 +10,8 @@
 #import "CCTiledImageScrollView.h"
 #import "CCTiledView.h"
 #import "CCCanvasView.h"
-#import "CCAnnotationView.h"
-
+#import "CCScalingWebView.h"
+#import "CCScalingShapeView.h"
 
 @interface CCTileScrollViewController () <CCTiledImageScrollViewDataSource, CCTiledImageScrollViewDelegate, CCMarkupViewDelegate>
 
@@ -89,11 +89,11 @@
 
 #pragma mark - CCTileScrollView ScrollDelegate
 
-- (void)tileScrollViewDidZoom:(CCTiledImageScrollView *)tileScrollView
+- (void)scrollViewDidZoom:(UIScrollView *)scrollView
 {
-    CGFloat scale = tileScrollView.zoomScale;
-    for (CCAnnotationView *annotation in self.annotations) {
-        annotation.lineWidth = annotation.constantLineWidth/scale;
+    CGFloat scale = scrollView.zoomScale;
+    for (CCScalingShapeView *annotation in self.annotations) {
+        annotation.lineWidth = annotation.absoluteLineWidth/scale;
     }
 }
 
@@ -137,24 +137,23 @@
     }
     [_canvasStrokes addObject:[CCStroke curvedStrokeWithPoints:viewPoints]];
     
-    CCAnnotationView *annotation = [self annotationForTrackType:canvasView.trackType];
+    CCScalingShapeView *annotation = [self annotationForTrackType:canvasView.trackType];
     annotation.layer.borderWidth = 1.0f;
-    annotation.layer.borderColor = [UIColor orangeColor].CGColor;
-    annotation.constantLineWidth = canvasView.strokeWidth;
+    annotation.absoluteLineWidth = canvasView.strokeWidth;
     annotation.strokeColor = canvasView.strokeColor;
-    annotation.lineWidth = annotation.constantLineWidth/self.tileScrollView.zoomScale;
+    annotation.lineWidth = annotation.absoluteLineWidth/self.tileScrollView.zoomScale;
     [_annotations addObject:annotation];
     [_tileScrollView.zoomView addSubview:annotation];
 }
 
 #pragma mark - Annotation Methods
 
-- (CCAnnotationView *)annotationForTrackType:(CCCanvasViewTrackType)trackType
+- (CCScalingShapeView *)annotationForTrackType:(CCCanvasViewTrackType)trackType
 {
     switch (trackType) {
         case CCCanvasViewTrackTypeFreeHand:
         {
-            CCAnnotationView *annotation = [CCAnnotationView annotationViewWithStrokes:_canvasStrokes.copy];
+            CCScalingShapeView *annotation = [[CCScalingShapeView alloc] initWithStrokes:_canvasStrokes.copy];
             [_canvasStrokes removeAllObjects];
             return annotation;
         }
@@ -164,8 +163,8 @@
             break;
         case CCCanvasViewTrackTypePin:
         {
-            CCAnnotationView *annotation = [CCAnnotationView annotationViewWithStrokes:_canvasStrokes.copy];
-            annotation.annotationImage = [UIImage imageNamed:@"bluePin"];
+            CCScalingShapeView *annotation = [[CCScalingShapeView alloc] initWithStrokes:_canvasStrokes.copy];
+            [annotation setLayerImage:[UIImage imageNamed:@"bluePin"]];
             annotation.frame = CGRectInset(annotation.frame, -40, -40);
             [_canvasStrokes removeAllObjects];
             return annotation;
@@ -175,6 +174,42 @@
     }
     
     return nil;
+}
+
+- (UIImage *)snapshotImageWithView:(CCTiledImageScrollView *)view
+{
+    // Try our best to approximate the best tile set zoom scale to use
+    CGFloat tileScale;
+    if (view.zoomScale >= 0.5) {
+        tileScale = 2.0;
+    }
+    else if (view.zoomScale >= 0.25) {
+        tileScale = 1.0;
+    }
+    else {
+        tileScale = 0.5;
+    }
+    
+    CGFloat translationX = -view.contentOffset.x;
+    CGFloat translationY = -view.contentOffset.y;
+    if (view.contentSize.width < CGRectGetWidth(view.bounds)) {
+        CGFloat deltaX = (CGRectGetWidth(view.bounds) - view.contentSize.width) / 2.0;
+        translationX += deltaX;
+    }
+    if (view.contentSize.height < CGRectGetHeight(view.bounds)) {
+        CGFloat deltaY = (CGRectGetHeight(view.bounds) - view.contentSize.height) / 2.0;
+        translationY += deltaY;
+    }
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(CGRectGetWidth(view.bounds) / view.zoomScale, CGRectGetHeight(view.bounds) / view.zoomScale), NO, tileScale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextTranslateCTM(context, translationX / view.zoomScale, translationY / view.zoomScale);
+    
+    [view.zoomView.layer renderInContext:context];
+    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return image;
 }
 
 - (void)didReceiveMemoryWarning

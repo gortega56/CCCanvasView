@@ -9,15 +9,15 @@
 #import "CCWebViewController.h"
 #import "CCCanvasView.h"
 #import "CCStroke.h"
-#import "CCAnnotationView.h"
-#import "CCAnnotatableWebView.h"
+#import "CCScalingWebView.h"
+#import "CCScalingShapeView.h"
 
 CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
 
 
 @interface CCWebViewController () <CCMarkupViewDelegate, UIScrollViewDelegate, UIWebViewDelegate>
 
-@property (nonatomic, strong) CCAnnotatableWebView *webView;
+@property (nonatomic, strong) CCScalingWebView *webView;
 @property (nonatomic, strong) CCCanvasView *markupView;
 @property (nonatomic, strong) NSMutableArray *canvasStrokes;
 
@@ -32,8 +32,7 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
 {
     UIView *containerView = [[UIView alloc] initWithFrame:[UIScreen mainScreen].bounds];
     
-    _webView = [[CCAnnotatableWebView alloc] initWithFrame:containerView.bounds];
-    _webView.annotationLineWidth = kCCWebViewControllerDefaultAnnotationLineWidth;
+    _webView = [[CCScalingWebView alloc] initWithFrame:containerView.bounds];
     _webView.scalesPageToFit = YES;
     _webView.delegate = self;
     [containerView addSubview:_webView];
@@ -104,18 +103,18 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
     }
     [_canvasStrokes addObject:[CCStroke curvedStrokeWithPoints:viewPoints]];
 
-    CCAnnotationView *annotation = [self annotationForTrackType:canvasView.trackType];
-    [_webView addAnnotationLayer:annotation];
+    CCScalingShapeView *annotation = [self annotationForTrackType:canvasView.trackType];
+    [self.webView addScalingSubview:annotation];
 }
 
 #pragma mark - Annotation Methods
 
-- (CCAnnotationView *)annotationForTrackType:(CCCanvasViewTrackType)trackType
+- (CCScalingShapeView *)annotationForTrackType:(CCCanvasViewTrackType)trackType
 {
     switch (trackType) {
         case CCCanvasViewTrackTypeFreeHand:
         {
-            CCAnnotationView *annotation = [CCAnnotationView annotationViewWithStrokes:_canvasStrokes.copy];
+            CCScalingShapeView *annotation = [[CCScalingShapeView alloc] initWithStrokes:_canvasStrokes.copy];
             [_canvasStrokes removeAllObjects];
             return annotation;
         }
@@ -125,8 +124,8 @@ CGFloat const kCCWebViewControllerDefaultAnnotationLineWidth = 10.f;
             break;
         case CCCanvasViewTrackTypePin:
         {
-            CCAnnotationView *annotation = [CCAnnotationView annotationViewWithStrokes:_canvasStrokes.copy];
-            annotation.annotationImage = [UIImage imageNamed:@"bluePin"];
+            CCScalingShapeView *annotation = [[CCScalingShapeView alloc] initWithStrokes:_canvasStrokes.copy];
+            [annotation setLayerImage:[UIImage imageNamed:@"bluePin"]];
             annotation.frame = CGRectInset(annotation.frame, -40, -40);
             [_canvasStrokes removeAllObjects];
             return annotation;

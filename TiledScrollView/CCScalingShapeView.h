@@ -8,8 +8,9 @@
 
 #import "CCShapeView.h"
 #import "CCStroke.h"
+#import "CCScalingWebView.h"
 
-@interface CCAnnotationView : CCShapeView
+@interface CCScalingShapeView : CCShapeView<CCWebViewScaling>
 
 @property (nonatomic, readonly) UIBezierPath *boundedPathClosed;
 @property (nonatomic, readonly) UIBezierPath *boundedPath;
@@ -17,14 +18,10 @@
 @property (nonatomic, readonly) NSArray *boundedStrokes;
 @property (nonatomic, readonly) CGPoint startPoint;
 @property (nonatomic, readonly) CGPoint endPoint;
-@property (nonatomic) CGPoint annotationPosition;
-@property (nonatomic) CGFloat constantLineWidth;
-@property (nonatomic, strong) UIImage *annotationImage;
+@property (nonatomic) CGPoint absoluteCenter;
+@property (nonatomic) CGFloat absoluteLineWidth;
 
-+ (instancetype)annotationViewWithStrokes:(NSArray *)strokes;
-
-- (void)applyTransformWithScale:(CGFloat)scale;
-- (void)updatePositionWithScale:(CGFloat)scale;
-- (void)updateCenterWithScale:(CGFloat)scale;
+- (instancetype)initWithStrokes:(NSArray *)strokes;
+- (void)setLayerImage:(UIImage *)image;
 
 @end

@@ -21,13 +21,13 @@
 		4699FE5118A6B7CA0016C19F /* test_files in Resources */ = {isa = PBXBuildFile; fileRef = 4699FE5018A6B7CA0016C19F /* test_files */; };
 		4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */; };
 		4699FE5818A6D34E0016C19F /* CCTiledImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4699FE5718A6D34E0016C19F /* CCTiledImageScrollView.m */; };
-		46E0C88B18E9F28E001C2770 /* CCAnnotatableWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88018E9F28E001C2770 /* CCAnnotatableWebView.m */; };
-		46E0C88C18E9F28E001C2770 /* CCAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88218E9F28E001C2770 /* CCAnnotationView.m */; };
 		46E0C88D18E9F28E001C2770 /* CCCanvasView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88418E9F28E001C2770 /* CCCanvasView.m */; };
 		46E0C88E18E9F28E001C2770 /* CCGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88618E9F28E001C2770 /* CCGeometry.m */; };
 		46E0C88F18E9F28E001C2770 /* CCShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88818E9F28E001C2770 /* CCShapeView.m */; };
 		46E0C89018E9F28E001C2770 /* CCStroke.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E0C88A18E9F28E001C2770 /* CCStroke.m */; };
 		C00CBFED1B4C321D005846A3 /* UIBezierPath+CCAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C00CBFEC1B4C321D005846A3 /* UIBezierPath+CCAdditions.m */; };
+		C098686D1B863A60008718DE /* CCScalingShapeView.m in Sources */ = {isa = PBXBuildFile; fileRef = C098686A1B863A60008718DE /* CCScalingShapeView.m */; };
+		C098686E1B863A60008718DE /* CCScalingWebView.m in Sources */ = {isa = PBXBuildFile; fileRef = C098686C1B863A60008718DE /* CCScalingWebView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,10 +53,6 @@
 		4699FE5318A6B89C0016C19F /* CCTileScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTileScrollViewController.m; sourceTree = "<group>"; };
 		4699FE5618A6D34E0016C19F /* CCTiledImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCTiledImageScrollView.h; sourceTree = "<group>"; };
 		4699FE5718A6D34E0016C19F /* CCTiledImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCTiledImageScrollView.m; sourceTree = "<group>"; };
-		46E0C87F18E9F28E001C2770 /* CCAnnotatableWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAnnotatableWebView.h; sourceTree = "<group>"; };
-		46E0C88018E9F28E001C2770 /* CCAnnotatableWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAnnotatableWebView.m; sourceTree = "<group>"; };
-		46E0C88118E9F28E001C2770 /* CCAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCAnnotationView.h; sourceTree = "<group>"; };
-		46E0C88218E9F28E001C2770 /* CCAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCAnnotationView.m; sourceTree = "<group>"; };
 		46E0C88318E9F28E001C2770 /* CCCanvasView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCCanvasView.h; sourceTree = "<group>"; };
 		46E0C88418E9F28E001C2770 /* CCCanvasView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCCanvasView.m; sourceTree = "<group>"; };
 		46E0C88518E9F28E001C2770 /* CCGeometry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGeometry.h; sourceTree = "<group>"; };
@@ -67,6 +63,10 @@
 		46E0C88A18E9F28E001C2770 /* CCStroke.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCStroke.m; sourceTree = "<group>"; };
 		C00CBFEB1B4C321D005846A3 /* UIBezierPath+CCAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIBezierPath+CCAdditions.h"; sourceTree = "<group>"; };
 		C00CBFEC1B4C321D005846A3 /* UIBezierPath+CCAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIBezierPath+CCAdditions.m"; sourceTree = "<group>"; };
+		C09868691B863A60008718DE /* CCScalingShapeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScalingShapeView.h; sourceTree = "<group>"; };
+		C098686A1B863A60008718DE /* CCScalingShapeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScalingShapeView.m; sourceTree = "<group>"; };
+		C098686B1B863A60008718DE /* CCScalingWebView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCScalingWebView.h; sourceTree = "<group>"; };
+		C098686C1B863A60008718DE /* CCScalingWebView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCScalingWebView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,12 +179,12 @@
 		46E0C87E18E9F08A001C2770 /* CCUtilities */ = {
 			isa = PBXGroup;
 			children = (
+				C09868691B863A60008718DE /* CCScalingShapeView.h */,
+				C098686A1B863A60008718DE /* CCScalingShapeView.m */,
+				C098686B1B863A60008718DE /* CCScalingWebView.h */,
+				C098686C1B863A60008718DE /* CCScalingWebView.m */,
 				C00CBFEB1B4C321D005846A3 /* UIBezierPath+CCAdditions.h */,
 				C00CBFEC1B4C321D005846A3 /* UIBezierPath+CCAdditions.m */,
-				46E0C87F18E9F28E001C2770 /* CCAnnotatableWebView.h */,
-				46E0C88018E9F28E001C2770 /* CCAnnotatableWebView.m */,
-				46E0C88118E9F28E001C2770 /* CCAnnotationView.h */,
-				46E0C88218E9F28E001C2770 /* CCAnnotationView.m */,
 				46E0C88318E9F28E001C2770 /* CCCanvasView.h */,
 				46E0C88418E9F28E001C2770 /* CCCanvasView.m */,
 				46E0C88518E9F28E001C2770 /* CCGeometry.h */,
@@ -264,18 +264,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C098686D1B863A60008718DE /* CCScalingShapeView.m in Sources */,
 				4699FE5818A6D34E0016C19F /* CCTiledImageScrollView.m in Sources */,
 				46E0C88D18E9F28E001C2770 /* CCCanvasView.m in Sources */,
 				46E0C88F18E9F28E001C2770 /* CCShapeView.m in Sources */,
-				46E0C88C18E9F28E001C2770 /* CCAnnotationView.m in Sources */,
 				46920BFF18A59BDD0005079A /* CCAppDelegate.m in Sources */,
 				4626973B18B3F698009A2868 /* CCWebViewController.m in Sources */,
 				4699FE5418A6B89C0016C19F /* CCTileScrollViewController.m in Sources */,
 				46920C1F18A59C050005079A /* CCTiledView.m in Sources */,
-				46E0C88B18E9F28E001C2770 /* CCAnnotatableWebView.m in Sources */,
 				46920BFB18A59BDD0005079A /* main.m in Sources */,
 				46E0C88E18E9F28E001C2770 /* CCGeometry.m in Sources */,
 				46E0C89018E9F28E001C2770 /* CCStroke.m in Sources */,
+				C098686E1B863A60008718DE /* CCScalingWebView.m in Sources */,
 				C00CBFED1B4C321D005846A3 /* UIBezierPath+CCAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
